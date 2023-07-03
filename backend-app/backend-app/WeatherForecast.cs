@@ -1,4 +1,4 @@
-namespace backend_app
+namespace HotelBookingSystem.API
 {
     public class WeatherForecast
     {
