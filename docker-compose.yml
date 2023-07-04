@@ -31,6 +31,4 @@ services:
   backend:
     build: ./backend-app
     container_name: backend
-    environment:
-      ASPNETCORE_ENVIRONMENT: "Development"
     restart: unless-stopped
