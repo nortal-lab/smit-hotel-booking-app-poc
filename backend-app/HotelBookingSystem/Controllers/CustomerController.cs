@@ -105,7 +105,7 @@ namespace HotelBookingSystem.API.Controllers
             if (!canBeCancelled)
             {
                 // Return a 500 Internal Server Error if the cancellation fails
-                return StatusCode(500, "Booking cancellation failed.");
+                return StatusCode(500, "Booking cancellation failed: too close to booking start date.");
             }
 
             var isCancelled = DeleteBookingById(bookingId);
