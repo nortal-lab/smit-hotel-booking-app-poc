@@ -2,11 +2,9 @@
 
 namespace HotelBookingSystem.API.Controllers
 {
-    public class CustomerController : Controller
+    [Route("api/[controller]")]
+    [ApiController]
+    public class CustomerController : ControllerBase
     {
-        public IActionResult Index()
-        {
-            return View();
-        }
     }
 }
