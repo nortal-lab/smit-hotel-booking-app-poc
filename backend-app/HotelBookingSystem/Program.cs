@@ -1,4 +1,8 @@
+using HotelBookingSystem.API;
+
 var builder = WebApplication.CreateBuilder(args);
+var startup = new Startup(builder.Configuration);
+startup.ConfigureServices(builder.Services);
 
 // Add services to the container.
 
@@ -9,7 +13,7 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-app.UsePathBase("/api");
+startup.Configure(app);
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
