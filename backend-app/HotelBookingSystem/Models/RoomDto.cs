@@ -1,6 +1,6 @@
 ﻿namespace HotelBookingSystem.API.Models
 {
-    public class Room
+    public class RoomDto
     {
         public Guid RoomId { get; set; }
 

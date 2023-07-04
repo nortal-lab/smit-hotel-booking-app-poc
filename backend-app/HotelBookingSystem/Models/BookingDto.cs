@@ -2,7 +2,7 @@
 
 namespace HotelBookingSystem.API.Models
 {
-    public class Booking
+    public class BookingDto
     {
         public Guid BookingId {get; set; }
 
