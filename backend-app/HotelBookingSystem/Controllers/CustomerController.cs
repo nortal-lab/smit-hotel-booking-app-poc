@@ -1,73 +1,39 @@
-﻿using HotelBookingSystem.API.Common;
+﻿using HotelBookingSystem.API.Data;
 using HotelBookingSystem.API.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HotelBookingSystem.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api")]
     [ApiController]
     public class CustomerController : ControllerBase
     {
-        public static List<RoomDto> mockRoomsHarcoded = new List<RoomDto>
-        {
-            new() { RoomId = Guid.NewGuid(), RoomNumber = 101, Capacity = 1, Price = 1.00m },
-            new() { RoomId = Guid.NewGuid(), RoomNumber = 102, Capacity = 2, Price = 10.00m },
-            new() { RoomId = Guid.NewGuid(), RoomNumber = 103, Capacity = 3, Price = 20.00m },
-            new() { RoomId = Guid.NewGuid(), RoomNumber = 201, Capacity = 1, Price = 50.00m },
-            new() { RoomId = Guid.NewGuid(), RoomNumber = 202, Capacity = 2, Price = 100.00m }
-        };
-        public static List<BookingDto> mockBookingsHardcoded = new List<BookingDto>
-        {
-            new()
-            {
-                RoomId = mockRoomsHarcoded.ElementAt(0).RoomId,
-                BookingId = Guid.NewGuid(),
-                CreationDate = new DateTime(2023, 06, 01),
-                StartDate = new DateTime(2023, 08, 01),
-                EndDate = new DateTime(2023, 08, 02),
-                Status = Status.Confirmed,
-            },
-            new()
-            {
-                RoomId =mockRoomsHarcoded.ElementAt(1).RoomId,
-                BookingId = Guid.NewGuid(),
-                CreationDate = new DateTime(2023, 06, 02),
-                StartDate = new DateTime(2023, 07, 02),
-                EndDate = new DateTime(2023, 07, 04),
-                Status = Status.Confirmed,
-            },
-            new()
-            {
-                RoomId =mockRoomsHarcoded.ElementAt(2).RoomId,
-                BookingId = Guid.NewGuid(),
-                CreationDate = new DateTime(2023, 06, 03),
-                StartDate = new DateTime(2023, 07, 05),
-                EndDate = new DateTime(2023, 07, 10),
-                Status = Status.Confirmed,
-            }
-        };
-
         [HttpGet("rooms/available")]
         public IActionResult FindAvailableRoomsByCriteria([FromQuery] DateTime startDate, DateTime endDate, decimal? priceMin, decimal? priceMax, int? capacity)
         {
-            //ToDo: Implement filtering logic
-            //var availableRooms = mockRoomsHarcoded.Where(room =>
+            if (startDate == default || endDate == default || startDate >= endDate)
+            {
+                return BadRequest("Invalid date range. Please provide valid 'startDate' and 'endDate' values.");
+            }
+
+            //ToDo: Implement filtering logic in services
+            //var availableRooms = RoomsHardcoded.Where(room =>
             //    (capacity == null || room.Capacity >= capacity) &&
             //    (priceMin == null || room.Price >= priceMin) &&
             //    (priceMax == null || room.Price <= priceMax) &&
-            //    !mockBookingsHardcoded.Any(booking =>
+            //    !BookingsHardcoded.Any(booking =>
             //        booking.RoomId == room.RoomId &&
             //        !(startDate >= booking.EndDate || endDate <= booking.StartDate)
             //    )
             //).ToList();
 
-            return Ok(mockRoomsHarcoded.FirstOrDefault());
+            return Ok(MockData.RoomsHardcoded.FirstOrDefault());
         }
 
         [HttpGet("bookings")]
         public IActionResult GetCustomerBookings()
         {
-            return Ok(mockBookingsHardcoded);
+            return Ok(MockData.BookingsHardcoded);
         }
 
         [HttpGet("bookings/{bookingId}")]
@@ -121,7 +87,7 @@ namespace HotelBookingSystem.API.Controllers
 
         private bool DeleteBookingById(Guid bookingId)
         {
-            var itemsRemovedCount = mockBookingsHardcoded.RemoveAll(booking => booking.BookingId == bookingId);
+            var itemsRemovedCount = MockData.BookingsHardcoded.RemoveAll(booking => booking.BookingId == bookingId);
 
             if (itemsRemovedCount > 0)
             {
@@ -134,7 +100,7 @@ namespace HotelBookingSystem.API.Controllers
         // Business rule: cannot be cancelled if fewer than 3 days left before start
         private bool ValidateBookingCancelation(BookingDto booking)
         {
-            if (booking.StartDate.AddDays(-3) < DateTime.Now)
+            if (booking?.StartDate.AddDays(-3) < DateTime.Now)
             {
                 return false;
             }
@@ -142,9 +108,9 @@ namespace HotelBookingSystem.API.Controllers
             return true;
         }
 
-        private static BookingDto GetBookingObject(Guid bookingId)
+        private static BookingDto? GetBookingObject(Guid bookingId)
         {
-            return mockBookingsHardcoded.SingleOrDefault(booking => booking.BookingId == bookingId);
+            return MockData.BookingsHardcoded.SingleOrDefault(booking => booking.BookingId == bookingId);
         }
     }
 }
