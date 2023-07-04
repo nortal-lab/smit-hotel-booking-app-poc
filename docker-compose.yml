@@ -10,6 +10,7 @@ services:
 
   keycloak:
     image: quay.io/keycloak/keycloak:latest
+    container_name: keycloak
     environment:
       KEYCLOAK_ADMIN: "admin"
       KEYCLOAK_ADMIN_PASSWORD: "admin"
@@ -24,10 +25,12 @@ services:
 
   frontend:
     build: ./frontend-app
+    container_name: frontend
     restart: unless-stopped
 
   backend:
     build: ./backend-app
+    container_name: backend
     environment:
       ASPNETCORE_ENVIRONMENT: "Development"
     restart: unless-stopped
