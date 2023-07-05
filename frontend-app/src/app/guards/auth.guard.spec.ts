@@ -13,7 +13,6 @@ describe('AuthGuard', () => {
   class MockKeycloakAuthGuard extends KeycloakAuthGuard {
     public override authenticated = false;
     public async isAccessAllowed(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-      // Implement logic for the mock here, for simplicity we return the authenticated state
       return this.authenticated;
     }
   }
