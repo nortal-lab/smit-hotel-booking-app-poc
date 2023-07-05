@@ -1,6 +1,10 @@
-<div>username: {{username}}</div>
-<div>personal identification number: {{personalId}}</div>
+This is admin view
 
+
+<ng-container *ngIf="{user: user$ | async } as data">
+  <div>username: {{data.user?.username}}</div>
+  <div>personal identification number: {{data.user?.personalIdentificationNumber}}</div>
+</ng-container>
 
 <cvi-ng-button [size]="'m'" [disabled]="false" [appearance]="'primary'" (click)="login()">Login</cvi-ng-button>
 <cvi-ng-button [size]="'m'" [disabled]="false" [appearance]="'primary'" (click)="logout()">Log out</cvi-ng-button>

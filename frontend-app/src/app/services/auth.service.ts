@@ -1,33 +1,78 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { KeycloakService } from 'keycloak-angular';
+import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
+import { User } from '../models/user.interface';
+import { UserRoles } from '../models/user-roles.enum';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
 })
-export class AuthService {
-  constructor(private readonly keycloakService: KeycloakService) {}
+export class AuthService implements OnDestroy {
+  private initialUserValue: User = {
+    role: UserRoles.CUSTOMER,
+    username: '',
+    personalIdentificationNumber: '',
+  };
 
-  getParsedToken() {
+  private userSubject$: BehaviorSubject<User> = new BehaviorSubject(this.initialUserValue);
+  user$ = this.userSubject$.asObservable();
+
+  constructor(private readonly keycloakService: KeycloakService, private readonly router: Router) {}
+
+  async init() {
+    const isLoggedIn = await this.keycloakService.isLoggedIn();
+    if (isLoggedIn) {
+      const role = this.getUserRole();
+
+      this.setUser(role);
+
+      if (role === UserRoles.EMPLOYEE) {
+        this.router.navigate(['/admin']);
+      }
+    }
+  }
+
+  private setUser(role: UserRoles) {
+    this.userSubject$.next({
+      username: this.getUsername(),
+      personalIdentificationNumber: this.getPersonalIdentificationNumber(),
+      role,
+    });
+  }
+
+  private getUserRole() {
+    const parsedToken = this.getParsedToken();
+
+    return parsedToken?.['resource_access']?.['hotel-app']?.roles[0] === UserRoles.EMPLOYEE ? UserRoles.EMPLOYEE : UserRoles.CUSTOMER;
+  }
+
+  private getParsedToken() {
     return this.keycloakService.getKeycloakInstance().tokenParsed;
   }
 
-  getUsername() {
+  private getUsername() {
     const parsedToken = this.getParsedToken();
-
     return parsedToken?.['family_name'];
   }
 
-  getPersonalIdentificationNumber() {
+  private getPersonalIdentificationNumber() {
     const parsedToken = this.getParsedToken();
 
     return parsedToken?.['personal_identification_number'];
   }
 
   login() {
-    this.keycloakService.login();
+    return this.keycloakService.login();
   }
 
   logout() {
-    this.keycloakService.logout();
+    return this.keycloakService.logout().then(() => {
+      this.userSubject$.next(this.initialUserValue);
+    });
+  }
+
+  ngOnDestroy() {
+    this.userSubject$.complete();
   }
 }
