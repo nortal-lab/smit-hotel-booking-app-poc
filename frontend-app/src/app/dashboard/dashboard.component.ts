@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { KeycloakService } from 'keycloak-angular';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -9,19 +9,18 @@ import { KeycloakService } from 'keycloak-angular';
 export class DashboardComponent implements OnInit {
   username = '';
   personalId = '';
-  constructor(private readonly keycloakService: KeycloakService) {}
+  constructor(private readonly authService: AuthService) {}
 
   ngOnInit() {
-    const parsedToken = this.keycloakService.getKeycloakInstance().tokenParsed;
-    this.username = parsedToken?.['family_name'];
-    this.personalId = parsedToken?.['personal_identification_number'];
+    this.username = this.authService.getUsername();
+    this.personalId = this.authService.getPersonalIdentificationNumber();
   }
 
   login() {
-    this.keycloakService.login();
+    this.authService.login();
   }
 
   logout() {
-    this.keycloakService.logout();
+    this.authService.logout();
   }
 }
