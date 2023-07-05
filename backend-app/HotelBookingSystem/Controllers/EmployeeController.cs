@@ -24,7 +24,7 @@ namespace HotelBookingSystem.API.Controllers
         public IActionResult FindAllActiveBookingDtos()
         {
             var activeBookingDtos = MockData.BookingsHardcoded.Where(b => b.EndDate >= DateTime.Now).ToList();
-            
+
             return Ok(activeBookingDtos);
         }
 

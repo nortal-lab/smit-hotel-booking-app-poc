@@ -46,15 +46,6 @@
   "roles": {
     "realm": [
       {
-        "id": "6a95ca6f-a909-4f69-a6dc-6f4cdacfa4dc",
-        "name": "User",
-        "description": "",
-        "composite": false,
-        "clientRole": false,
-        "containerId": "505c86cb-5c38-4bf9-99d2-03c013dc502a",
-        "attributes": {}
-      },
-      {
         "id": "6e3eccad-e8b6-4fe9-81a8-4345935eb3ec",
         "name": "uma_authorization",
         "description": "${role_uma_authorization}",
@@ -92,15 +83,6 @@
         "clientRole": false,
         "containerId": "505c86cb-5c38-4bf9-99d2-03c013dc502a",
         "attributes": {}
-      },
-      {
-        "id": "05abf121-b3da-4a40-8d4c-dc7b9bdfc184",
-        "name": "Employee",
-        "description": "",
-        "composite": false,
-        "clientRole": false,
-        "containerId": "505c86cb-5c38-4bf9-99d2-03c013dc502a",
-        "attributes": {}
       }
     ],
     "client": {
@@ -132,10 +114,10 @@
                 "manage-users",
                 "query-groups",
                 "view-realm",
-                "manage-identity-providers",
                 "query-users",
-                "view-users",
+                "manage-identity-providers",
                 "manage-clients",
+                "view-users",
                 "manage-realm",
                 "query-clients",
                 "view-authorization",
@@ -319,7 +301,26 @@
       "security-admin-console": [],
       "admin-cli": [],
       "account-console": [],
-      "hotel-app": [],
+      "hotel-app": [
+        {
+          "id": "19ad2dde-111e-4382-acc0-8deca0a2fedd",
+          "name": "employee",
+          "description": "",
+          "composite": false,
+          "clientRole": true,
+          "containerId": "738c2fc0-047e-4edb-bed6-d72c20fab521",
+          "attributes": {}
+        },
+        {
+          "id": "3a54986c-ce67-4f43-9322-12b254f9a7d1",
+          "name": "customer",
+          "description": "",
+          "composite": false,
+          "clientRole": true,
+          "containerId": "738c2fc0-047e-4edb-bed6-d72c20fab521",
+          "attributes": {}
+        }
+      ],
       "broker": [
         {
           "id": "4dc273b0-7079-4a60-95ff-e86922a552b4",
@@ -427,21 +428,25 @@
       "name": "Employees",
       "path": "/Employees",
       "attributes": {},
-      "realmRoles": [
-        "Employee"
-      ],
-      "clientRoles": {},
+      "realmRoles": [],
+      "clientRoles": {
+        "hotel-app": [
+          "employee"
+        ]
+      },
       "subGroups": []
     },
     {
       "id": "ad529332-ffcb-4791-8810-182a905f4a29",
-      "name": "Users",
-      "path": "/Users",
+      "name": "Customers",
+      "path": "/Customers",
       "attributes": {},
-      "realmRoles": [
-        "User"
-      ],
-      "clientRoles": {},
+      "realmRoles": [],
+      "clientRoles": {
+        "hotel-app": [
+          "customer"
+        ]
+      },
       "subGroups": []
     }
   ],
@@ -464,9 +469,9 @@
   "otpPolicyPeriod": 30,
   "otpPolicyCodeReusable": false,
   "otpSupportedApplications": [
+    "totpAppMicrosoftAuthenticatorName",
     "totpAppFreeOTPName",
-    "totpAppGoogleName",
-    "totpAppMicrosoftAuthenticatorName"
+    "totpAppGoogleName"
   ],
   "webAuthnPolicyRpEntityName": "keycloak",
   "webAuthnPolicySignatureAlgorithms": [
@@ -631,7 +636,9 @@
       "publicClient": true,
       "frontchannelLogout": false,
       "protocol": "openid-connect",
-      "attributes": {},
+      "attributes": {
+        "post.logout.redirect.uris": "+"
+      },
       "authenticationFlowBindingOverrides": {},
       "fullScopeAllowed": false,
       "nodeReRegistrationTimeout": 0,
@@ -669,7 +676,9 @@
       "publicClient": false,
       "frontchannelLogout": false,
       "protocol": "openid-connect",
-      "attributes": {},
+      "attributes": {
+        "post.logout.redirect.uris": "+"
+      },
       "authenticationFlowBindingOverrides": {},
       "fullScopeAllowed": false,
       "nodeReRegistrationTimeout": 0,
@@ -692,14 +701,15 @@
       "clientId": "hotel-app",
       "name": "Hotel Booking System POC",
       "description": "",
-      "rootUrl": "http://localhost:8081",
-      "adminUrl": "http://localhost:8081",
+      "rootUrl": "http://localhost:8080",
+      "adminUrl": "",
       "baseUrl": "/",
       "surrogateAuthRequired": false,
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
       "redirectUris": [
+        "http://localhost:4200/*",
         "/*"
       ],
       "webOrigins": [
@@ -717,9 +727,11 @@
       "protocol": "openid-connect",
       "attributes": {
         "oidc.ciba.grant.enabled": "false",
-        "post.logout.redirect.uris": "/",
-        "oauth2.device.authorization.grant.enabled": "false",
         "backchannel.logout.session.required": "true",
+        "login_theme": "keycloak",
+        "post.logout.redirect.uris": "+",
+        "oauth2.device.authorization.grant.enabled": "false",
+        "display.on.consent.screen": "false",
         "backchannel.logout.revoke.offline.tokens": "false"
       },
       "authenticationFlowBindingOverrides": {},
@@ -730,7 +742,8 @@
         "acr",
         "roles",
         "profile",
-        "email"
+        "email",
+        "personal_identification_number"
       ],
       "optionalClientScopes": [
         "address",
@@ -759,7 +772,9 @@
       "publicClient": false,
       "frontchannelLogout": false,
       "protocol": "openid-connect",
-      "attributes": {},
+      "attributes": {
+        "post.logout.redirect.uris": "+"
+      },
       "authenticationFlowBindingOverrides": {},
       "fullScopeAllowed": false,
       "nodeReRegistrationTimeout": 0,
@@ -843,6 +858,37 @@
     }
   ],
   "clientScopes": [
+    {
+      "id": "888994a0-5c50-43df-b825-49f289f662fb",
+      "name": "personal_identification_number",
+      "description": "",
+      "protocol": "openid-connect",
+      "attributes": {
+        "include.in.token.scope": "true",
+        "display.on.consent.screen": "true",
+        "gui.order": "",
+        "consent.screen.text": ""
+      },
+      "protocolMappers": [
+        {
+          "id": "4a7a58a0-1e8c-44bd-9a19-94092b315bbd",
+          "name": "personal_identification_number",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "aggregate.attrs": "false",
+            "userinfo.token.claim": "true",
+            "multivalued": "false",
+            "user.attribute": "personal_identification_number",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "personal_identification_number",
+            "jsonType.label": "String"
+          }
+        }
+      ]
+    },
     {
       "id": "19b5c4f7-6690-4695-a98d-8a3167f7b120",
       "name": "offline_access",
@@ -935,7 +981,8 @@
           "consentRequired": false,
           "config": {
             "id.token.claim": "true",
-            "access.token.claim": "true"
+            "access.token.claim": "true",
+            "userinfo.token.claim": "true"
           }
         }
       ]
@@ -1031,6 +1078,7 @@
           "consentRequired": false,
           "config": {
             "multivalued": "true",
+            "userinfo.token.claim": "true",
             "user.attribute": "foo",
             "id.token.claim": "true",
             "access.token.claim": "true",
@@ -1356,7 +1404,8 @@
     "email",
     "roles",
     "web-origins",
-    "acr"
+    "acr",
+    "personal_identification_number"
   ],
   "defaultOptionalClientScopes": [
     "offline_access",
@@ -1421,13 +1470,13 @@
         "config": {
           "allowed-protocol-mapper-types": [
             "saml-user-property-mapper",
+            "oidc-usermodel-property-mapper",
+            "saml-role-list-mapper",
+            "oidc-address-mapper",
             "oidc-sha256-pairwise-sub-mapper",
             "oidc-full-name-mapper",
-            "saml-role-list-mapper",
-            "oidc-usermodel-property-mapper",
-            "oidc-address-mapper",
-            "oidc-usermodel-attribute-mapper",
-            "saml-user-attribute-mapper"
+            "saml-user-attribute-mapper",
+            "oidc-usermodel-attribute-mapper"
           ]
         }
       },
@@ -1439,14 +1488,14 @@
         "subComponents": {},
         "config": {
           "allowed-protocol-mapper-types": [
-            "saml-user-attribute-mapper",
+            "saml-role-list-mapper",
+            "oidc-address-mapper",
+            "oidc-sha256-pairwise-sub-mapper",
             "oidc-full-name-mapper",
             "oidc-usermodel-attribute-mapper",
+            "saml-user-attribute-mapper",
             "oidc-usermodel-property-mapper",
-            "saml-role-list-mapper",
-            "saml-user-property-mapper",
-            "oidc-address-mapper",
-            "oidc-sha256-pairwise-sub-mapper"
+            "saml-user-property-mapper"
           ]
         }
       },
@@ -2237,8 +2286,12 @@
     "cibaExpiresIn": "120",
     "cibaAuthRequestedUserHint": "login_hint",
     "oauth2DeviceCodeLifespan": "600",
+    "clientOfflineSessionMaxLifespan": "0",
     "oauth2DevicePollingInterval": "5",
+    "clientSessionIdleTimeout": "0",
     "parRequestUriLifespan": "60",
+    "clientSessionMaxLifespan": "0",
+    "clientOfflineSessionIdleTimeout": "0",
     "cibaInterval": "5",
     "realmReusableOtpCode": "false"
   },
@@ -2269,21 +2322,44 @@
       ]
     },
     {
-      "username": "user1",
+      "username": "customer1",
       "enabled": true,
       "emailVerified": true,
-      "firstName": "user1",
-      "lastName": "user1",
-      "email": "user1@domain.com",
+      "firstName": "customer1",
+      "lastName": "customer1",
+      "email": "customer1@domain.com",
       "credentials": [
         {
           "type": "password",
-          "value": "user1"
+          "value": "customer1"
         }
       ],
       "groups": [
-        "Users"
-      ]
+        "Customers"
+      ],
+      "attributes": {
+        "personal_identification_number": "0000000001"
+      }
+    },
+    {
+      "username": "customer2",
+      "enabled": true,
+      "emailVerified": true,
+      "firstName": "customer2",
+      "lastName": "customer2",
+      "email": "customer2@domain.com",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "customer2"
+        }
+      ],
+      "groups": [
+        "Customers"
+      ],
+      "attributes": {
+        "personal_identification_number": "0000000002"
+      }
     }
   ]
 }
