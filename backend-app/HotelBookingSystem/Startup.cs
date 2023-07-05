@@ -1,4 +1,4 @@
-﻿using System.Net.Mime;
+using System.Net.Mime;
 using System.Reflection;
 using System.Text.Json.Serialization;
 using Hellang.Middleware.ProblemDetails;

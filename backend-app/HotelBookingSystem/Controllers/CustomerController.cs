@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HotelBookingSystem.API.Controllers
 {
-    [Route("api")]
+    [Route("")]
     [ApiController]
     public class CustomerController : ControllerBase
     {
@@ -67,7 +67,7 @@ namespace HotelBookingSystem.API.Controllers
                 return NotFound();
             }
 
-            var canBeCancelled = ValidateBookingCancelation(booking);
+            var canBeCancelled = ValidateBookingCancellation(booking);
             if (!canBeCancelled)
             {
                 // Return a 500 Internal Server Error if the cancellation fails
@@ -98,7 +98,7 @@ namespace HotelBookingSystem.API.Controllers
         }
 
         // Business rule: cannot be cancelled if fewer than 3 days left before start
-        private bool ValidateBookingCancelation(BookingDto booking)
+        private bool ValidateBookingCancellation(BookingDto booking)
         {
             if (booking?.StartDate.AddDays(-3) < DateTime.Now)
             {
