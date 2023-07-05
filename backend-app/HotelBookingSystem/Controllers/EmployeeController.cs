@@ -1,11 +1,13 @@
 ﻿using HotelBookingSystem.API.Data;
 using HotelBookingSystem.API.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HotelBookingSystem.API.Controllers
 {
     [Route("employee")]
     [ApiController]
+    [Authorize(Roles = "employee")]
     public class EmployeeController : ControllerBase
     {
         [HttpGet("rooms")]

@@ -1,5 +1,6 @@
 ﻿using HotelBookingSystem.API.Data;
 using HotelBookingSystem.API.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HotelBookingSystem.API.Controllers
@@ -8,6 +9,15 @@ namespace HotelBookingSystem.API.Controllers
     [ApiController]
     public class CustomerController : ControllerBase
     {
+        /// <summary>
+        /// Search for available rooms
+        /// </summary>
+        /// <param name="startDate">Start date</param>
+        /// <param name="endDate">End date</param>
+        /// <param name="priceMin">Minimum price</param>
+        /// <param name="priceMax">Maximum price</param>
+        /// <param name="capacity">Minimal capacity</param>
+        /// <returns>Available rooms matching search criteria</returns>
         [HttpGet("rooms/available")]
         public IActionResult FindAvailableRoomsByCriteria([FromQuery] DateTime startDate, DateTime endDate, decimal? priceMin, decimal? priceMax, int? capacity)
         {
@@ -31,12 +41,14 @@ namespace HotelBookingSystem.API.Controllers
         }
 
         [HttpGet("bookings")]
+        [Authorize(Roles = "customer")]
         public IActionResult GetCustomerBookings()
         {
             return Ok(MockData.BookingsHardcoded);
         }
 
         [HttpGet("bookings/{bookingId}")]
+        [Authorize(Roles = "customer")]
         public IActionResult GetBookingDetails([FromRoute] Guid bookingId)
         {
             BookingDto booking = GetBookingObject(bookingId);
@@ -50,6 +62,7 @@ namespace HotelBookingSystem.API.Controllers
         }
 
         [HttpPost("bookings")]
+        [Authorize(Roles = "customer")]
         public IActionResult CreateBooking([FromBody] BookingDto bookingDto)
         {
             // If needed, do something with the bookingDto, like maybe validation, saving to db, etc.
@@ -58,6 +71,7 @@ namespace HotelBookingSystem.API.Controllers
         }
 
         [HttpDelete("bookings/{bookingId}")]
+        [Authorize(Roles = "customer")]
         public IActionResult CancelBooking([FromRoute] Guid bookingId)
         {
             var booking = GetBookingObject(bookingId);

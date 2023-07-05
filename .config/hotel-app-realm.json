@@ -424,19 +424,6 @@
   },
   "groups": [
     {
-      "id": "97ba4233-2258-4753-b6db-fc7ffc81524c",
-      "name": "Employees",
-      "path": "/Employees",
-      "attributes": {},
-      "realmRoles": [],
-      "clientRoles": {
-        "hotel-app": [
-          "employee"
-        ]
-      },
-      "subGroups": []
-    },
-    {
       "id": "ad529332-ffcb-4791-8810-182a905f4a29",
       "name": "Customers",
       "path": "/Customers",
@@ -445,6 +432,19 @@
       "clientRoles": {
         "hotel-app": [
           "customer"
+        ]
+      },
+      "subGroups": []
+    },
+    {
+      "id": "97ba4233-2258-4753-b6db-fc7ffc81524c",
+      "name": "Employees",
+      "path": "/Employees",
+      "attributes": {},
+      "realmRoles": [],
+      "clientRoles": {
+        "hotel-app": [
+          "employee"
         ]
       },
       "subGroups": []
@@ -469,9 +469,9 @@
   "otpPolicyPeriod": 30,
   "otpPolicyCodeReusable": false,
   "otpSupportedApplications": [
+    "totpAppGoogleName",
     "totpAppMicrosoftAuthenticatorName",
-    "totpAppFreeOTPName",
-    "totpAppGoogleName"
+    "totpAppFreeOTPName"
   ],
   "webAuthnPolicyRpEntityName": "keycloak",
   "webAuthnPolicySignatureAlgorithms": [
@@ -740,10 +740,12 @@
       "defaultClientScopes": [
         "web-origins",
         "acr",
+        "personal_identification_number",
+        "audience_hotel_app",
+        "roles_flat",
         "roles",
         "profile",
-        "email",
-        "personal_identification_number"
+        "email"
       ],
       "optionalClientScopes": [
         "address",
@@ -861,7 +863,7 @@
     {
       "id": "888994a0-5c50-43df-b825-49f289f662fb",
       "name": "personal_identification_number",
-      "description": "",
+      "description": "Personal Identification Number",
       "protocol": "openid-connect",
       "attributes": {
         "include.in.token.scope": "true",
@@ -988,6 +990,90 @@
       ]
     },
     {
+      "id": "fd66cf1f-f912-4d6f-b6d4-cf8b60c3dc81",
+      "name": "role_list",
+      "description": "SAML role list",
+      "protocol": "saml",
+      "attributes": {
+        "consent.screen.text": "${samlRoleListScopeConsentText}",
+        "display.on.consent.screen": "true"
+      },
+      "protocolMappers": [
+        {
+          "id": "a1173a6f-4f69-4ccd-b741-ecf771d7cf67",
+          "name": "role list",
+          "protocol": "saml",
+          "protocolMapper": "saml-role-list-mapper",
+          "consentRequired": false,
+          "config": {
+            "single": "false",
+            "attribute.nameformat": "Basic",
+            "attribute.name": "Role"
+          }
+        }
+      ]
+    },
+    {
+      "id": "ee72d76a-a141-4630-ab52-bf3ebbb2e3d7",
+      "name": "address",
+      "description": "OpenID Connect built-in scope: address",
+      "protocol": "openid-connect",
+      "attributes": {
+        "include.in.token.scope": "true",
+        "display.on.consent.screen": "true",
+        "consent.screen.text": "${addressScopeConsentText}"
+      },
+      "protocolMappers": [
+        {
+          "id": "e8aecfd7-2092-4bab-830e-a8570a9ca016",
+          "name": "address",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-address-mapper",
+          "consentRequired": false,
+          "config": {
+            "user.attribute.formatted": "formatted",
+            "user.attribute.country": "country",
+            "user.attribute.postal_code": "postal_code",
+            "userinfo.token.claim": "true",
+            "user.attribute.street": "street",
+            "id.token.claim": "true",
+            "user.attribute.region": "region",
+            "access.token.claim": "true",
+            "user.attribute.locality": "locality"
+          }
+        }
+      ]
+    },
+    {
+      "id": "6ea0f834-d32d-4e5d-8a42-7dcd5afe6048",
+      "name": "roles_flat",
+      "description": "Flat roles list",
+      "protocol": "openid-connect",
+      "attributes": {
+        "include.in.token.scope": "false",
+        "display.on.consent.screen": "false",
+        "gui.order": "",
+        "consent.screen.text": ""
+      },
+      "protocolMappers": [
+        {
+          "id": "c8833a0b-c4ee-4439-9426-5d88d8f13f8c",
+          "name": "roles_flat",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-client-role-mapper",
+          "consentRequired": false,
+          "config": {
+            "multivalued": "true",
+            "userinfo.token.claim": "true",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "roles",
+            "jsonType.label": "String"
+          }
+        }
+      ]
+    },
+    {
       "id": "b461ff6d-d798-4d53-acbc-030c48bb34b8",
       "name": "roles",
       "description": "OpenID Connect scope for add user roles to the access token",
@@ -1037,30 +1123,6 @@
       ]
     },
     {
-      "id": "fd66cf1f-f912-4d6f-b6d4-cf8b60c3dc81",
-      "name": "role_list",
-      "description": "SAML role list",
-      "protocol": "saml",
-      "attributes": {
-        "consent.screen.text": "${samlRoleListScopeConsentText}",
-        "display.on.consent.screen": "true"
-      },
-      "protocolMappers": [
-        {
-          "id": "a1173a6f-4f69-4ccd-b741-ecf771d7cf67",
-          "name": "role list",
-          "protocol": "saml",
-          "protocolMapper": "saml-role-list-mapper",
-          "consentRequired": false,
-          "config": {
-            "single": "false",
-            "attribute.nameformat": "Basic",
-            "attribute.name": "Role"
-          }
-        }
-      ]
-    },
-    {
       "id": "5fcffeda-9703-491e-ad84-7e24b885c692",
       "name": "microprofile-jwt",
       "description": "Microprofile - JWT built-in scope",
@@ -1104,37 +1166,6 @@
       ]
     },
     {
-      "id": "ee72d76a-a141-4630-ab52-bf3ebbb2e3d7",
-      "name": "address",
-      "description": "OpenID Connect built-in scope: address",
-      "protocol": "openid-connect",
-      "attributes": {
-        "include.in.token.scope": "true",
-        "display.on.consent.screen": "true",
-        "consent.screen.text": "${addressScopeConsentText}"
-      },
-      "protocolMappers": [
-        {
-          "id": "e8aecfd7-2092-4bab-830e-a8570a9ca016",
-          "name": "address",
-          "protocol": "openid-connect",
-          "protocolMapper": "oidc-address-mapper",
-          "consentRequired": false,
-          "config": {
-            "user.attribute.formatted": "formatted",
-            "user.attribute.country": "country",
-            "user.attribute.postal_code": "postal_code",
-            "userinfo.token.claim": "true",
-            "user.attribute.street": "street",
-            "id.token.claim": "true",
-            "user.attribute.region": "region",
-            "access.token.claim": "true",
-            "user.attribute.locality": "locality"
-          }
-        }
-      ]
-    },
-    {
       "id": "57cb01d4-bf2f-4b92-8e6e-7f28a9878b85",
       "name": "phone",
       "description": "OpenID Connect built-in scope: phone",
@@ -1173,6 +1204,32 @@
             "access.token.claim": "true",
             "claim.name": "phone_number",
             "jsonType.label": "String"
+          }
+        }
+      ]
+    },
+    {
+      "id": "8b4afd09-fe91-4d90-b225-7e099728220a",
+      "name": "audience_hotel_app",
+      "description": "Audience for Hotel App",
+      "protocol": "openid-connect",
+      "attributes": {
+        "include.in.token.scope": "false",
+        "display.on.consent.screen": "false",
+        "gui.order": "",
+        "consent.screen.text": ""
+      },
+      "protocolMappers": [
+        {
+          "id": "7b488a31-19fe-4420-9578-40dd5826a821",
+          "name": "audience_hotel_app",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-audience-mapper",
+          "consentRequired": false,
+          "config": {
+            "included.client.audience": "hotel-app",
+            "id.token.claim": "true",
+            "access.token.claim": "true"
           }
         }
       ]
@@ -1405,6 +1462,8 @@
     "roles",
     "web-origins",
     "acr",
+    "audience_hotel_app",
+    "roles_flat",
     "personal_identification_number"
   ],
   "defaultOptionalClientScopes": [
@@ -1469,14 +1528,14 @@
         "subComponents": {},
         "config": {
           "allowed-protocol-mapper-types": [
+            "oidc-sha256-pairwise-sub-mapper",
+            "saml-user-attribute-mapper",
+            "oidc-usermodel-attribute-mapper",
             "saml-user-property-mapper",
             "oidc-usermodel-property-mapper",
             "saml-role-list-mapper",
             "oidc-address-mapper",
-            "oidc-sha256-pairwise-sub-mapper",
-            "oidc-full-name-mapper",
-            "saml-user-attribute-mapper",
-            "oidc-usermodel-attribute-mapper"
+            "oidc-full-name-mapper"
           ]
         }
       },
@@ -1488,14 +1547,14 @@
         "subComponents": {},
         "config": {
           "allowed-protocol-mapper-types": [
-            "saml-role-list-mapper",
             "oidc-address-mapper",
-            "oidc-sha256-pairwise-sub-mapper",
+            "saml-user-property-mapper",
+            "saml-role-list-mapper",
+            "oidc-usermodel-property-mapper",
             "oidc-full-name-mapper",
             "oidc-usermodel-attribute-mapper",
             "saml-user-attribute-mapper",
-            "oidc-usermodel-property-mapper",
-            "saml-user-property-mapper"
+            "oidc-sha256-pairwise-sub-mapper"
           ]
         }
       },
