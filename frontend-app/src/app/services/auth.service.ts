@@ -62,6 +62,10 @@ export class AuthService implements OnDestroy {
     return parsedToken?.['personal_identification_number'];
   }
 
+  getAuthToken() {
+    return this.keycloakService.getToken();
+  }
+
   login() {
     return this.keycloakService.login();
   }

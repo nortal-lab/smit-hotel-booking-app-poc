@@ -1,5 +1,15 @@
-This is admin view
+<div>This is admin view</div>
 
+<div>rooms:</div>
+<div *ngFor="let item of results$ | async" [style]="{padding: '20px'}">
+  <span>bookingId: {{item.bookingId}}</span>
+  <span>creationDate: {{item.creationDate}}</span>
+  <span>endDate: {{item.endDate}}</span>
+  <span>roomId: {{item.roomId}}</span>
+  <span>startDate: {{item.startDate}}</span>
+  <span>status: {{item.status}}</span>
+  <span>userId: {{item.userId}}</span>
+</div>
 
 <ng-container *ngIf="{user: user$ | async } as data">
   <div>username: {{data.user?.username}}</div>
