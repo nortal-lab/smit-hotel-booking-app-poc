@@ -67,7 +67,9 @@ export class AuthService implements OnDestroy {
   }
 
   logout() {
-    this.keycloakService.logout();
+    return this.keycloakService.logout().then(() => {
+      this.userSubject$.next(this.initialUserValue);
+    });
   }
 
   ngOnDestroy() {
