@@ -1,2 +1,6 @@
-<cvi-ng-button [size]="'m'" [disabled]="false" [appearance]="'primary'">Button label</cvi-ng-button>
-<cvi-ng-icon [name]="'light_bulb'" [height]="40"></cvi-ng-icon>
+<div>username: {{username}}</div>
+<div>personal identification number: {{personalId}}</div>
+
+
+<cvi-ng-button [size]="'m'" [disabled]="false" [appearance]="'primary'" (click)="login()">Login</cvi-ng-button>
+<cvi-ng-button [size]="'m'" [disabled]="false" [appearance]="'primary'" (click)="logout()">Log out</cvi-ng-button>
