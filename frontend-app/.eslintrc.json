@@ -34,33 +34,54 @@
       }
     },
     {
-      "files": ["*.ts", "*.tsx"],
-      "extends": ["plugin:@nrwl/nx/typescript"],
+      "files": [
+        "*.ts",
+        "*.tsx"
+      ],
+      "extends": [
+        "plugin:@nrwl/nx/typescript"
+      ],
       "rules": {
         "@typescript-eslint/no-explicit-any": "error"
       }
     },
     {
       "parserOptions": {
-        "project": ["tsconfig.base.json"]
+        "project": [
+          "tsconfig.base.json"
+        ]
       },
-      "files": ["*.ts", "*.tsx"],
-      "extends": ["plugin:rxjs/recommended"],
+      "files": [
+        "*.ts",
+        "*.tsx"
+      ],
+      "extends": [
+        "plugin:rxjs/recommended"
+      ],
       "rules": {
         "rxjs/no-unsafe-takeuntil": [
           "error",
           {
-            "alias": ["untilDestroyed"]
+            "alias": [
+              "untilDestroyed"
+            ]
           }
         ]
       }
     },
     {
       "parserOptions": {
-        "project": ["tsconfig.base.json"]
+        "project": [
+          "tsconfig.base.json"
+        ]
       },
-      "files": ["*.ts", "*.tsx"],
-      "extends": ["plugin:prettier/recommended"],
+      "files": [
+        "*.ts",
+        "*.tsx"
+      ],
+      "extends": [
+        "plugin:prettier/recommended"
+      ],
       "rules": {
         "prettier/prettier": [
           "error",
@@ -79,5 +100,9 @@
       ],
       "rules": {}
     }
+  ],
+  "extends": [
+    null,
+    "plugin:storybook/recommended"
   ]
 }
