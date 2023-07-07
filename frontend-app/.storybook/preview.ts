@@ -1,7 +1,10 @@
 import type { Preview } from '@storybook/angular';
+import { moduleMetadata } from '@storybook/angular';
 import { setCompodocJson } from '@storybook/addon-docs/angular';
 import { INITIAL_VIEWPORTS } from '@storybook/addon-viewport';
 import docJson from '../documentation.json';
+import { AppUiModule } from 'src/app/app-ui/app-ui.module';
+import { UiModule } from '@egov/cvi-ng';
 setCompodocJson(docJson);
 
 const preview: Preview = {
@@ -18,6 +21,11 @@ const preview: Preview = {
       viewports: INITIAL_VIEWPORTS,
     },
   },
+  decorators: [
+    moduleMetadata({
+      imports: [AppUiModule, UiModule],
+    }),
+  ]
 };
 
 export default preview;

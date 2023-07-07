@@ -7,6 +7,7 @@ import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
 import { AuthService } from './services/auth.service';
 import { CustomerDashboardModule } from './customer-dashboard/customer-dashboard.module';
 import { AdminDashboardModule } from './admin-dashboard/admin-dashboard.module';
+import { AppUiModule } from './app-ui/app-ui.module';
 
 function initializeKeycloak(keycloak: KeycloakService, authService: AuthService) {
   return () =>
@@ -28,7 +29,7 @@ function initializeKeycloak(keycloak: KeycloakService, authService: AuthService)
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserModule, AppRoutingModule, CustomerDashboardModule, KeycloakAngularModule, AdminDashboardModule],
+  imports: [BrowserModule, AppUiModule, AppRoutingModule, CustomerDashboardModule, KeycloakAngularModule, AdminDashboardModule],
   providers: [
     {
       provide: APP_INITIALIZER,
