@@ -1,0 +1,35 @@
+<ng-container *ngIf="{ currentStep: currentStepSubject$ | async } as context">
+  <cvi-ng-steps
+    #stepper
+    [title]="'Select Room'"
+    [currentStepIndex]="0"
+    [hasTableOfContents]="false"
+    (stepChange)="onStepChange($event)">
+    <cvi-ng-step>
+      <cvi-ng-step-panel [title]="labels[0]">
+        <ng-container *ngIf="(availableRooms$ | async) as availableRooms">
+          <app-available-rooms [rooms]="[availableRooms]" (onClick)="nextStep()"></app-available-rooms>
+        </ng-container>
+      </cvi-ng-step-panel>
+    </cvi-ng-step>
+    <cvi-ng-step>
+      <cvi-ng-step-panel [title]="labels[1]">
+        <ng-container *ngIf="(userCredentials$ | async) as userCredentials">
+          <span>{{userCredentials}}</span>
+          <cvi-ng-button [size]="'m'" [disabled]="false" [appearance]="'primary'" (click)="cancelBookingProcess()">Cancel</cvi-ng-button>
+          <cvi-ng-button [size]="'m'" [disabled]="false" [appearance]="'primary'" (click)="nextStep()">Next</cvi-ng-button>
+        </ng-container>
+      </cvi-ng-step-panel>
+    </cvi-ng-step>
+    <cvi-ng-step>
+      <cvi-ng-step-panel [title]="labels[2]">
+        confirm
+      </cvi-ng-step-panel>
+    </cvi-ng-step>
+  </cvi-ng-steps>
+</ng-container>
+
+
+
+
+

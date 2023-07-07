@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CustomerDashboardComponent } from './customer-dashboard.component';
+import { SearchHomepageComponent } from './search-homepage.component';
 import { UiModule } from '@egov/cvi-ng';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -8,9 +8,9 @@ import { SearchContainerModule } from '../shared/search-container/search-contain
 import { RouterOutlet } from '@angular/router';
 
 @NgModule({
-  declarations: [CustomerDashboardComponent],
-  exports: [CustomerDashboardComponent],
+  declarations: [SearchHomepageComponent],
+  exports: [SearchHomepageComponent],
   providers: [],
   imports: [UiModule, FormsModule, CommonModule, HttpClientModule, SearchContainerModule, RouterOutlet],
 })
-export class CustomerDashboardModule {}
+export class SearchHomepageModule {}
