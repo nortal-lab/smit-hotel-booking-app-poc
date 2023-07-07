@@ -41,6 +41,7 @@
     "@angular/cli": "14.2.12",
     "@angular/compiler-cli": "14.3.0",
     "@compodoc/compodoc": "^1.1.21",
+    "@storybook/addon-a11y": "^7.0.26",
     "@storybook/addon-essentials": "^7.0.26",
     "@storybook/addon-interactions": "^7.0.26",
     "@storybook/addon-links": "^7.0.26",
