@@ -18,7 +18,7 @@
       </li>
     </ol>
     <ng-content></ng-content>
-    <div *ngIf="this.stepChildren.length > 1 && this.currentStepIndex !== null"
+    <div *ngIf="this.directionalButtonsDisplayed && this.stepChildren.length > 1 && this.currentStepIndex !== null"
         class="cvi-steps__directional-buttons"
         dataAttribute="steps_directional_buttons">
       <button *ngIf="this.currentStepIndex > 0"

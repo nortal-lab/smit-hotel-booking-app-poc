@@ -27,6 +27,7 @@ export default {
   args: {
     title: 'Abiellumine',
     currentStepIndex: null,
+    directionalButtonsDisplayed: true,
     stepsContent: [
       '<a href="https://www.eesti.ee">Nevertheless, Cosy Moments thrives. It has its public.</a>',
       'Its contents are mildly interesting, if you like that sort of thing.',
@@ -51,7 +52,7 @@ const Template: StoryFn<AppStepsComponent> = (args: AppStepsComponent) => {
     },
     /* template */
     template: `
-      <cvi-app-steps [title]="title" [currentStepIndex]="currentStepIndex" [hasTableOfContents]="hasTableOfContents">
+      <cvi-app-steps [title]="title" [currentStepIndex]="currentStepIndex" [hasTableOfContents]="hasTableOfContents" [directionalButtonsDisplayed]="directionalButtonsDisplayed">
         <p cvi-steps="after-title">You can now add custom content before steps</p>
         <cvi-app-step>
           <cvi-app-step-panel [title]="title">
@@ -131,7 +132,7 @@ const TemplateObservableTitles: StoryFn = (args) => ({
   },
   /* template */
   template: `
-    <cvi-app-steps [title]="title" [currentStepIndex]="currentStepIndex" [hasTableOfContents]="hasTableOfContents">
+    <cvi-app-steps [title]="title" [currentStepIndex]="currentStepIndex" [hasTableOfContents]="hasTableOfContents" [directionalButtonsDisplayed]="directionalButtonsDisplayed">
       <ng-container *ngFor="let label of labels$ | async">
         <cvi-app-step>
           <cvi-app-step-panel [title]="label">

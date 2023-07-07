@@ -30,6 +30,7 @@ export class AppStepsComponent
 
   @Input() currentStepIndex: number | null = null;
   @Input() hasTableOfContents = false;
+  @Input() directionalButtonsDisplayed = true;
 
   /** Index of a step, used to initiate step change from a parent component */
   @Input() stepIndex: number | null = null;
