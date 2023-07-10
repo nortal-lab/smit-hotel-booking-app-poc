@@ -6,12 +6,12 @@
   <div class="cvi-steps__inner" dataAttribute="steps_container">
     <ol class="cvi-steps__list" [style.--progress]="anyStepSelected ? currentProgressCSSVar + '%' : '100%'">
       <li class="cvi-steps__list-item"
-          *ngFor="let stepTitle of stepTitles; let i = index"
-          [ngClass]="{'is-past': this.currentStepIndex !== null && i <= currentStepIndex, 'is-current': i === currentStepIndex}"
+          *ngFor="let panel of getPanels(); let i = index"
+          [ngClass]="{'is-past': this.currentStepIndex !== null && i <= currentStepIndex, 'is-current': i === currentStepIndex, 'cvi-steps__list-item--is-disabled': panel.disabled}"
           [dataAttribute]="'cvi-steps__list-item_' + i">
-        <button class="cvi-steps__list-item-button" [dataAttribute]="'cvi-steps__list-item-button_' + i" (click)="stepSelected(i)">
+        <button class="cvi-steps__list-item-button" [dataAttribute]="'cvi-steps__list-item-button_' + i" (click)="stepSelected(i)" [attr.disabled]="panel.disabled ? panel.disabled : null">
           <div class="cvi-steps__list-item-inner">
-            <span class="cvi-steps__list-item-title">{{ stepTitle }}</span>
+            <span class="cvi-steps__list-item-title">{{ panel.title }}</span>
             <cvi-ng-icon [name]="'arrow_a_right'" class="cvi-steps__list-item-arrow-icon-wrapper" [svgClass]="'cvi-steps__list-item-arrow-icon'"></cvi-ng-icon>
           </div>
         </button>

@@ -21,6 +21,7 @@ import { Subscription } from 'rxjs';
 @Component({
   selector: 'cvi-app-steps',
   templateUrl: './steps.component.html',
+  styleUrls: ['./steps.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppStepsComponent
@@ -38,6 +39,7 @@ export class AppStepsComponent
   @Output() stepChange = new EventEmitter<number>();
 
   stepTitles!: string[];
+  stepDisabledStates!: boolean[];
   @Input() currentProgressCSSVar = 0;
   @Input() anyStepSelected = false;
   @ContentChildren(AppStepComponent) stepChildren!: QueryList<AppStepComponent>;
@@ -58,6 +60,13 @@ export class AppStepsComponent
           stepPanel.titleChangeSubject.subscribe((title: string) => {
             if (this.stepTitles && title) {
               this.stepTitles[i] = title;
+            }
+          })
+        );
+        this.panelSubscription.add(
+          stepPanel.disabledChangeSubject.subscribe((disabled: boolean) => {
+            if (this.stepDisabledStates && disabled) {
+              this.stepDisabledStates[i] = disabled;
             }
           })
         );
@@ -83,6 +92,7 @@ export class AppStepsComponent
 
   ngAfterContentInit(): void {
     this.updateTitles(this._stepPanels.toArray());
+    this.updateDisabledStates(this._stepPanels.toArray());
     if (this.currentStepIndex !== null) {
       this.anyStepSelected = true;
       this.setProgress(this.currentStepIndex);
@@ -97,6 +107,7 @@ export class AppStepsComponent
     });
     this._stepPanels.changes.subscribe((stepPanels: AppStepPanelComponent[]) => {
       this.updateTitles(stepPanels);
+      this.updateDisabledStates(stepPanels);
       this.cdRef.markForCheck();
     });
   }
@@ -113,10 +124,20 @@ export class AppStepsComponent
       this.panelSubscription.unsubscribe();
     }
   }
+  
+  getPanels() {
+    return this._stepPanels.toArray();
+  }
 
   updateTitles(stepPanels: AppStepPanelComponent[]) {
     this.stepTitles = stepPanels.map(
       (stepPanel: AppStepPanelComponent) => stepPanel.title
+    );
+  }
+
+  updateDisabledStates(stepPanels: AppStepPanelComponent[]) {
+    this.stepDisabledStates = stepPanels.map(
+      (stepPanel: AppStepPanelComponent) => stepPanel.disabled
     );
   }
 

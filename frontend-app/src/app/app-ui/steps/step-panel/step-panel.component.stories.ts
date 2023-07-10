@@ -25,9 +25,10 @@ export default {
     }
   },
   args: {
-    title: 'First step',
+    title: 'Another step title',
     themed: true,
-    content: 'First step content.',
+    disabled: false,
+    content: 'Another step content.',
     stepsDirectionalButtonsDisplayed: true
   },
 } as Meta;
@@ -41,13 +42,18 @@ const Template: StoryFn<AppStepPanelComponent> = (args: AppStepPanelComponent) =
   template: `
     <cvi-app-steps title="Abiellumine" [currentStepIndex]="0" [directionalButtonsDisplayed]="stepsDirectionalButtonsDisplayed">
       <cvi-app-step>
-        <cvi-app-step-panel [title]="title" [themed]="themed">
-          {{ content }}
+        <cvi-app-step-panel title="First step">
+          <cvi-ng-button>Hey</cvi-ng-button>
+        </cvi-app-step-panel>
+      </cvi-app-step>
+      <cvi-app-step>
+        <cvi-app-step-panel title="Second step">
+          Say ooh la-la come on come on
         </cvi-app-step-panel>
       </cvi-app-step>
       <cvi-app-step title="Another step">
-        <cvi-app-step-panel title="Another step title">
-          <cvi-ng-button>Hey</cvi-ng-button>
+        <cvi-app-step-panel [title]="title" [themed]="themed" [disabled]="disabled">
+          {{ content }}
         </cvi-app-step-panel>
       </cvi-app-step>
     </cvi-app-steps>
@@ -62,6 +68,14 @@ export const Unthemed = {
   ...Default,
   args: {
     themed: false, 
+    stepsDirectionalButtonsDisplayed: false
+  }
+};
+
+export const Disabled = {
+  ...Default,
+  args: {
+    disabled: true, 
     stepsDirectionalButtonsDisplayed: false
   }
 };

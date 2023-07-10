@@ -22,10 +22,22 @@ export class AppStepPanelComponent implements OnDestroy {
   get title() {
     return this._title;
   }
+  _disabled!: boolean;
+  @Input()
+  set disabled(disabled: boolean) {
+    this._disabled = disabled;
+    this.disabledChangeSubject.next(disabled);
+  }
+  get disabled() {
+    return this._disabled;
+  }
   @Input() themed = true;
 
   /** @internal */
   public titleChangeSubject = new ReplaySubject<string>(1);
+
+  /** @internal */
+  public disabledChangeSubject = new ReplaySubject<boolean>(1);
 
   @HostBinding('class') get getHostClasses(): string {
     return `${this.themed ? 'cvi-steps__content-panel' : ''}`;
@@ -33,5 +45,6 @@ export class AppStepPanelComponent implements OnDestroy {
 
   ngOnDestroy(): void {
     this.titleChangeSubject.complete();
+    this.disabledChangeSubject.complete();
   }
 }
