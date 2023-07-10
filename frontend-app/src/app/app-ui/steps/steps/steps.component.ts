@@ -91,8 +91,8 @@ export class AppStepsComponent
   }
 
   ngAfterContentInit(): void {
-    this.updateTitles(this._stepPanels.toArray());
-    this.updateDisabledStates(this._stepPanels.toArray());
+    this.updateTitles(this.getPanels());
+    this.updateDisabledStates(this.getPanels());
     if (this.currentStepIndex !== null) {
       this.anyStepSelected = true;
       this.setProgress(this.currentStepIndex);
