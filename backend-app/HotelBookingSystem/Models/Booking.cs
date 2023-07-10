@@ -1,9 +1,11 @@
-﻿using HotelBookingSystem.API.Common;
+﻿using System.ComponentModel.DataAnnotations;
+using HotelBookingSystem.API.Common;
 
 namespace HotelBookingSystem.API.Models
 {
-    public class BookingDto
+    public class Booking
     {
+        [Key]
         public Guid BookingId {get; set; }
 
         public Guid UserId { get; set; }
