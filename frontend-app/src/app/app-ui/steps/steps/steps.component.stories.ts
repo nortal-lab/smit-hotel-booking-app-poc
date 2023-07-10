@@ -83,17 +83,22 @@ export const Default = {
   render: Template,
 };
 
-export const DefaultWithSelectedStep = {
-  render: Template,
+export const WithoutNavButtons = {
+  ...Default,
+  args: {
+    directionalButtonsDisplayed: false
+  }
+};
 
+export const WithSelectedStep = {
+  ...Default,
   args: {
     currentStepIndex: 0,
   },
 };
 
 export const Mobile = {
-  render: Template,
-
+  ...Default,
   parameters: {
     layout: 'fullscreen',
     backgrounds: {
@@ -106,12 +111,10 @@ export const Mobile = {
 };
 
 export const MobileWithSelectedStep = {
-  render: Template,
-
+  ...Default,
   args: {
     currentStepIndex: 0,
   },
-
   parameters: {
     layout: 'fullscreen',
     backgrounds: {
