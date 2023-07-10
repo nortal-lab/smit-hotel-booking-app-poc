@@ -5,7 +5,8 @@ import { RoomDTO } from '../models/room.interface';
 import { RoomFacade } from '../facades/room.facade';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { AuthService } from '../services/auth.service';
-import { StepsComponent } from '@egov/cvi-ng';
+import { StepsComponent, ToastService } from '@egov/cvi-ng';
+import { LocalStorageService } from '../services/local-storage.service';
 
 @Component({
   selector: 'app-booking-process',
@@ -15,7 +16,8 @@ import { StepsComponent } from '@egov/cvi-ng';
 })
 export class BookingProcessComponent implements OnInit {
   labels = ['Select room', 'Personal information', 'Confirmation'];
-  currentStepSubject$ = new BehaviorSubject(0);
+  initialCurrentStep = this.getInitialCurrentStep();
+  currentStepSubject$ = new BehaviorSubject(this.initialCurrentStep);
   dateFrom$ = this.activatedRoute.queryParamMap.pipe(map((paramMap) => paramMap.get('dateFrom')));
   dateTo$ = this.activatedRoute.queryParamMap.pipe(map((paramMap) => paramMap.get('dateTo')));
   roomCount$ = this.activatedRoute.queryParamMap.pipe(map((paramMap) => paramMap.get('rooms')));
@@ -23,7 +25,18 @@ export class BookingProcessComponent implements OnInit {
   availableRooms$?: Observable<RoomDTO>;
   userCredentials$?: Observable<string>;
 
-  constructor(private readonly roomFacade: RoomFacade, private readonly activatedRoute: ActivatedRoute, private readonly authService: AuthService) {}
+  constructor(
+    private readonly roomFacade: RoomFacade,
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly authService: AuthService,
+    private readonly localStorage: LocalStorageService,
+    private readonly toastService: ToastService
+  ) {}
+
+  private getInitialCurrentStep() {
+    const currentStep = JSON.parse(this.localStorage.getData() || 'null')?.currentStep;
+    return currentStep ?? 0;
+  }
 
   ngOnInit() {
     this.availableRooms$ = combineLatest([this.dateFrom$, this.dateTo$, this.roomCount$, this.guestCount$]).pipe(
@@ -41,6 +54,15 @@ export class BookingProcessComponent implements OnInit {
     stepper.hideStepsContent();
     stepper.setProgress(stepper.currentStepIndex! + 1);
     stepper.stepChange.emit(stepper.currentStepIndex);
+    this.setCurrentStepToLocalStorage(stepper.currentStepIndex);
+  }
+
+  private setCurrentStepToLocalStorage(currentStep: number) {
+    this.localStorage.saveData(
+      JSON.stringify({
+        currentStep,
+      })
+    );
   }
 
   cancelBookingProcess(stepper: StepsComponent) {
@@ -49,9 +71,17 @@ export class BookingProcessComponent implements OnInit {
     stepper.hideStepsContent();
     stepper.setProgress(0);
     stepper.stepChange.emit(stepper.currentStepIndex);
+    this.setCurrentStepToLocalStorage(stepper.currentStepIndex);
   }
 
   onStepChange(step: number) {
     this.currentStepSubject$.next(step);
+    this.setCurrentStepToLocalStorage(step);
+  }
+
+  login() {
+    this.authService.login().catch(() => {
+      this.toastService.error('An error has happened. Please, try again in a while or contact administrator.');
+    });
   }
 }
