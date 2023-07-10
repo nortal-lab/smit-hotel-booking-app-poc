@@ -1,4 +1,4 @@
-﻿using HotelBookingSystem.API.Data;
+﻿using HotelBookingSystem.API.Auth.Model;
 using HotelBookingSystem.API.Data.BookingRepository;
 using HotelBookingSystem.API.Data.RoomRepository;
 using HotelBookingSystem.API.Models;
@@ -9,7 +9,7 @@ namespace HotelBookingSystem.API.Controllers
 {
     [Route("employee")]
     [ApiController]
-    [Authorize(Roles = "employee")]
+    [Authorize(Roles = Roles.Employee)]
     public class EmployeeController : ControllerBase
     {
         private readonly IRoomRepository _roomRepository;
@@ -31,7 +31,7 @@ namespace HotelBookingSystem.API.Controllers
         public IActionResult FindAllActiveBookingDtos()
         {
             var activeBookingDtos = _bookingRepository.GetAllBookings().Where(b => b.EndDate >= DateTime.Now).ToList();
-            
+
             return Ok(activeBookingDtos);
         }
 

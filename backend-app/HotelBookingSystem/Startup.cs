@@ -1,10 +1,6 @@
 using System.Net.Mime;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.OpenApi.Models;
-using HotelBookingSystem.API.Data;
-using HotelBookingSystem.API.Data.BookingRepository;
-using HotelBookingSystem.API.Data.RoomRepository;
 
 namespace HotelBookingSystem.API
 {
@@ -34,16 +30,12 @@ namespace HotelBookingSystem.API
 
             services.AddErrorHandling();
 
+            services.AddApplicationServices();
+            services.AddPersistence();
+
             services.AddSwagger();
 
-            // DI
-            services.AddScoped<IRoomRepository, RoomRepository>();
-            services.AddScoped<IBookingRepository, BookingRepository>();
-
             services.AddEndpointsApiExplorer();
-
-            // EF Core in-memory DB
-            services.AddDbContext<HotelBookingSystemDbContext>();
         }
 
         public void Configure(IApplicationBuilder app)

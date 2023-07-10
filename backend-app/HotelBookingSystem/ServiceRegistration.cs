@@ -1,27 +1,60 @@
 using System.Reflection;
 using Hellang.Middleware.ProblemDetails;
 using Hellang.Middleware.ProblemDetails.Mvc;
+using HotelBookingSystem.API.Auth;
+using HotelBookingSystem.API.Data;
+using HotelBookingSystem.API.Data.BookingRepository;
+using HotelBookingSystem.API.Data.RoomRepository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
 namespace HotelBookingSystem.API;
 
+/// <summary>
+/// Service registration convenience extensions.
+/// </summary>
 public static class ServiceRegistration
 {
+    /// <summary>
+    /// Configures JWT authentication.
+    /// </summary>
     public static void AddAuthentication(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(o =>
             {
-                o.RequireHttpsMetadata = false;
                 o.Authority = configuration["Jwt:Authority"];
                 o.Audience = configuration["Jwt:Audience"];
                 o.SaveToken = true;
-                o.TokenValidationParameters.ValidateIssuer = false;
+
+                o.RequireHttpsMetadata = false; // For testing ONLY!
+                o.TokenValidationParameters.ValidateIssuer = false; // For testing ONLY!
             });
     }
 
+    /// <summary>
+    /// Configures application services.
+    /// </summary>
+    public static void AddApplicationServices(this IServiceCollection services)
+    {
+        // DI
+        services.AddHttpContextAccessor();
+        services.AddTransient<IAuthenticationService, AuthenticationService>();
+        services.AddScoped<IRoomRepository, RoomRepository>();
+        services.AddScoped<IBookingRepository, BookingRepository>();
+    }
+
+    /// <summary>
+    /// Configures EF Core in-memory DB.
+    /// </summary>
+    public static void AddPersistence(this IServiceCollection services)
+    {
+        services.AddDbContext<HotelBookingSystemDbContext>();
+    }
+
+    /// <summary>
+    /// Configures error handling using Problem Details.
+    /// </summary>
     public static void AddErrorHandling(this IServiceCollection services)
     {
         services.AddProblemDetails(opts =>
@@ -31,6 +64,9 @@ public static class ServiceRegistration
         services.AddProblemDetailsConventions();
     }
 
+    /// <summary>
+    /// Configures Swagger API documentation.
+    /// </summary>
     public static void AddSwagger(this IServiceCollection services)
     {
         services.AddSwaggerGen(c =>
