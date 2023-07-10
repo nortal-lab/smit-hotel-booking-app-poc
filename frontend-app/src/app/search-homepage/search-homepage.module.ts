@@ -1,16 +1,17 @@
 import { NgModule } from '@angular/core';
-import { CustomerDashboardComponent } from './customer-dashboard.component';
+import { SearchHomepageComponent } from './search-homepage.component';
 import { UiModule } from '@egov/cvi-ng';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { SearchContainerModule } from '../shared/search-container/search-container.module';
 import { RouterOutlet } from '@angular/router';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
-  declarations: [CustomerDashboardComponent],
-  exports: [CustomerDashboardComponent],
+  declarations: [SearchHomepageComponent],
+  exports: [SearchHomepageComponent],
   providers: [],
-  imports: [UiModule, FormsModule, CommonModule, HttpClientModule, SearchContainerModule, RouterOutlet],
+  imports: [UiModule, FormsModule, CommonModule, HttpClientModule, SearchContainerModule, RouterOutlet, BrowserAnimationsModule],
 })
-export class CustomerDashboardModule {}
+export class SearchHomepageModule {}
