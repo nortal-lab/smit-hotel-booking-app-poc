@@ -1,5 +1,4 @@
-﻿using HotelBookingSystem.API.Data;
-using HotelBookingSystem.API.Data.BookingRepository;
+﻿using HotelBookingSystem.API.Data.BookingRepository;
 using HotelBookingSystem.API.Data.RoomRepository;
 using HotelBookingSystem.API.Models;
 using Microsoft.AspNetCore.Authorization;
