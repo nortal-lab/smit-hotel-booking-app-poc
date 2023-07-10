@@ -14,11 +14,14 @@
     </cvi-ng-step>
     <cvi-ng-step>
       <cvi-ng-step-panel [title]="labels[1]">
-        <ng-container *ngIf="(userCredentials$ | async) as userCredentials">
+        <ng-container *ngIf="(userCredentials$ | async) as userCredentials; else loginButton">
           <span>{{userCredentials}}</span>
           <cvi-ng-button [size]="'m'" [disabled]="false" [appearance]="'primary'" (click)="cancelBookingProcess(stepper)">Cancel</cvi-ng-button>
           <cvi-ng-button [size]="'m'" [disabled]="false" [appearance]="'primary'" (click)="nextStep(stepper)">Next</cvi-ng-button>
         </ng-container>
+        <ng-template #loginButton>
+          <cvi-ng-button [size]="'m'" [disabled]="false" [appearance]="'primary'" (click)="login()">Log in</cvi-ng-button>
+        </ng-template>
       </cvi-ng-step-panel>
     </cvi-ng-step>
     <cvi-ng-step>
