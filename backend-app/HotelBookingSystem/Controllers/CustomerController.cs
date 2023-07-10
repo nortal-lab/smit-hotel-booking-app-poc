@@ -1,4 +1,5 @@
-﻿using HotelBookingSystem.API.Data.BookingRepository;
+﻿using HotelBookingSystem.API.Auth.Model;
+using HotelBookingSystem.API.Data.BookingRepository;
 using HotelBookingSystem.API.Data.RoomRepository;
 using HotelBookingSystem.API.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -51,14 +52,14 @@ namespace HotelBookingSystem.API.Controllers
         }
 
         [HttpGet("bookings")]
-        [Authorize(Roles = "customer")]
+        [Authorize(Roles = Roles.Customer)]
         public IActionResult GetCustomerBookings()
         {
             return Ok(_bookingRepository.GetAllBookings());
         }
 
         [HttpGet("bookings/{bookingId}")]
-        [Authorize(Roles = "customer")]
+        [Authorize(Roles = Roles.Customer)]
         public IActionResult GetBookingDetails([FromRoute] Guid bookingId)
         {
             Booking? booking = _bookingRepository.GetBookingById(bookingId);
@@ -72,7 +73,7 @@ namespace HotelBookingSystem.API.Controllers
         }
 
         [HttpPost("bookings")]
-        [Authorize(Roles = "customer")]
+        [Authorize(Roles = Roles.Customer)]
         public IActionResult CreateBooking([FromBody] Booking booking)
         {
             // If needed, do something with the booking, like maybe validation, saving to db, etc.
@@ -81,7 +82,7 @@ namespace HotelBookingSystem.API.Controllers
         }
 
         [HttpDelete("bookings/{bookingId}")]
-        [Authorize(Roles = "customer")]
+        [Authorize(Roles = Roles.Customer)]
         public IActionResult CancelBooking([FromRoute] Guid bookingId)
         {
             Booking? booking = _bookingRepository.GetBookingById(bookingId);
