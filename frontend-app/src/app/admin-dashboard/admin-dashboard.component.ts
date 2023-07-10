@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { Observable } from 'rxjs';
 import { User } from '../models/user.interface';
-import { RoomService } from '../services/room.service';
+import { CustomerService } from '../services/customer.service';
 
 @Component({
   selector: 'app-customer-dashboard',
@@ -13,7 +13,7 @@ import { RoomService } from '../services/room.service';
 export class AdminDashboardComponent implements OnInit {
   user$?: Observable<User>;
   results$?: Observable<any>;
-  constructor(private readonly authService: AuthService, private readonly roomService: RoomService) {}
+  constructor(private readonly authService: AuthService, private readonly roomService: CustomerService) {}
 
   ngOnInit() {
     this.user$ = this.authService.user$;

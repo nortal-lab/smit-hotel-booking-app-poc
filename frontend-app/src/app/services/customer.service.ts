@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { RoomDTO } from '../models/room.interface';
+import { Booking } from '../models/booking.interface';
 
 @Injectable({
   providedIn: 'root',
 })
-export class RoomService {
+export class CustomerService {
   constructor(private readonly http: HttpClient) {}
 
   getAvailableRooms(dateFrom: string, dateTo: string, roomCount: string, guestCount: string) {
@@ -17,8 +18,8 @@ export class RoomService {
     });
   }
 
-  getCustomerBookings() {
-    return this.http.get('/api/bookings');
+  getBookings() {
+    return this.http.get<Booking[]>('/api/bookings');
   }
 
   getEmployeeBookings() {
