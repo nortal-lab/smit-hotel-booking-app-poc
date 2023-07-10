@@ -1,4 +1,6 @@
-﻿using HotelBookingSystem.API.Data;
+﻿using HotelBookingSystem.API.Auth.Model;
+using HotelBookingSystem.API.Data.BookingRepository;
+using HotelBookingSystem.API.Data.RoomRepository;
 using HotelBookingSystem.API.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -9,6 +11,15 @@ namespace HotelBookingSystem.API.Controllers
     [ApiController]
     public class CustomerController : ControllerBase
     {
+        private readonly IRoomRepository _roomRepository;
+        private readonly IBookingRepository _bookingRepository;
+
+        public CustomerController(IRoomRepository roomRepository, IBookingRepository bookingRepository)
+        {
+            _roomRepository = roomRepository;
+            _bookingRepository = bookingRepository;
+        }
+
         /// <summary>
         /// Search for available rooms
         /// </summary>
@@ -29,29 +40,29 @@ namespace HotelBookingSystem.API.Controllers
             //ToDo: Implement filtering logic in services
             //var availableRooms = RoomsHardcoded.Where(room =>
             //    (capacity == null || room.Capacity >= capacity) &&
-            //    (priceMin == null || room.Price >= priceMin) &&
-            //    (priceMax == null || room.Price <= priceMax) &&
+            //    (priceMin == null || room.PricePerNight >= priceMin) &&
+            //    (priceMax == null || room.PricePerNight <= priceMax) &&
             //    !BookingsHardcoded.Any(booking =>
             //        booking.RoomId == room.RoomId &&
             //        !(startDate >= booking.EndDate || endDate <= booking.StartDate)
             //    )
             //).ToList();
 
-            return Ok(MockData.RoomsHardcoded.FirstOrDefault());
+            return Ok(_roomRepository.GetAllRooms().FirstOrDefault());
         }
 
         [HttpGet("bookings")]
-        [Authorize(Roles = "customer")]
+        [Authorize(Roles = Roles.Customer)]
         public IActionResult GetCustomerBookings()
         {
-            return Ok(MockData.BookingsHardcoded);
+            return Ok(_bookingRepository.GetAllBookings());
         }
 
         [HttpGet("bookings/{bookingId}")]
-        [Authorize(Roles = "customer")]
+        [Authorize(Roles = Roles.Customer)]
         public IActionResult GetBookingDetails([FromRoute] Guid bookingId)
         {
-            BookingDto booking = GetBookingObject(bookingId);
+            Booking? booking = _bookingRepository.GetBookingById(bookingId);
 
             if (booking == null)
             {
@@ -62,33 +73,32 @@ namespace HotelBookingSystem.API.Controllers
         }
 
         [HttpPost("bookings")]
-        [Authorize(Roles = "customer")]
-        public IActionResult CreateBooking([FromBody] BookingDto bookingDto)
+        [Authorize(Roles = Roles.Customer)]
+        public IActionResult CreateBooking([FromBody] Booking booking)
         {
-            // If needed, do something with the bookingDto, like maybe validation, saving to db, etc.
+            // If needed, do something with the booking, like maybe validation, saving to db, etc.
 
-            return CreatedAtAction(nameof(GetBookingDetails), new { bookingId = bookingDto.BookingId }, bookingDto);
+            return CreatedAtAction(nameof(GetBookingDetails), new { bookingId = booking.BookingId }, booking);
         }
 
         [HttpDelete("bookings/{bookingId}")]
-        [Authorize(Roles = "customer")]
+        [Authorize(Roles = Roles.Customer)]
         public IActionResult CancelBooking([FromRoute] Guid bookingId)
         {
-            var booking = GetBookingObject(bookingId);
-
+            Booking? booking = _bookingRepository.GetBookingById(bookingId);
             if (booking == null)
             {
                 return NotFound();
             }
 
-            var canBeCancelled = ValidateBookingCancellation(booking);
+            bool canBeCancelled = ValidateBookingCancellation(booking);
             if (!canBeCancelled)
             {
                 // Return a 500 Internal Server Error if the cancellation fails
                 return StatusCode(500, "Booking cancellation failed: too close to booking start date.");
             }
 
-            var isCancelled = DeleteBookingById(bookingId);
+            bool isCancelled = _bookingRepository.RemoveBookingById(bookingId);
             if (!isCancelled)
             {
                 // Return a 500 Internal Server Error if the cancellation fails
@@ -99,32 +109,10 @@ namespace HotelBookingSystem.API.Controllers
             return NoContent();
         }
 
-        private bool DeleteBookingById(Guid bookingId)
-        {
-            var itemsRemovedCount = MockData.BookingsHardcoded.RemoveAll(booking => booking.BookingId == bookingId);
-
-            if (itemsRemovedCount > 0)
-            {
-                return true;
-            }
-
-            return false;
-        }
-
         // Business rule: cannot be cancelled if fewer than 3 days left before start
-        private bool ValidateBookingCancellation(BookingDto booking)
+        public static bool ValidateBookingCancellation(Booking booking)
         {
-            if (booking?.StartDate.AddDays(-3) < DateTime.Now)
-            {
-                return false;
-            }
-
-            return true;
-        }
-
-        private static BookingDto? GetBookingObject(Guid bookingId)
-        {
-            return MockData.BookingsHardcoded.SingleOrDefault(booking => booking.BookingId == bookingId);
+            return !(booking?.StartDate.AddDays(-3) < DateTime.Now);
         }
     }
 }

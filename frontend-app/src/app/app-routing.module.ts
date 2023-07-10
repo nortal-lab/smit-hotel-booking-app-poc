@@ -4,11 +4,34 @@ import { CustomerDashboardComponent } from './customer-dashboard/customer-dashbo
 import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
 import { AuthGuard } from './guards/auth.guard';
 import { AdminGuard } from './guards/admin.guard';
+import { SearchHomepageComponent } from './search-homepage/search-homepage.component';
+import { BookingProcessComponent } from './booking-process/booking-process.component';
+import { CustomerBookingsComponent } from './customer-bookings/customer-bookings.component';
+import { CustomerGuard } from './guards/customer.guard';
 
 const routes: Routes = [
   {
     path: '',
     component: CustomerDashboardComponent,
+    children: [
+      {
+        path: '',
+        component: SearchHomepageComponent,
+      },
+      {
+        path: 'booking',
+        component: BookingProcessComponent,
+      },
+      {
+        path: 'my-reservations',
+        component: CustomerBookingsComponent,
+        canActivate: [AuthGuard, CustomerGuard],
+      },
+    ],
+  },
+  {
+    path: '**',
+    redirectTo: '/',
   },
   {
     path: 'admin',

@@ -1,4 +1,6 @@
-﻿using HotelBookingSystem.API.Data;
+﻿using HotelBookingSystem.API.Auth.Model;
+using HotelBookingSystem.API.Data.BookingRepository;
+using HotelBookingSystem.API.Data.RoomRepository;
 using HotelBookingSystem.API.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -7,25 +9,28 @@ namespace HotelBookingSystem.API.Controllers
 {
     [Route("employee")]
     [ApiController]
-    [Authorize(Roles = "employee")]
+    [Authorize(Roles = Roles.Employee)]
     public class EmployeeController : ControllerBase
     {
+        private readonly IRoomRepository _roomRepository;
+        private readonly IBookingRepository _bookingRepository;
+
+        public EmployeeController(IRoomRepository roomRepository, IBookingRepository bookingRepository)
+        {
+            _roomRepository = roomRepository;
+            _bookingRepository = bookingRepository;
+        }
+
         [HttpGet("rooms")]
         public IActionResult GetAllRooms()
         {
-            var rooms = MockData.RoomsHardcoded;
-            if (rooms == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(rooms);
+            return Ok(_roomRepository.GetAllRooms());
         }
 
         [HttpGet("bookings/active")]
         public IActionResult FindAllActiveBookingDtos()
         {
-            var activeBookingDtos = MockData.BookingsHardcoded.Where(b => b.EndDate >= DateTime.Now).ToList();
+            var activeBookingDtos = _bookingRepository.GetAllBookings().Where(b => b.EndDate >= DateTime.Now).ToList();
 
             return Ok(activeBookingDtos);
         }
@@ -36,35 +41,34 @@ namespace HotelBookingSystem.API.Controllers
             //ToDo: Implement filtering logic in services
             //var availableRooms = RoomsHardcoded.Where(room =>
             //    (capacity == null || room.Capacity >= capacity) &&
-            //    (priceMin == null || room.Price >= priceMin) &&
-            //    (priceMax == null || room.Price <= priceMax) &&
+            //    (priceMin == null || room.PricePerNight >= priceMin) &&
+            //    (priceMax == null || room.PricePerNight <= priceMax) &&
             //    !BookingsHardcoded.Any(booking =>
             //        booking.RoomId == room.RoomId &&
             //        !(startDate >= booking.EndDate || endDate <= booking.StartDate)
             //    )
             //).ToList();
 
-            return Ok(MockData.RoomsHardcoded.LastOrDefault());
+            return Ok(_roomRepository.GetAllRooms().LastOrDefault());
         }
 
         [HttpDelete("bookings/{bookingId}")]
         public IActionResult CancelBooking([FromRoute] Guid bookingId)
         {
-            var booking = GetBookingObject(bookingId);
-
+            Booking? booking = _bookingRepository.GetBookingById(bookingId);
             if (booking == null)
             {
                 return NotFound();
             }
 
-            var canBeCancelled = ValidateBookingCancellation(booking);
+            bool canBeCancelled = ValidateBookingCancellation(booking);
             if (!canBeCancelled)
             {
                 // Return a 500 Internal Server Error if the cancellation fails
                 return StatusCode(500, "Booking cancellation failed: too close to booking start date.");
             }
 
-            var isCancelled = DeleteBookingById(bookingId);
+            bool isCancelled = _bookingRepository.RemoveBookingById(bookingId);
             if (!isCancelled)
             {
                 // Return a 500 Internal Server Error if the cancellation fails
@@ -75,33 +79,10 @@ namespace HotelBookingSystem.API.Controllers
             return NoContent();
         }
 
-        private bool DeleteBookingById(Guid bookingId)
-        {
-            var itemsRemovedCount = MockData.BookingsHardcoded.RemoveAll(booking => booking.BookingId == bookingId);
-
-            if (itemsRemovedCount > 0)
-            {
-                return true;
-            }
-
-            return false;
-        }
-
         // Business rule: cannot be cancelled if fewer than 3 days left before start
-        private bool ValidateBookingCancellation(BookingDto booking)
+        public static bool ValidateBookingCancellation(Booking booking)
         {
-
-            if (booking?.StartDate.AddDays(-3) < DateTime.Now)
-            {
-                return false;
-            }
-
-            return true;
-        }
-
-        private static BookingDto? GetBookingObject(Guid bookingId)
-        {
-            return MockData.BookingsHardcoded.SingleOrDefault(booking => booking.BookingId == bookingId);
+            return !(booking?.StartDate.AddDays(-3) < DateTime.Now);
         }
     }
 }

@@ -8,6 +8,10 @@ import { AuthService } from './services/auth.service';
 import { CustomerDashboardModule } from './customer-dashboard/customer-dashboard.module';
 import { AdminDashboardModule } from './admin-dashboard/admin-dashboard.module';
 import { AppUiModule } from './app-ui/app-ui.module';
+import { UiModule } from '@egov/cvi-ng';
+import { SearchHomepageModule } from './search-homepage/search-homepage.module';
+import { BookingProcessModule } from './booking-process/booking-process.module';
+import { CustomerBookingsModule } from './customer-bookings/customer-bookings.module';
 
 function initializeKeycloak(keycloak: KeycloakService, authService: AuthService) {
   return () =>
@@ -29,7 +33,18 @@ function initializeKeycloak(keycloak: KeycloakService, authService: AuthService)
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserModule, AppUiModule, AppRoutingModule, CustomerDashboardModule, KeycloakAngularModule, AdminDashboardModule],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    CustomerDashboardModule,
+    KeycloakAngularModule,
+    AdminDashboardModule,
+    BookingProcessModule,
+    UiModule,
+    AppUiModule,
+    SearchHomepageModule,
+    CustomerBookingsModule,
+  ],
   providers: [
     {
       provide: APP_INITIALIZER,

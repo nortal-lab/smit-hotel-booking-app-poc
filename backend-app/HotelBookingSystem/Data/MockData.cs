@@ -5,16 +5,60 @@ namespace HotelBookingSystem.API.Data
 {
     public static class MockData
     {
-        public static List<RoomDto> RoomsHardcoded = new()
+        public static List<Room> RoomsHardcoded = new()
         {
-            new() { RoomId = Guid.NewGuid(), RoomNumber = 101, Capacity = 1, Price = 1.00m },
-            new() { RoomId = Guid.NewGuid(), RoomNumber = 102, Capacity = 2, Price = 10.00m },
-            new() { RoomId = Guid.NewGuid(), RoomNumber = 103, Capacity = 3, Price = 20.00m },
-            new() { RoomId = Guid.NewGuid(), RoomNumber = 201, Capacity = 1, Price = 50.00m },
-            new() { RoomId = Guid.NewGuid(), RoomNumber = 202, Capacity = 2, Price = 100.00m }
+            new()
+            {
+                RoomId = Guid.NewGuid(),
+                RoomNumber = 101,
+                PricePerNight = 22.00m,
+                RoomSizeInSquareMeters = 20,
+                Capacity = 1,
+                NumberOfBeds = 1,
+                IncludedTv = true
+            },
+            new()
+            {
+                RoomId = Guid.NewGuid(),
+                RoomNumber = 102,
+                PricePerNight = 10.00m,
+                RoomSizeInSquareMeters = 30,
+                Capacity = 2,
+                NumberOfBeds = 2,
+                IncludedTv = false
+            },
+            new()
+            {
+                RoomId = Guid.NewGuid(),
+                RoomNumber = 103,
+                PricePerNight = 20.00m,
+                RoomSizeInSquareMeters = 50,
+                Capacity = 3,
+                NumberOfBeds = 3,
+                IncludedTv = false
+            },
+            new()
+            {
+                RoomId = Guid.NewGuid(),
+                RoomNumber = 201,
+                PricePerNight = 50.00m,
+                RoomSizeInSquareMeters = 25,
+                Capacity = 1,
+                NumberOfBeds = 1,
+                IncludedTv = true
+            },
+            new()
+            {
+                RoomId = Guid.NewGuid(),
+                RoomNumber = 202,
+                PricePerNight = 100.00m,
+                RoomSizeInSquareMeters = 60,
+                Capacity = 2,
+                NumberOfBeds = 1,
+                IncludedTv = true
+            }
         };
-
-        public static List<BookingDto> BookingsHardcoded = new()
+        public static List<Booking> BookingsHardcoded = new()
         {
             new()
             {

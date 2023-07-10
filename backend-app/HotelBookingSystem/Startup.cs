@@ -30,7 +30,12 @@ namespace HotelBookingSystem.API
 
             services.AddErrorHandling();
 
+            services.AddApplicationServices();
+            services.AddPersistence();
+
             services.AddSwagger();
+
+            services.AddEndpointsApiExplorer();
         }
 
         public void Configure(IApplicationBuilder app)
