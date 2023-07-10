@@ -3,11 +3,12 @@ import { BookingProcessComponent } from './booking-process.component';
 import { UiModule } from '@egov/cvi-ng';
 import { CommonModule } from '@angular/common';
 import { AvailableRoomsModule } from './available-rooms/available-rooms.module';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [BookingProcessComponent],
   exports: [BookingProcessComponent],
   providers: [],
-  imports: [UiModule, CommonModule, AvailableRoomsModule],
+  imports: [UiModule, CommonModule, AvailableRoomsModule, RouterModule],
 })
 export class BookingProcessModule {}
