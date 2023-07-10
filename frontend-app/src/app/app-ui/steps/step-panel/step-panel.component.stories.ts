@@ -14,10 +14,21 @@ export default {
         category: 'Playground',
       },
     },
+    stepsDirectionalButtonsDisplayed: {
+      name: 'Directional navigation displayed',
+      table: {
+        category: 'Playground',
+      },
+      control: {
+        type: 'boolean'
+      }
+    }
   },
   args: {
     title: 'First step',
+    themed: true,
     content: 'First step content.',
+    stepsDirectionalButtonsDisplayed: true
   },
 } as Meta;
 
@@ -28,9 +39,9 @@ const Template: StoryFn<AppStepPanelComponent> = (args: AppStepPanelComponent) =
   },
   /* template */
   template: `
-    <cvi-app-steps title="Abiellumine" [currentStepIndex]="0">
+    <cvi-app-steps title="Abiellumine" [currentStepIndex]="0" [directionalButtonsDisplayed]="stepsDirectionalButtonsDisplayed">
       <cvi-app-step>
-        <cvi-app-step-panel [title]="title">
+        <cvi-app-step-panel [title]="title" [themed]="themed">
           {{ content }}
         </cvi-app-step-panel>
       </cvi-app-step>
@@ -45,4 +56,12 @@ const Template: StoryFn<AppStepPanelComponent> = (args: AppStepPanelComponent) =
 
 export const Default = {
   render: Template,
+};
+
+export const Unthemed = {
+  ...Default,
+  args: {
+    themed: false, 
+    stepsDirectionalButtonsDisplayed: false
+  }
 };

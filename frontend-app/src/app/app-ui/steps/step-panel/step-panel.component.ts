@@ -22,12 +22,13 @@ export class AppStepPanelComponent implements OnDestroy {
   get title() {
     return this._title;
   }
+  @Input() themed = true;
 
   /** @internal */
   public titleChangeSubject = new ReplaySubject<string>(1);
 
   @HostBinding('class') get getHostClasses(): string {
-    return 'cvi-steps__content-panel';
+    return `${this.themed ? 'cvi-steps__content-panel' : ''}`;
   }
 
   ngOnDestroy(): void {
