@@ -28,6 +28,7 @@ export default {
     title: 'Another step title',
     themed: true,
     disabled: false,
+    titleHidden: false,
     content: 'Another step content.',
     stepsDirectionalButtonsDisplayed: true
   },
@@ -51,8 +52,8 @@ const Template: StoryFn<AppStepPanelComponent> = (args: AppStepPanelComponent) =
           Say ooh la-la come on come on
         </cvi-app-step-panel>
       </cvi-app-step>
-      <cvi-app-step title="Another step">
-        <cvi-app-step-panel [title]="title" [themed]="themed" [disabled]="disabled">
+      <cvi-app-step>
+        <cvi-app-step-panel [title]="title" [themed]="themed" [disabled]="disabled" [titleHidden]="titleHidden">
           {{ content }}
         </cvi-app-step-panel>
       </cvi-app-step>
@@ -67,7 +68,9 @@ export const Default = {
 export const Unthemed = {
   ...Default,
   args: {
+    title: 'Unthemed step panel without navigation and title',
     themed: false, 
+    titleHidden: true,
     stepsDirectionalButtonsDisplayed: false
   }
 };
@@ -75,6 +78,7 @@ export const Unthemed = {
 export const Disabled = {
   ...Default,
   args: {
+    title: 'I am disabled!',
     disabled: true, 
     stepsDirectionalButtonsDisplayed: false
   }

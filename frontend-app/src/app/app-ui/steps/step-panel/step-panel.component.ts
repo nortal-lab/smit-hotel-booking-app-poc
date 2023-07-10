@@ -32,6 +32,7 @@ export class AppStepPanelComponent implements OnDestroy {
     return this._disabled;
   }
   @Input() themed = true;
+  @Input() titleHidden = false;
 
   /** @internal */
   public titleChangeSubject = new ReplaySubject<string>(1);
