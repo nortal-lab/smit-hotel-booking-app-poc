@@ -5,6 +5,7 @@ import { RoomDTO } from '../models/room.interface';
 import { RoomFacade } from '../facades/room.facade';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { AuthService } from '../services/auth.service';
+import { StepsComponent } from '@egov/cvi-ng';
 
 @Component({
   selector: 'app-booking-process',
@@ -34,12 +35,20 @@ export class BookingProcessComponent implements OnInit {
     this.userCredentials$ = this.authService.user$.pipe(map((user) => user.username));
   }
 
-  nextStep() {
-    this.currentStepSubject$.next(this.currentStepSubject$.getValue() + 1);
+  nextStep(stepper: StepsComponent) {
+    stepper.anyStepSelected = true;
+    stepper.currentStepIndex = stepper.currentStepIndex! + 1;
+    stepper.hideStepsContent();
+    stepper.setProgress(stepper.currentStepIndex! + 1);
+    stepper.stepChange.emit(stepper.currentStepIndex);
   }
 
-  cancelBookingProcess() {
-    this.currentStepSubject$.next(0);
+  cancelBookingProcess(stepper: StepsComponent) {
+    stepper.anyStepSelected = true;
+    stepper.currentStepIndex = 0;
+    stepper.hideStepsContent();
+    stepper.setProgress(0);
+    stepper.stepChange.emit(stepper.currentStepIndex);
   }
 
   onStepChange(step: number) {

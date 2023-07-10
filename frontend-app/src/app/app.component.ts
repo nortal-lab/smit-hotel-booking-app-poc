@@ -9,8 +9,6 @@ import { AuthService } from './services/auth.service';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  title = 'frontend-app';
-
   constructor(private registry: IconsRegistry, private readonly authService: AuthService) {
     this.registry.registerIcons([cviLoupe]);
   }
