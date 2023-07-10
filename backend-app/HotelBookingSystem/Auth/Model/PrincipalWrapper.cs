@@ -13,51 +13,11 @@ public class PrincipalWrapper : ICurrentUser
         _principal = principal ?? throw new ArgumentNullException(nameof(principal));
     }
 
-    public string Id
-    {
-        get
-        {
-            return _principal.FindFirst(ClaimTypes.NameIdentifier)!.Value;
-        }
-    }
+    public string Id => _principal.FindFirst(ClaimTypes.NameIdentifier)!.Value;
+    public string Email => _principal.FindFirst(ClaimTypes.Email)!.Value;
+    public string? PersonalIdentificationNumber => _principal.FindFirst(ClaimPersonalIdentificationNumber)?.Value;
 
-    public string Email
-    {
-        get
-        {
-            return _principal.FindFirst(ClaimTypes.Email)!.Value;
-        }
-    }
-
-    public string? PersonalIdentificationNumber
-    {
-        get
-        {
-            return _principal.FindFirst(ClaimPersonalIdentificationNumber)?.Value;
-        }
-    }
-
-    public string FirstName
-    {
-        get
-        {
-            return _principal.FindFirst(ClaimTypes.GivenName)!.Value;
-        }
-    }
-
-    public string LastName
-    {
-        get
-        {
-            return _principal.FindFirst(ClaimTypes.Surname)!.Value;
-        }
-    }
-
-    public string FullName
-    {
-        get
-        {
-            return _principal.FindFirst(ClaimTypes.Name)!.Value;
-        }
-    }
+    public string FirstName => _principal.FindFirst(ClaimTypes.GivenName)!.Value;
+    public string LastName => _principal.FindFirst(ClaimTypes.Surname)!.Value;
+    public string FullName => _principal.FindFirst(ClaimTypes.Name)!.Value;
 }
