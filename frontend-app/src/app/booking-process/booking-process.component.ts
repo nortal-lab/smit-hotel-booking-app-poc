@@ -57,10 +57,10 @@ export class BookingProcessComponent implements OnInit {
     this.setCurrentStepToLocalStorage(stepper.currentStepIndex);
   }
 
-  private setCurrentStepToLocalStorage(currentStep: number) {
+  private setCurrentStepToLocalStorage(currentBookingStep: number) {
     this.localStorage.saveData(
       JSON.stringify({
-        currentStep,
+        currentBookingStep,
       })
     );
   }
