@@ -1,6 +1,6 @@
 export interface SearchProperties {
-  from: string;
-  to: string;
+  dateFrom: string;
+  dateTo: string;
   rooms: number;
   guests: number;
 }

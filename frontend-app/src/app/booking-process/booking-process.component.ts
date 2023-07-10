@@ -16,8 +16,8 @@ import { StepsComponent } from '@egov/cvi-ng';
 export class BookingProcessComponent implements OnInit {
   labels = ['Select room', 'Personal information', 'Confirmation'];
   currentStepSubject$ = new BehaviorSubject(0);
-  dateFrom$ = this.activatedRoute.queryParamMap.pipe(map((paramMap) => paramMap.get('from')));
-  dateTo$ = this.activatedRoute.queryParamMap.pipe(map((paramMap) => paramMap.get('to')));
+  dateFrom$ = this.activatedRoute.queryParamMap.pipe(map((paramMap) => paramMap.get('dateFrom')));
+  dateTo$ = this.activatedRoute.queryParamMap.pipe(map((paramMap) => paramMap.get('dateTo')));
   roomCount$ = this.activatedRoute.queryParamMap.pipe(map((paramMap) => paramMap.get('rooms')));
   guestCount$ = this.activatedRoute.queryParamMap.pipe(map((paramMap) => paramMap.get('guests')));
   availableRooms$?: Observable<RoomDTO>;
