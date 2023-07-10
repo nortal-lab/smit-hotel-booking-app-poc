@@ -10,6 +10,7 @@ import { AdminDashboardModule } from './admin-dashboard/admin-dashboard.module';
 import { UiModule } from '@egov/cvi-ng';
 import { SearchHomepageModule } from './search-homepage/search-homepage.module';
 import { BookingProcessModule } from './booking-process/booking-process.module';
+import { CustomerBookingsModule } from './customer-bookings/customer-bookings.module';
 
 function initializeKeycloak(keycloak: KeycloakService, authService: AuthService) {
   return () =>
@@ -40,6 +41,7 @@ function initializeKeycloak(keycloak: KeycloakService, authService: AuthService)
     BookingProcessModule,
     UiModule,
     SearchHomepageModule,
+    CustomerBookingsModule,
   ],
   providers: [
     {

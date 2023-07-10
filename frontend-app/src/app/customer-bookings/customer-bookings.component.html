@@ -1,0 +1,22 @@
+<div>My reservations</div>
+
+<div *ngIf="customerBookings$ | async as bookings">
+  <div *ngFor="let booking of bookings">
+    <span>{{booking.roomId}}</span>
+    <cvi-ng-button [size]="'m'" [disabled]="false" [appearance]="'primary'" [cviNgModal]="modal" [modalTitle]="'modalTitle'">Cancel</cvi-ng-button>
+    <ng-template #modal let-modal let-title="title">
+      <cvi-ng-confirmation-modal
+        [title]="title"
+        confirmButtonText="Confirm cancellation"
+        cancelButtonText="Back"
+        (cancelled)="modal.closeModal()"
+        (confirmed)="cancelBooking(booking.bookingId, modal.closeModal())"
+      >
+        <p>Are you sure you want to cancel this reservation?</p>
+        <br />
+        <p>All will be lost!!!</p>
+      </cvi-ng-confirmation-modal>
+    </ng-template>
+
+  </div>
+</div>

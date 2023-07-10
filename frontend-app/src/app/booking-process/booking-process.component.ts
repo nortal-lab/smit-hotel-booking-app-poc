@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { combineLatest, EMPTY, map, Observable, switchMap } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { RoomDTO } from '../models/room.interface';
-import { RoomFacade } from '../facades/room.facade';
+import { CustomerFacade } from '../facades/customer.facade';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { AuthService } from '../services/auth.service';
 import { StepsComponent, ToastService } from '@egov/cvi-ng';
@@ -26,7 +26,7 @@ export class BookingProcessComponent implements OnInit {
   userCredentials$?: Observable<string>;
 
   constructor(
-    private readonly roomFacade: RoomFacade,
+    private readonly customerFacade: CustomerFacade,
     private readonly activatedRoute: ActivatedRoute,
     private readonly authService: AuthService,
     private readonly localStorage: LocalStorageService,
@@ -41,7 +41,7 @@ export class BookingProcessComponent implements OnInit {
   ngOnInit() {
     this.availableRooms$ = combineLatest([this.dateFrom$, this.dateTo$, this.roomCount$, this.guestCount$]).pipe(
       switchMap(([dateFrom, dateTo, roomCount, guestCount]) =>
-        dateFrom && dateTo && roomCount && guestCount ? this.roomFacade.getAvailableRooms(dateFrom, dateTo, roomCount, guestCount) : EMPTY
+        dateFrom && dateTo && roomCount && guestCount ? this.customerFacade.getAvailableRooms(dateFrom, dateTo, roomCount, guestCount) : EMPTY
       )
     );
 
