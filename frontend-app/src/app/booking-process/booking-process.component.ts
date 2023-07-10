@@ -5,8 +5,9 @@ import { RoomDTO } from '../models/room.interface';
 import { CustomerFacade } from '../facades/customer.facade';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { AuthService } from '../services/auth.service';
-import { StepsComponent, ToastService } from '@egov/cvi-ng';
+import { NotificationSize, StepsComponent, ToastService } from '@egov/cvi-ng';
 import { LocalStorageService } from '../services/local-storage.service';
+import { NotificationSeverity } from '@egov/cvi-ng/lib/notification/notification';
 
 @Component({
   selector: 'app-booking-process',
@@ -24,6 +25,8 @@ export class BookingProcessComponent implements OnInit {
   guestCount$ = this.activatedRoute.queryParamMap.pipe(map((paramMap) => paramMap.get('guests')));
   availableRooms$?: Observable<RoomDTO>;
   userCredentials$?: Observable<string>;
+  noResultsNotificationSeverity: NotificationSeverity = 'warning';
+  noResultsNotificationSize: NotificationSize = 'regular';
 
   constructor(
     private readonly customerFacade: CustomerFacade,

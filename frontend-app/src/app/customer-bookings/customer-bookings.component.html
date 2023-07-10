@@ -1,22 +1,35 @@
 <div>My reservations</div>
 
 <div *ngIf="customerBookings$ | async as bookings">
-  <div *ngFor="let booking of bookings">
-    <span>{{booking.roomId}}</span>
-    <cvi-ng-button [size]="'m'" [disabled]="false" [appearance]="'primary'" [cviNgModal]="modal" [modalTitle]="'modalTitle'">Cancel</cvi-ng-button>
-    <ng-template #modal let-modal let-title="title">
-      <cvi-ng-confirmation-modal
-        [title]="title"
-        confirmButtonText="Confirm cancellation"
-        cancelButtonText="Back"
-        (cancelled)="modal.closeModal()"
-        (confirmed)="cancelBooking(booking.bookingId, modal.closeModal())"
-      >
-        <p>Are you sure you want to cancel this reservation?</p>
-        <br />
-        <p>All will be lost!!!</p>
-      </cvi-ng-confirmation-modal>
-    </ng-template>
+  <ng-container *ngIf="bookings.length > 0; else noResultsPlaceholder">
+    <div *ngFor="let booking of bookings">
+      <span>{{ booking.roomId }}</span>
+      <cvi-ng-button [size]="'m'" [disabled]="false" [appearance]="'primary'" [cviNgModal]="modal" [modalTitle]="'modalTitle'">Cancel</cvi-ng-button>
+      <ng-template #modal let-modal let-title="title">
+        <cvi-ng-confirmation-modal
+          [title]="title"
+          confirmButtonText="Confirm cancellation"
+          cancelButtonText="Back"
+          (cancelled)="modal.closeModal()"
+          (confirmed)="cancelBooking(booking.bookingId, modal.closeModal())">
+          <p>Are you sure you want to cancel this reservation?</p>
+          <br />
+          <p>All will be lost!!!</p>
+        </cvi-ng-confirmation-modal>
+      </ng-template>
+    </div>
+  </ng-container>
 
-  </div>
+  <ng-template #noResultsPlaceholder>
+    <cvi-ng-notification
+      [severity]="noResultsNotificationSeverity"
+      [size]="noResultsNotificationSize"
+      [showCloseButton]="false"
+      [showIcon]="false"
+      title="No current reservations">
+      You do not have any reservations yet. If you made a reservation and it does not appear on this page, please contact our customer support for additional
+      information +372 612 62.
+      <a routerLink="/">Back to the homepage.</a>
+    </cvi-ng-notification>
+  </ng-template>
 </div>
