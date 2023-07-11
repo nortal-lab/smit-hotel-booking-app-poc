@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { SearchProperties } from '../models/search-properties.interface';
 import { ToastService } from '@egov/cvi-ng';
@@ -8,6 +8,7 @@ import { LocalStorageService } from '../services/local-storage.service';
   selector: 'app-customer-dashboard',
   templateUrl: './search-homepage.component.html',
   styleUrls: ['./search-homepage.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SearchHomepageComponent {
   constructor(private readonly router: Router, private readonly toastService: ToastService, private readonly localStorage: LocalStorageService) {

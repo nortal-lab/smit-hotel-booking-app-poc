@@ -27,6 +27,11 @@ export class BookingProcessComponent implements OnInit {
   userCredentials$?: Observable<string>;
   noResultsNotificationSeverity: NotificationSeverity = 'warning';
   noResultsNotificationSize: NotificationSize = 'regular';
+  signInNotificationSeverity: NotificationSeverity = 'info';
+  signInNotificationSize: NotificationSize = 'compact';
+  confirmationNotificationSeverity: NotificationSeverity = 'success';
+  confirmationNotificationSize: NotificationSize = 'regular';
+  showConfirmationNotification = false;
 
   constructor(
     private readonly customerFacade: CustomerFacade,
@@ -37,7 +42,7 @@ export class BookingProcessComponent implements OnInit {
   ) {}
 
   private getInitialCurrentStep() {
-    const currentStep = JSON.parse(this.localStorage.getData() || 'null')?.currentStep;
+    const currentStep = JSON.parse(this.localStorage.getData() || 'null')?.currentBookingStep;
     return currentStep ?? 0;
   }
 
@@ -86,5 +91,10 @@ export class BookingProcessComponent implements OnInit {
     this.authService.login().catch(() => {
       this.toastService.error('An error has happened. Please, try again in a while or contact administrator.');
     });
+  }
+
+  confirmBooking() {
+    this.showConfirmationNotification = true;
+    this.onStepChange(0);
   }
 }
