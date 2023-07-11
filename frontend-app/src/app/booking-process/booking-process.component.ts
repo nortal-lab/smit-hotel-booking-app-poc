@@ -5,9 +5,10 @@ import { RoomDTO } from '../models/room.interface';
 import { CustomerFacade } from '../facades/customer.facade';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { AuthService } from '../services/auth.service';
-import { NotificationSize, StepsComponent, ToastService } from '@egov/cvi-ng';
+import { NotificationSize, ToastService } from '@egov/cvi-ng';
 import { LocalStorageService } from '../services/local-storage.service';
 import { NotificationSeverity } from '@egov/cvi-ng/lib/notification/notification';
+import { AppStepsComponent } from '../app-ui/steps/steps/steps.component';
 
 @Component({
   selector: 'app-booking-process',
@@ -56,7 +57,7 @@ export class BookingProcessComponent implements OnInit {
     this.userCredentials$ = this.authService.user$.pipe(map((user) => user.username));
   }
 
-  nextStep(stepper: StepsComponent) {
+  nextStep(stepper: AppStepsComponent) {
     stepper.anyStepSelected = true;
     stepper.currentStepIndex = stepper.currentStepIndex! + 1;
     stepper.hideStepsContent();
@@ -73,7 +74,7 @@ export class BookingProcessComponent implements OnInit {
     );
   }
 
-  cancelBookingProcess(stepper: StepsComponent) {
+  cancelBookingProcess(stepper: AppStepsComponent) {
     stepper.anyStepSelected = true;
     stepper.currentStepIndex = 0;
     stepper.hideStepsContent();

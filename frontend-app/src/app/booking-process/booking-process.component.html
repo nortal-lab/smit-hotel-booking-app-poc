@@ -2,21 +2,22 @@
   <ng-container *ngIf="!showConfirmationNotification; else confirmationNotification">
     <ng-container *ngIf="availableRooms$ | async as availableRooms">
       <ng-container *ngIf="[availableRooms].length > 0; else noResultsPlaceholder">
-        <cvi-ng-steps
+        <cvi-app-steps
           #stepper
           [title]="'Select Room'"
           [currentStepIndex]="context.currentStep"
           [hasTableOfContents]="false"
+          [directionalButtonsDisplayed]="false"
           (stepChange)="onStepChange($event)">
-          <cvi-ng-step>
-            <cvi-ng-step-panel [title]="labels[0]">
+          <cvi-app-step>
+            <cvi-app-step-panel [title]="labels[0]" [titleHidden]="true">
               <ng-container>
                 <app-available-rooms [rooms]="[availableRooms]" (onClick)="nextStep(stepper)"></app-available-rooms>
               </ng-container>
-            </cvi-ng-step-panel>
-          </cvi-ng-step>
-          <cvi-ng-step>
-            <cvi-ng-step-panel [title]="labels[1]">
+            </cvi-app-step-panel>
+          </cvi-app-step>
+          <cvi-app-step>
+            <cvi-app-step-panel [title]="labels[1]" [titleHidden]="true" [disabled]="context.currentStep < 1">
               <ng-container *ngIf="userCredentials$ | async as userCredentials; else loginButton">
                 <span>{{ userCredentials }}</span>
                 <cvi-ng-button [size]="'m'" [disabled]="false" [appearance]="'primary'" (click)="cancelBookingProcess(stepper)">Cancel</cvi-ng-button>
@@ -32,16 +33,16 @@
                   <a (click)="login()" class="booking-process-link">Sign In</a> to continue with booking.
                 </cvi-ng-notification>
               </ng-template>
-            </cvi-ng-step-panel>
-          </cvi-ng-step>
-          <cvi-ng-step>
-            <cvi-ng-step-panel [title]="labels[2]">
+            </cvi-app-step-panel>
+          </cvi-app-step>
+          <cvi-app-step>
+            <cvi-app-step-panel [title]="labels[2]" [titleHidden]="true" [disabled]="context.currentStep < 2">
               <div>confirmation view</div>
               <cvi-ng-button [size]="'m'" [disabled]="false" [appearance]="'primary'" (click)="cancelBookingProcess(stepper)">Cancel</cvi-ng-button>
               <cvi-ng-button [size]="'m'" [disabled]="false" [appearance]="'primary'" (click)="confirmBooking()">Confirm Booking</cvi-ng-button>
-            </cvi-ng-step-panel>
-          </cvi-ng-step>
-        </cvi-ng-steps>
+            </cvi-app-step-panel>
+          </cvi-app-step>
+        </cvi-app-steps>
       </ng-container>
     </ng-container>
   </ng-container>
