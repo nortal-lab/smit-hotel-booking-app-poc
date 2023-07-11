@@ -27,16 +27,12 @@ const routes: Routes = [
         component: CustomerBookingsComponent,
         canActivate: [AuthGuard, CustomerGuard],
       },
+      {
+        path: 'admin',
+        component: AdminDashboardComponent,
+        canActivate: [AuthGuard, AdminGuard],
+      },
     ],
-  },
-  {
-    path: '**',
-    redirectTo: '/',
-  },
-  {
-    path: 'admin',
-    component: AdminDashboardComponent,
-    canActivate: [AuthGuard, AdminGuard],
   },
 ];
 

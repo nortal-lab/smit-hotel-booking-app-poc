@@ -7,8 +7,8 @@ import { CustomerService } from '../services/customer.service';
 export class CustomerFacade {
   constructor(private readonly customerService: CustomerService) {}
 
-  getAvailableRooms(dateFrom: string, dateTo: string, roomCount: string, guestCount: string) {
-    return this.customerService.getAvailableRooms(dateFrom, dateTo, roomCount, guestCount);
+  getAvailableRooms(dateFrom: string, dateTo: string, guestCount: string) {
+    return this.customerService.getAvailableRooms(dateFrom, dateTo, guestCount);
   }
 
   getBookings() {

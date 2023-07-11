@@ -50,7 +50,7 @@ export class BookingProcessComponent implements OnInit {
   ngOnInit() {
     this.availableRooms$ = combineLatest([this.dateFrom$, this.dateTo$, this.roomCount$, this.guestCount$]).pipe(
       switchMap(([dateFrom, dateTo, roomCount, guestCount]) =>
-        dateFrom && dateTo && roomCount && guestCount ? this.customerFacade.getAvailableRooms(dateFrom, dateTo, roomCount, guestCount) : EMPTY
+        dateFrom && dateTo && roomCount && guestCount ? this.customerFacade.getAvailableRooms(dateFrom, dateTo, guestCount) : EMPTY
       )
     );
 
