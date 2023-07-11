@@ -1,0 +1,28 @@
+@import '@egov/cvi-styles/settings/variables/breakpoints';
+@import '@egov/cvi-styles/settings/mixins';
+
+.cvi-steps__list-item--is-disabled {
+  @include cvi-breakpoint-up(sm) {
+    &:hover, &:focus {
+      // default non-hover style – should be turned into a variable in CVI...
+      filter: url('#round') drop-shadow(0 1px 5px rgba(var(--cvi-color-rgb-black) / 15%));
+    }
+
+    .cvi-steps__list-item-inner {
+      color: var(--cvi-color-black-coral-12);
+
+      &::before {
+        border-style: dashed;
+      }
+    }
+
+    .cvi-steps__list-item-button {
+      background-color: var(--cvi-color-black-coral-2);
+      cursor: default;
+    }
+
+    .cvi-steps__list-item-title {
+      text-decoration: none;
+    }
+  }
+}
