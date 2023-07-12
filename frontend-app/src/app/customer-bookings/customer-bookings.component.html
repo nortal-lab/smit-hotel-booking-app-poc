@@ -5,16 +5,14 @@
     <div *ngFor="let booking of bookings">
       <span>{{ booking.roomId }}</span>
       <cvi-ng-button [size]="'m'" [disabled]="false" [appearance]="'primary'" [cviNgModal]="modal" [modalTitle]="'modalTitle'">Cancel</cvi-ng-button>
-      <ng-template #modal let-modal let-title="title">
+      <ng-template #modal let-modal>
         <cvi-ng-confirmation-modal
-          [title]="title"
+          [title]="'Are you sure you want to cancel this reservation?'"
           confirmButtonText="Confirm cancellation"
           cancelButtonText="Back"
           (cancelled)="modal.closeModal()"
           (confirmed)="cancelBooking(booking.bookingId, modal.closeModal())">
-          <p>Are you sure you want to cancel this reservation?</p>
-          <br />
-          <p>All will be lost!!!</p>
+          <p>You are able to cancel reservation at least 3 days before your stay and you will be fully refunded.</p>
         </cvi-ng-confirmation-modal>
       </ng-template>
     </div>
