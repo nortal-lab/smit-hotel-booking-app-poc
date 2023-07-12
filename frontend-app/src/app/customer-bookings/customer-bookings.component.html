@@ -1,3 +1,4 @@
+<cvi-ng-breadcrumbs [breadcrumbLabels]="['Home', 'My Reservations']" (breadcrumbChange)="changeBreadcrumb($event)"></cvi-ng-breadcrumbs>
 <div>My reservations</div>
 
 <div *ngIf="customerBookings$ | async as bookings">

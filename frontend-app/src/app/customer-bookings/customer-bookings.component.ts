@@ -4,6 +4,7 @@ import { CustomerFacade } from '../facades/customer.facade';
 import { Booking } from '../models/booking.interface';
 import { NotificationSeverity } from '@egov/cvi-ng/lib/notification/notification';
 import { NotificationSize } from '@egov/cvi-ng';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-customer-bookings',
@@ -16,7 +17,7 @@ export class CustomerBookingsComponent implements OnInit {
   noResultsNotificationSeverity: NotificationSeverity = 'warning';
   noResultsNotificationSize: NotificationSize = 'regular';
 
-  constructor(private readonly customerFacade: CustomerFacade) {}
+  constructor(private readonly customerFacade: CustomerFacade, private readonly router: Router) {}
 
   ngOnInit() {
     this.getCustomerBookings();
@@ -35,5 +36,11 @@ export class CustomerBookingsComponent implements OnInit {
         tap(() => closeModal)
       )
       .subscribe();
+  }
+
+  changeBreadcrumb(index: number) {
+    if (index === 0) {
+      this.router.navigate(['/']);
+    }
   }
 }

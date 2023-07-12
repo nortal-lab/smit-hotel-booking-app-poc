@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { combineLatest, EMPTY, map, Observable, switchMap, take, tap } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Room } from '../models/room.interface';
 import { CustomerFacade } from '../facades/customer.facade';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
@@ -42,7 +42,8 @@ export class BookingProcessComponent implements OnInit {
     private readonly activatedRoute: ActivatedRoute,
     private readonly authService: AuthService,
     private readonly localStorage: LocalStorageService,
-    private readonly toastService: ToastService
+    private readonly toastService: ToastService,
+    private readonly router: Router
   ) {}
 
   private getInitialCurrentStep() {
@@ -120,6 +121,12 @@ export class BookingProcessComponent implements OnInit {
         })
       )
       .subscribe();
+  }
+
+  changeBreadcrumb(index: number) {
+    if (index === 0) {
+      this.router.navigate(['/']);
+    }
   }
 }
 
