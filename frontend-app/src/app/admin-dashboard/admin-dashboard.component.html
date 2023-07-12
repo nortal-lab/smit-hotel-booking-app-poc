@@ -9,21 +9,19 @@
         </ng-container>
       </ng-template>
       <ng-template #rows let-row>
-        <td cvi-ng-body-cell>{{ 23465856 }}</td>
+        <td cvi-ng-body-cell>{{ row.bookingId }}</td>
         <td cvi-ng-body-cell>
           {{ '256 (Deluxe)' }}
         </td>
         <td cvi-ng-body-cell>{{ 'guest' }}</td>
         <td cvi-ng-body-cell>{{ row.startDate | dateFormat }}-{{ row.endDate | dateFormat }}</td>
         <td cvi-ng-body-cell>
-          <cvi-ng-button size="s" [disabled]="false" appearance="text">Cancel</cvi-ng-button>
+          <cvi-ng-button size="s" [disabled]="false" appearance="text" (clickEvent)="cancelBooking(row.bookingId)">Cancel</cvi-ng-button>
         </td>
       </ng-template>
     </cvi-ng-table>
   </cvi-ng-tab>
   <cvi-ng-tab title="Rooms">
-    <div *ngFor="let room of rooms$ | async">
-      <div>{{ room | json }}</div>
-    </div>
+    <app-available-rooms [rooms]="rooms$ | async" buttonTitle="Cancel" [showButton]="false"></app-available-rooms>
   </cvi-ng-tab>
 </cvi-ng-tab-group>

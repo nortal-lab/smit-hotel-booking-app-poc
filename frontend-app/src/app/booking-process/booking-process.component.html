@@ -11,7 +11,7 @@
           (stepChange)="onStepChange($event)">
           <cvi-ng-track horizontalAlignment="right" class="sorting-container" *ngIf="context.currentStep === 0">
             <span class="sorting-label">Sort by:</span>
-            <cvi-ng-select [items]="availableRoomsSortingItems" [ngModel]="availableRoomsSortingItems[0]"></cvi-ng-select>
+            <cvi-ng-select [items]="availableRoomsSortingItems" [ngModel]="availableRoomsSortingItems[0]" (ngModelChange)="changeSort($event)"></cvi-ng-select>
           </cvi-ng-track>
           <cvi-app-step>
             <cvi-app-step-panel [title]="labels[0]" [titleHidden]="true">
