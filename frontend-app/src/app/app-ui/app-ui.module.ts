@@ -9,13 +9,21 @@ import { AppStepComponent } from './steps/step/step.component';
 import { AppStepPanelComponent } from './steps/step-panel/step-panel.component';
 import { BookingCardComponent } from './booking-card/booking-card.component';
 import { PageContentWrapperComponent } from './page-content-wrapper/page-content-wrapper.component';
+import { BookingSidebarComponent } from './booking-sidebar/booking-sidebar.component';
+import { DataSectionComponent } from './data-section/data-section.component';
+import { DefinitionTableComponent } from './definition-table/definition-table.component';
+import { DefinitionItemComponent } from './definition-item/definition-item.component';
 
 const components = [
   AppStepsComponent,
   AppStepComponent,
   AppStepPanelComponent,
   BookingCardComponent,
-  PageContentWrapperComponent
+  PageContentWrapperComponent,
+  BookingSidebarComponent,
+  DataSectionComponent,
+  DefinitionTableComponent,
+  DefinitionItemComponent,
 ];
 
 @NgModule({
