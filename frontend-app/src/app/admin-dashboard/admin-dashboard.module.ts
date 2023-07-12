@@ -2,12 +2,13 @@ import { NgModule } from '@angular/core';
 import { AdminDashboardComponent } from './admin-dashboard.component';
 import { UiModule } from '@egov/cvi-ng';
 import { FormsModule } from '@angular/forms';
-import { AsyncPipe, JsonPipe, NgForOf, NgIf } from '@angular/common';
+import { CommonModule } from '@angular/common';
+import { DateFormatPipe } from '../shared/pipes/date-format.pipe';
 
 @NgModule({
-  declarations: [AdminDashboardComponent],
+  declarations: [AdminDashboardComponent, DateFormatPipe],
   exports: [AdminDashboardComponent],
   providers: [],
-  imports: [UiModule, FormsModule, NgIf, AsyncPipe, JsonPipe, NgForOf],
+  imports: [UiModule, FormsModule, CommonModule],
 })
 export class AdminDashboardModule {}

@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { combineLatest, EMPTY, map, Observable, switchMap } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
-import { RoomDTO } from '../models/room.interface';
+import { Room } from '../models/room.interface';
 import { CustomerFacade } from '../facades/customer.facade';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { AuthService } from '../services/auth.service';
@@ -18,13 +18,14 @@ import { AppStepsComponent } from '../app-ui/steps/steps/steps.component';
 })
 export class BookingProcessComponent implements OnInit {
   labels = ['Select room', 'Personal information', 'Confirmation'];
+  availableRoomsSortingItems = ['Price (low to high)', 'Price (high to low)'];
   initialCurrentStep = this.getInitialCurrentStep();
   currentStepSubject$ = new BehaviorSubject(this.initialCurrentStep);
   dateFrom$ = this.activatedRoute.queryParamMap.pipe(map((paramMap) => paramMap.get('dateFrom')));
   dateTo$ = this.activatedRoute.queryParamMap.pipe(map((paramMap) => paramMap.get('dateTo')));
   roomCount$ = this.activatedRoute.queryParamMap.pipe(map((paramMap) => paramMap.get('rooms')));
   guestCount$ = this.activatedRoute.queryParamMap.pipe(map((paramMap) => paramMap.get('guests')));
-  availableRooms$?: Observable<RoomDTO>;
+  availableRooms$?: Observable<Room[]>;
   userCredentials$?: Observable<string>;
   noResultsNotificationSeverity: NotificationSeverity = 'warning';
   noResultsNotificationSize: NotificationSize = 'regular';
@@ -50,7 +51,7 @@ export class BookingProcessComponent implements OnInit {
   ngOnInit() {
     this.availableRooms$ = combineLatest([this.dateFrom$, this.dateTo$, this.roomCount$, this.guestCount$]).pipe(
       switchMap(([dateFrom, dateTo, roomCount, guestCount]) =>
-        dateFrom && dateTo && roomCount && guestCount ? this.customerFacade.getAvailableRooms(dateFrom, dateTo, roomCount, guestCount) : EMPTY
+        dateFrom && dateTo && roomCount && guestCount ? this.customerFacade.getAvailableRooms(dateFrom, dateTo, guestCount) : EMPTY
       )
     );
 

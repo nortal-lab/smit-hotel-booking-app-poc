@@ -7,10 +7,12 @@ import { Booking } from '../models/booking.interface';
   providedIn: 'root',
 })
 export class CustomerService {
+  apiPath = '/api';
+
   constructor(private readonly http: HttpClient) {}
 
-  getAvailableRooms(dateFrom: string, dateTo: string, roomCount: string, guestCount: string) {
-    return this.http.get<RoomDTO>('/api/rooms/available', {
+  getAvailableRooms(dateFrom: string, dateTo: string, guestCount: string) {
+    return this.http.get<RoomDTO[]>(`${this.apiPath}/rooms/available`, {
       params: {
         startDate: dateFrom,
         endDate: dateTo,
@@ -19,10 +21,6 @@ export class CustomerService {
   }
 
   getBookings() {
-    return this.http.get<Booking[]>('/api/bookings');
-  }
-
-  getEmployeeBookings() {
-    return this.http.get('/api/employee/bookings/active');
+    return this.http.get<Booking[]>(`${this.apiPath}/bookings`);
   }
 }

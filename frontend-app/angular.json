@@ -17,6 +17,11 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "allowedCommonJsDependencies": [
+              "base64-js",
+              "js-sha256",
+              "sanitize-html"
+            ],
             "outputPath": "dist/frontend-app",
             "index": "src/index.html",
             "main": "src/main.ts",

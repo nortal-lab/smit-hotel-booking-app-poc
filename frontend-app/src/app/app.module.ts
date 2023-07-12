@@ -12,6 +12,7 @@ import { UiModule } from '@egov/cvi-ng';
 import { SearchHomepageModule } from './search-homepage/search-homepage.module';
 import { BookingProcessModule } from './booking-process/booking-process.module';
 import { CustomerBookingsModule } from './customer-bookings/customer-bookings.module';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 function initializeKeycloak(keycloak: KeycloakService, authService: AuthService) {
   return () =>
@@ -24,7 +25,6 @@ function initializeKeycloak(keycloak: KeycloakService, authService: AuthService)
         },
         initOptions: {
           onLoad: 'check-sso',
-          checkLoginIframe: false,
         },
         loadUserProfileAtStartUp: false,
       })
@@ -44,6 +44,7 @@ function initializeKeycloak(keycloak: KeycloakService, authService: AuthService)
     AppUiModule,
     SearchHomepageModule,
     CustomerBookingsModule,
+    FontAwesomeModule,
   ],
   providers: [
     {

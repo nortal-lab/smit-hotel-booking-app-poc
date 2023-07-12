@@ -7,5 +7,6 @@ namespace HotelBookingSystem.API.Data.BookingRepository
         public List<Booking> GetAllBookings();
         public Booking? GetBookingById(Guid bookingId);
         public bool RemoveBookingById(Guid bookingId);
+        public void CreateBooking(Booking booking);
     }
 }

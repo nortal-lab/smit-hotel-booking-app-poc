@@ -1,0 +1,13 @@
+:host {
+  display: block;
+  box-shadow: var(--cvi-shadow-beta);
+  background-color: var(--cvi-color-white);
+  padding-inline: var(--cvi-spacing-parnu);
+  padding-block: var(--cvi-spacing-viljandi);
+  border-radius: var(--cvi-radius-s);
+}
+
+.inner {
+  max-width: 780px;
+  margin-inline: auto;
+}

@@ -1,4 +1,30 @@
-<div *ngFor="let room of rooms">
-  <span>{{room.roomId}}</span>
-  <cvi-ng-button (clickEvent)="click()">Book</cvi-ng-button>
-</div>
+<ng-container *ngFor="let room of rooms">
+  <app-booking-card
+    class="room"
+    [img]="roomImage"
+    [title]="room.roomType | roomType"
+    summary="1 night / {{ room.peopleCapacity }} adults"
+    [price]="room.pricePerNight"
+    currency="€">
+    <div>
+      <cvi-ng-track [gap]="4" class="room-details-wrapper">
+        <div class="room-details"><fa-icon [icon]="faUser"></fa-icon>{{ room.peopleCapacity }} {{ room.peopleCapacity > 1 ? 'people' : 'person' }}</div>
+        <div class="room-details"><fa-icon [icon]="faBed"></fa-icon> {{ room.bedsType | bedType }}</div>
+        <div class="room-details"><fa-icon [icon]="faRulerCombined"></fa-icon>{{ room.roomSizeInSquareMeters }} m²</div>
+      </cvi-ng-track>
+      <div>
+        <span *ngIf="room.airConditioning" class="room-feature">air conditioning • </span>
+        <span *ngIf="room.balcony" class="room-feature">balcony • </span>
+        <span *ngIf="room.bathrobeAndSlippers" class="room-feature">bathrobe and slippers • </span>
+        <span *ngIf="room.freeBottledWater" class="room-feature">free bottle watter • </span>
+        <span *ngIf="room.freeWiFi" class="room-feature">free WI-FI • </span>
+        <span *ngIf="room.inRoomSafe" class="room-feature">in-room safe • </span>
+        <span *ngIf="room.ironAndIroningBoard" class="room-feature">iron and ironing board • </span>
+        <span *ngIf="room.professionalHairDryer" class="room-feature">professional hair dryer • </span>
+        <span *ngIf="room.rainShower" class="room-feature">rain shower • </span>
+        <span *ngIf="room.smartTV" class="room-feature">smart TV</span>
+      </div>
+    </div>
+    <cvi-ng-button (clickEvent)="click()" cvi-ng-button>Book</cvi-ng-button>
+  </app-booking-card>
+</ng-container>
