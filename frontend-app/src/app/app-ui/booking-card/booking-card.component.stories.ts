@@ -26,7 +26,8 @@ const meta: Meta<BookingCardComponent & { content: string }> = {
       src: 'https://i.imgur.com/r8ySn9d.jpeg'
     },
     summary: '1 night/2 adults',
-    price: '87€'
+    price: '87€',
+    badgeLabel: 'In 5 months'
   },
 };
 
@@ -43,7 +44,7 @@ export const Default: Story = {
     /* template */
     template: `
       <cvi-ng-track flexDirection="vertical" [gap]="4">
-        <app-booking-card [title]="title" [price]="price" [img]="img" [summary]="summary">
+        <app-booking-card [title]="title" [price]="price" [img]="img" [summary]="summary" [badgeLabel]="badgeLabel">
           anywhere mother heard branch drink plant previous younger put hurried disappear cake nodded voyage direct tribe war former paragraph successful oil determine noted leaving
           <cvi-ng-button>View</cvi-ng-button>
         </app-booking-card>
