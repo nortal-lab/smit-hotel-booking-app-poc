@@ -24,6 +24,7 @@ function initializeKeycloak(keycloak: KeycloakService, authService: AuthService)
         },
         initOptions: {
           onLoad: 'check-sso',
+          pkceMethod: 'S256',
         },
         loadUserProfileAtStartUp: false,
       })
