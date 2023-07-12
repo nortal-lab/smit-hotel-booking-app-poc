@@ -1,5 +1,7 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
-import { RoomDTO } from '../../models/room.interface';
+import { Room } from '../../models/room.interface';
+import { UiImage } from '../../models/ui/Image.type';
+import { faBed, faRulerCombined, faUser } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-available-rooms',
@@ -8,9 +10,17 @@ import { RoomDTO } from '../../models/room.interface';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AvailableRoomsComponent {
-  @Input() rooms?: RoomDTO[];
+  @Input() rooms?: Room[];
 
   @Output() onClick = new EventEmitter<void>();
+
+  protected readonly faUser = faUser;
+  protected readonly faBed = faBed;
+  protected readonly faRulerCombined = faRulerCombined;
+  roomImage: UiImage = {
+    src: '/assets/images/room.jpg',
+    alt: 'Room Image',
+  };
 
   click() {
     this.onClick.emit();

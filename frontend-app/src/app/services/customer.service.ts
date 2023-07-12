@@ -12,7 +12,7 @@ export class CustomerService {
   constructor(private readonly http: HttpClient) {}
 
   getAvailableRooms(dateFrom: string, dateTo: string, guestCount: string) {
-    return this.http.get<RoomDTO>(`${this.apiPath}/rooms/available`, {
+    return this.http.get<RoomDTO[]>(`${this.apiPath}/rooms/available`, {
       params: {
         startDate: dateFrom,
         endDate: dateTo,
