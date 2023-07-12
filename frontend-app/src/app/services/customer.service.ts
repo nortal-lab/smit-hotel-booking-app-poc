@@ -31,4 +31,8 @@ export class CustomerService {
       endDate: '2023-07-22',
     });
   }
+
+  cancelBooking(bookingId: string) {
+    return this.http.delete(`${this.apiPath}/bookings/${bookingId}`);
+  }
 }

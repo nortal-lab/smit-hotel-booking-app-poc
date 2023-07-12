@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { EmployeeService } from '../services/employee.service';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
-import { shareReplay, tap } from 'rxjs';
+import { catchError, of, shareReplay, tap } from 'rxjs';
 import { Booking } from '../models/booking.interface';
+import { ToastService } from '@egov/cvi-ng';
 
 @Injectable({
   providedIn: 'root',
@@ -11,7 +12,7 @@ export class EmployeeFacade {
   activeBookings = new BehaviorSubject<Booking[]>([]);
   activeBookings$ = this.activeBookings.asObservable();
 
-  constructor(private readonly employeeService: EmployeeService) {}
+  constructor(private readonly employeeService: EmployeeService, private readonly toastService: ToastService) {}
 
   getRooms() {
     return this.employeeService.getRooms();
@@ -27,7 +28,10 @@ export class EmployeeFacade {
   cancelBooking(bookingId: string) {
     this.employeeService
       .cancelBooking(bookingId)
-      .pipe(tap(() => this.removeBookingFromActiveBookings(bookingId)))
+      .pipe(
+        tap(() => this.removeBookingFromActiveBookings(bookingId)),
+        catchError(() => of(this.toastService.error('Unable to cancel booking, please contact system Administrator.')))
+      )
       .subscribe();
   }
 
