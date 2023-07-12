@@ -1,8 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { AuthService } from '../services/auth.service';
 import { Observable } from 'rxjs';
-import { User } from '../models/user.interface';
-import { CustomerService } from '../services/customer.service';
+import { EmployeeService } from '../services/employee.service';
 
 @Component({
   selector: 'app-customer-dashboard',
@@ -11,24 +9,22 @@ import { CustomerService } from '../services/customer.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AdminDashboardComponent implements OnInit {
-  user$?: Observable<User>;
-  results$?: Observable<any>;
-  constructor(private readonly authService: AuthService, private readonly roomService: CustomerService) {}
+  bookings$?: Observable<any>;
+  rooms$?: Observable<any>;
+  reservationsTableHeaderLabels = ['Booking No.', 'Room', 'Guest', 'Dates'];
+
+  constructor(private readonly employeeService: EmployeeService) {}
 
   ngOnInit() {
-    this.user$ = this.authService.user$;
-    this.results$ = this.getEmployeeBookings();
+    this.bookings$ = this.getBookings();
+    this.rooms$ = this.getRooms();
   }
 
-  getEmployeeBookings() {
-    return this.roomService.getEmployeeBookings();
+  getBookings() {
+    return this.employeeService.getActiveBookings();
   }
 
-  login() {
-    this.authService.login();
-  }
-
-  logout() {
-    this.authService.logout();
+  getRooms() {
+    return this.employeeService.getRooms();
   }
 }
