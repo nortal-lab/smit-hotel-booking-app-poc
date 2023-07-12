@@ -9,21 +9,29 @@
         </ng-container>
       </ng-template>
       <ng-template #rows let-row>
-        <td cvi-ng-body-cell>{{ 23465856 }}</td>
+        <td cvi-ng-body-cell>{{ row.bookingId }}</td>
         <td cvi-ng-body-cell>
           {{ '256 (Deluxe)' }}
         </td>
         <td cvi-ng-body-cell>{{ 'guest' }}</td>
         <td cvi-ng-body-cell>{{ row.startDate | dateFormat }}-{{ row.endDate | dateFormat }}</td>
         <td cvi-ng-body-cell>
-          <cvi-ng-button size="s" [disabled]="false" appearance="text">Cancel</cvi-ng-button>
+          <cvi-ng-button size="s" [disabled]="false" appearance="text" [cviNgModal]="modal">Cancel</cvi-ng-button>
+          <ng-template #modal let-modal>
+            <cvi-ng-confirmation-modal
+              title="Are you sure you want to cancel this reservation?"
+              confirmButtonText="Confirm cancellation"
+              cancelButtonText="Back"
+              (cancelled)="modal.closeModal()"
+              (confirmed)="cancelBooking(row.bookingId, modal.closeModal())">
+              <p>You are able to cancel reservation at least 3 days before the guest checks-in and the guest will be fully refunded.</p>
+            </cvi-ng-confirmation-modal>
+          </ng-template>
         </td>
       </ng-template>
     </cvi-ng-table>
   </cvi-ng-tab>
   <cvi-ng-tab title="Rooms">
-    <div *ngFor="let room of rooms$ | async">
-      <div>{{ room | json }}</div>
-    </div>
+    <app-available-rooms [rooms]="rooms$ | async" buttonTitle="Cancel" [showButton]="false"></app-available-rooms>
   </cvi-ng-tab>
 </cvi-ng-tab-group>

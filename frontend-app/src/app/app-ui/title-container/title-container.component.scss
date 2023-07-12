@@ -1,0 +1,11 @@
+:host {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.title {
+  color: var(--cvi-color-black-coral-10);
+  font-size: var(--cvi-font-size-350);
+}

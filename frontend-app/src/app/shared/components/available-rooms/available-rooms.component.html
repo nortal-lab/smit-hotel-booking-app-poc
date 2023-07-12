@@ -25,6 +25,6 @@
         <span *ngIf="room.smartTV" class="room-feature">smart TV</span>
       </div>
     </div>
-    <cvi-ng-button (clickEvent)="click()" cvi-ng-button>Book</cvi-ng-button>
+    <cvi-ng-button *ngIf="showButton" (clickEvent)="click()" cvi-ng-button="">{{ buttonTitle }}</cvi-ng-button>
   </app-booking-card>
 </ng-container>

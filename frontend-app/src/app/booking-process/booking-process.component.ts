@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { combineLatest, EMPTY, map, Observable, switchMap } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
+import { combineLatest, EMPTY, map, Observable, switchMap, take, tap } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Room } from '../models/room.interface';
 import { CustomerFacade } from '../facades/customer.facade';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
@@ -9,6 +9,7 @@ import { NotificationSize, ToastService } from '@egov/cvi-ng';
 import { LocalStorageService } from '../services/local-storage.service';
 import { NotificationSeverity } from '@egov/cvi-ng/lib/notification/notification';
 import { AppStepsComponent } from '../app-ui/steps/steps/steps.component';
+import { SortOrder } from '../models/sort-order.enum';
 
 @Component({
   selector: 'app-booking-process',
@@ -18,7 +19,7 @@ import { AppStepsComponent } from '../app-ui/steps/steps/steps.component';
 })
 export class BookingProcessComponent implements OnInit {
   labels = ['Select room', 'Personal information', 'Confirmation'];
-  availableRoomsSortingItems = ['Price (low to high)', 'Price (high to low)'];
+  availableRoomsSortingItems = [SortByPrice.ASC, SortByPrice.DESC];
   initialCurrentStep = this.getInitialCurrentStep();
   currentStepSubject$ = new BehaviorSubject(this.initialCurrentStep);
   dateFrom$ = this.activatedRoute.queryParamMap.pipe(map((paramMap) => paramMap.get('dateFrom')));
@@ -26,6 +27,7 @@ export class BookingProcessComponent implements OnInit {
   roomCount$ = this.activatedRoute.queryParamMap.pipe(map((paramMap) => paramMap.get('rooms')));
   guestCount$ = this.activatedRoute.queryParamMap.pipe(map((paramMap) => paramMap.get('guests')));
   availableRooms$?: Observable<Room[]>;
+  sortOrder$ = new BehaviorSubject<SortOrder>(SortOrder.ASC);
   userCredentials$?: Observable<string>;
   noResultsNotificationSeverity: NotificationSeverity = 'warning';
   noResultsNotificationSize: NotificationSize = 'regular';
@@ -40,7 +42,8 @@ export class BookingProcessComponent implements OnInit {
     private readonly activatedRoute: ActivatedRoute,
     private readonly authService: AuthService,
     private readonly localStorage: LocalStorageService,
-    private readonly toastService: ToastService
+    private readonly toastService: ToastService,
+    private readonly router: Router
   ) {}
 
   private getInitialCurrentStep() {
@@ -49,13 +52,25 @@ export class BookingProcessComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.availableRooms$ = combineLatest([this.dateFrom$, this.dateTo$, this.roomCount$, this.guestCount$]).pipe(
-      switchMap(([dateFrom, dateTo, roomCount, guestCount]) =>
-        dateFrom && dateTo && roomCount && guestCount ? this.customerFacade.getAvailableRooms(dateFrom, dateTo, guestCount) : EMPTY
+    this.availableRooms$ = combineLatest([this.dateFrom$, this.dateTo$, this.roomCount$, this.guestCount$, this.sortOrder$]).pipe(
+      switchMap(([dateFrom, dateTo, roomCount, guestCount, sortOrder]) =>
+        dateFrom && dateTo && roomCount && guestCount
+          ? this.customerFacade.getAvailableRooms(dateFrom, dateTo, guestCount).pipe(map((rooms) => this.sortRoomsByPrice(rooms, sortOrder)))
+          : EMPTY
       )
     );
 
     this.userCredentials$ = this.authService.user$.pipe(map((user) => user.username));
+  }
+
+  private sortRoomsByPrice(rooms: Room[], sortOrder: SortOrder) {
+    return rooms.sort((a, b) =>
+      sortOrder === SortOrder.ASC ? Number(a.pricePerNight) - Number(b.pricePerNight) : Number(b.pricePerNight) - Number(a.pricePerNight)
+    );
+  }
+
+  changeSort(sortOrder: SortByPrice) {
+    this.sortOrder$.next(sortOrder === SortByPrice.ASC ? SortOrder.ASC : SortOrder.DESC);
   }
 
   nextStep(stepper: AppStepsComponent) {
@@ -96,7 +111,26 @@ export class BookingProcessComponent implements OnInit {
   }
 
   confirmBooking() {
-    this.showConfirmationNotification = true;
-    this.onStepChange(0);
+    this.customerFacade
+      .bookRoom()
+      .pipe(
+        take(1),
+        tap(() => {
+          this.showConfirmationNotification = true;
+          this.onStepChange(0);
+        })
+      )
+      .subscribe();
   }
+
+  changeBreadcrumb(index: number) {
+    if (index === 0) {
+      this.router.navigate(['/']);
+    }
+  }
+}
+
+export enum SortByPrice {
+  ASC = 'Price (low to high)',
+  DESC = 'Price (high to low)',
 }
