@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { EmployeeService } from '../services/employee.service';
+import { EmployeeFacade } from '../facades/employee.facade';
 
 @Component({
   selector: 'app-customer-dashboard',
@@ -13,18 +13,23 @@ export class AdminDashboardComponent implements OnInit {
   rooms$?: Observable<any>;
   reservationsTableHeaderLabels = ['Booking No.', 'Room', 'Guest', 'Dates'];
 
-  constructor(private readonly employeeService: EmployeeService) {}
+  constructor(private readonly employeeFacade: EmployeeFacade) {}
 
   ngOnInit() {
-    this.bookings$ = this.getBookings();
+    this.getBookings();
+    this.bookings$ = this.employeeFacade.activeBookings$;
     this.rooms$ = this.getRooms();
   }
 
   getBookings() {
-    return this.employeeService.getActiveBookings();
+    return this.employeeFacade.getActiveBookings().subscribe();
   }
 
   getRooms() {
-    return this.employeeService.getRooms();
+    return this.employeeFacade.getRooms();
+  }
+
+  cancelBooking(bookingId: string) {
+    this.employeeFacade.cancelBooking(bookingId);
   }
 }

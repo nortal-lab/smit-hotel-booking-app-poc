@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { AppUiModule } from '../app-ui/app-ui.module';
 import { FormsModule } from '@angular/forms';
-import { AvailableRoomsModule } from './available-rooms/available-rooms.module';
+import { AvailableRoomsModule } from '../shared/components/available-rooms/available-rooms.module';
 
 @NgModule({
   declarations: [BookingProcessComponent],

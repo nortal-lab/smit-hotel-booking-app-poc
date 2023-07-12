@@ -42,4 +42,8 @@ export class CustomerFacade {
   getBookings() {
     return this.customerService.getBookings();
   }
+
+  bookRoom() {
+    return this.customerService.bookRoom();
+  }
 }

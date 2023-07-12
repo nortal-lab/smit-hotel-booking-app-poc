@@ -1,16 +1,16 @@
 import { NgModule } from '@angular/core';
-import { UiModule } from '@egov/cvi-ng';
-import { CommonModule } from '@angular/common';
 import { AvailableRoomsComponent } from './available-rooms.component';
-import { AppUiModule } from '../../app-ui/app-ui.module';
+import { BedTypePipe } from '../../pipes/bed-type.pipe';
+import { RoomTypePipe } from '../../pipes/room-type.pipe';
+import { AppUiModule } from '../../../app-ui/app-ui.module';
+import { UiModule } from '@egov/cvi-ng';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { BedTypePipe } from '../../shared/pipes/bed-type.pipe';
-import { RoomTypePipe } from '../../shared/pipes/room-type.pipe';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [AvailableRoomsComponent, BedTypePipe, RoomTypePipe],
   exports: [AvailableRoomsComponent],
   providers: [],
-  imports: [UiModule, CommonModule, AppUiModule, FontAwesomeModule],
+  imports: [AppUiModule, UiModule, FontAwesomeModule, CommonModule],
 })
 export class AvailableRoomsModule {}
