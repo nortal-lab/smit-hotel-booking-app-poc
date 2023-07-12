@@ -8,12 +8,14 @@ import { AppStepsComponent } from './steps/steps/steps.component';
 import { AppStepComponent } from './steps/step/step.component';
 import { AppStepPanelComponent } from './steps/step-panel/step-panel.component';
 import { BookingCardComponent } from './booking-card/booking-card.component';
+import { PageContentWrapperComponent } from './page-content-wrapper/page-content-wrapper.component';
 
 const components = [
-  AppStepsComponent, 
-  AppStepComponent, 
+  AppStepsComponent,
+  AppStepComponent,
   AppStepPanelComponent,
-  BookingCardComponent
+  BookingCardComponent,
+  PageContentWrapperComponent
 ];
 
 @NgModule({
@@ -21,9 +23,9 @@ const components = [
   exports: [...components],
   providers: [],
   imports: [
-    UiModule, 
-    FormsModule, 
-    CommonModule, 
+    UiModule,
+    FormsModule,
+    CommonModule,
     HttpClientModule,
     FontAwesomeModule
   ],

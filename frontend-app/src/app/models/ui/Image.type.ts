@@ -1,4 +1,4 @@
-type UiImage = {
-  src: string,
-  alt: string
+export type UiImage = {
+  src: string;
+  alt: string;
 };

@@ -1,8 +1,5 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { UiImage } from '../../models/ui/Image.type';
 
 @Component({
   selector: 'app-booking-card',
