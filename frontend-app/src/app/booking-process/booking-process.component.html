@@ -4,7 +4,7 @@
       <ng-container *ngIf="[availableRooms].length > 0; else noResultsPlaceholder">
         <cvi-app-steps
           #stepper
-          [title]="'Select Room'"
+          [title]="labels[context.currentStep]"
           [currentStepIndex]="context.currentStep"
           [hasTableOfContents]="false"
           [directionalButtonsDisplayed]="false"
@@ -25,8 +25,8 @@
             <cvi-app-step-panel class="personal-information-container" [title]="labels[1]" [titleHidden]="true" [disabled]="context.currentStep < 1">
               <ng-container *ngIf="userCredentials$ | async as userCredentials; else loginButton">
                 <span>{{ userCredentials }}</span>
-                <cvi-ng-button [size]="'m'" [disabled]="false" [appearance]="'primary'" (click)="cancelBookingProcess(stepper)">Cancel</cvi-ng-button>
-                <cvi-ng-button [size]="'m'" [disabled]="false" [appearance]="'primary'" (click)="nextStep(stepper)">Next</cvi-ng-button>
+                <cvi-ng-button size="m" [disabled]="false" appearance="primary" (click)="cancelBookingProcess(stepper)">Cancel</cvi-ng-button>
+                <cvi-ng-button size="m" [disabled]="false" appearance="primary" (click)="nextStep(stepper)">Next</cvi-ng-button>
               </ng-container>
               <ng-template #loginButton>
                 <cvi-ng-notification
@@ -43,8 +43,8 @@
           <cvi-app-step>
             <cvi-app-step-panel [title]="labels[2]" [titleHidden]="true" [disabled]="context.currentStep < 2">
               <div>confirmation view</div>
-              <cvi-ng-button [size]="'m'" [disabled]="false" [appearance]="'primary'" (click)="cancelBookingProcess(stepper)">Cancel</cvi-ng-button>
-              <cvi-ng-button [size]="'m'" [disabled]="false" [appearance]="'primary'" (click)="confirmBooking()">Confirm Booking</cvi-ng-button>
+              <cvi-ng-button size="m" [disabled]="false" appearance="primary" (click)="cancelBookingProcess(stepper)">Cancel</cvi-ng-button>
+              <cvi-ng-button size="m" [disabled]="false" appearance="primary" (click)="confirmBooking()">Confirm Booking</cvi-ng-button>
             </cvi-app-step-panel>
           </cvi-app-step>
         </cvi-app-steps>
