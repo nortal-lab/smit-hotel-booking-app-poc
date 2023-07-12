@@ -29,7 +29,8 @@ export class AdminDashboardComponent implements OnInit {
     return this.employeeFacade.getRooms();
   }
 
-  cancelBooking(bookingId: string) {
+  cancelBooking(bookingId: string, closeModal: () => void) {
     this.employeeFacade.cancelBooking(bookingId);
+    closeModal;
   }
 }
