@@ -5,6 +5,8 @@ using HotelBookingSystem.API.Auth;
 using HotelBookingSystem.API.Data;
 using HotelBookingSystem.API.Data.BookingRepository;
 using HotelBookingSystem.API.Data.RoomRepository;
+using HotelBookingSystem.API.Services.BookingService;
+using HotelBookingSystem.API.Services.RoomService;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.OpenApi.Models;
 
@@ -42,6 +44,8 @@ public static class ServiceRegistration
         services.AddTransient<IAuthenticationService, AuthenticationService>();
         services.AddScoped<IRoomRepository, RoomRepository>();
         services.AddScoped<IBookingRepository, BookingRepository>();
+        services.AddScoped<IRoomService, RoomService>();
+        services.AddScoped<IBookingService, BookingService>();
     }
 
     /// <summary>

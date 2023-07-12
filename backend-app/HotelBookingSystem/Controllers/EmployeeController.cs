@@ -1,7 +1,10 @@
 ﻿using HotelBookingSystem.API.Auth.Model;
-using HotelBookingSystem.API.Data.BookingRepository;
-using HotelBookingSystem.API.Data.RoomRepository;
+using HotelBookingSystem.API.Exceptions;
+using HotelBookingSystem.API.Helpers;
 using HotelBookingSystem.API.Models;
+using HotelBookingSystem.API.Models.Room;
+using HotelBookingSystem.API.Services.BookingService;
+using HotelBookingSystem.API.Services.RoomService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,77 +15,61 @@ namespace HotelBookingSystem.API.Controllers
     [Authorize(Roles = Roles.Employee)]
     public class EmployeeController : ControllerBase
     {
-        private readonly IRoomRepository _roomRepository;
-        private readonly IBookingRepository _bookingRepository;
+        private readonly IRoomService _roomService;
+        private readonly IBookingService _bookingService;
 
-        public EmployeeController(IRoomRepository roomRepository, IBookingRepository bookingRepository)
+        public EmployeeController(IRoomService roomService, IBookingService bookingService)
         {
-            _roomRepository = roomRepository;
-            _bookingRepository = bookingRepository;
+            _roomService = roomService;
+            _bookingService = bookingService;
         }
 
         [HttpGet("rooms")]
         public IActionResult GetAllRooms()
         {
-            return Ok(_roomRepository.GetAllRooms());
+            return Ok(_roomService.GetAllRooms());
         }
 
         [HttpGet("bookings/active")]
-        public IActionResult FindAllActiveBookingDtos()
+        public IActionResult FindAllActiveBookings()
         {
-            var activeBookingDtos = _bookingRepository.GetAllBookings().Where(b => b.EndDate >= DateTime.Now).ToList();
-
-            return Ok(activeBookingDtos);
+            return Ok(_bookingService.FindAllActiveBookings());
         }
 
         [HttpGet("rooms/available")]
-        public IActionResult FindAvailableRoomsByCriteria([FromQuery] DateTime startDate, DateTime endDate, decimal? priceMin, decimal? priceMax, int? capacity)
+        public IActionResult FindAvailableRoomsByCriteria([FromQuery] DateTime startDate, DateTime endDate,
+            int? peopleCapacity)
         {
-            //ToDo: Implement filtering logic in services
-            //var availableRooms = RoomsHardcoded.Where(room =>
-            //    (capacity == null || room.Capacity >= capacity) &&
-            //    (priceMin == null || room.PricePerNight >= priceMin) &&
-            //    (priceMax == null || room.PricePerNight <= priceMax) &&
-            //    !BookingsHardcoded.Any(booking =>
-            //        booking.RoomId == room.RoomId &&
-            //        !(startDate >= booking.EndDate || endDate <= booking.StartDate)
-            //    )
-            //).ToList();
+            IEnumerable<Room> availableRooms =
+                _roomService.FindAvailableRoomsByCriteria(startDate, endDate, peopleCapacity);
 
-            return Ok(_roomRepository.GetAllRooms().LastOrDefault());
+            return Ok(availableRooms);
         }
 
         [HttpDelete("bookings/{bookingId}")]
         public IActionResult CancelBooking([FromRoute] Guid bookingId)
         {
-            Booking? booking = _bookingRepository.GetBookingById(bookingId);
+            Booking? booking = _bookingService.GetBookingById(bookingId);
             if (booking == null)
             {
                 return NotFound();
             }
 
-            bool canBeCancelled = ValidateBookingCancellation(booking);
-            if (!canBeCancelled)
+            try
             {
-                // Return a 500 Internal Server Error if the cancellation fails
-                return StatusCode(500, "Booking cancellation failed: too close to booking start date.");
+                BookingValidator.ValidateCancellation(booking);
+                _bookingService.RemoveBookingById(bookingId);
+            }
+            catch (LessThanThreeDaysLeftException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (BookingRemovalException ex)
+            {
+                return StatusCode(500, ex.Message);
             }
 
-            bool isCancelled = _bookingRepository.RemoveBookingById(bookingId);
-            if (!isCancelled)
-            {
-                // Return a 500 Internal Server Error if the cancellation fails
-                return StatusCode(500, "Booking cancellation failed.");
-            }
-
-            // Return a 204 No Content response (successful cancellation)
             return NoContent();
-        }
-
-        // Business rule: cannot be cancelled if fewer than 3 days left before start
-        public static bool ValidateBookingCancellation(Booking booking)
-        {
-            return !(booking?.StartDate.AddDays(-3) < DateTime.Now);
         }
     }
 }

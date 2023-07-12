@@ -1,5 +1,4 @@
-﻿using HotelBookingSystem.API.Common;
-using HotelBookingSystem.API.Models;
+﻿using HotelBookingSystem.API.Models;
 
 namespace HotelBookingSystem.API.Data.BookingRepository
 {
@@ -36,6 +35,12 @@ namespace HotelBookingSystem.API.Data.BookingRepository
             _dbContext.SaveChanges();
 
             return true;
+        }
+
+        public void CreateBooking(Booking booking)
+        {
+            _dbContext.Bookings.Add(booking);
+            _dbContext.SaveChanges();
         }
     }
 }
