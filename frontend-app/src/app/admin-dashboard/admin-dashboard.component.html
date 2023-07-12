@@ -19,7 +19,7 @@
           <cvi-ng-button size="s" [disabled]="false" appearance="text" [cviNgModal]="modal">Cancel</cvi-ng-button>
           <ng-template #modal let-modal>
             <cvi-ng-confirmation-modal
-              [title]="'Are you sure you want to cancel this reservation?'"
+              title="Are you sure you want to cancel this reservation?"
               confirmButtonText="Confirm cancellation"
               cancelButtonText="Back"
               (cancelled)="modal.closeModal()"
