@@ -24,7 +24,6 @@ function initializeKeycloak(keycloak: KeycloakService, authService: AuthService)
         },
         initOptions: {
           onLoad: 'check-sso',
-          checkLoginIframe: false,
         },
         loadUserProfileAtStartUp: false,
       })
