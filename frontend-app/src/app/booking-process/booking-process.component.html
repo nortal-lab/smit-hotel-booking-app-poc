@@ -1,4 +1,8 @@
 <ng-container *ngIf="{ currentStep: currentStepSubject$ | async } as context">
+  <cvi-ng-breadcrumbs
+    [breadcrumbLabels]="showConfirmationNotification ? ['Home', labels[2]] : ['Home', labels[context.currentStep]]"
+    (breadcrumbChange)="changeBreadcrumb($event)"></cvi-ng-breadcrumbs>
+
   <ng-container *ngIf="!showConfirmationNotification; else confirmationNotification">
     <ng-container *ngIf="availableRooms$ | async as availableRooms">
       <ng-container *ngIf="[availableRooms].length > 0; else noResultsPlaceholder">
