@@ -4,12 +4,10 @@
 
   width: 100%;
   display: flex;
-
-  // CSS variable toggle space hack - http://wp.me/proQm-P0
   gap: var(--app-definition-table, 0) var(--cvi-spacing-loksa);
   flex-direction: var(--app-definition-table, column);
   
-  // The toggle space hack doesn't support setting shorthand properties
+  // The toggle space technique doesn't support setting shorthand properties
   padding-inline-start: var(--has-stripes--padding-inline);
   padding-inline-end: var(--has-stripes--padding-inline);
   padding-block-start: var(--has-stripes--padding-block);
@@ -38,7 +36,5 @@
 
 .value {
   flex-grow: 1;
-
-  // CSS variable toggle space hack - http://wp.me/proQm-P0
   text-align: var(--app-definition-table, start) end;
 }
