@@ -18,6 +18,7 @@ import { AppStepsComponent } from '../app-ui/steps/steps/steps.component';
 })
 export class BookingProcessComponent implements OnInit {
   labels = ['Select room', 'Personal information', 'Confirmation'];
+  availableRoomsSortingItems = ['Price (low to high)', 'Price (high to low)'];
   initialCurrentStep = this.getInitialCurrentStep();
   currentStepSubject$ = new BehaviorSubject(this.initialCurrentStep);
   dateFrom$ = this.activatedRoute.queryParamMap.pipe(map((paramMap) => paramMap.get('dateFrom')));

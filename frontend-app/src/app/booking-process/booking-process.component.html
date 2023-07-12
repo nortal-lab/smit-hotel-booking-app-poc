@@ -9,6 +9,10 @@
           [hasTableOfContents]="false"
           [directionalButtonsDisplayed]="false"
           (stepChange)="onStepChange($event)">
+          <cvi-ng-track horizontalAlignment="right" class="sorting-container" *ngIf="context.currentStep === 0">
+            <span class="sorting-label">Sort by:</span>
+            <cvi-ng-select [items]="availableRoomsSortingItems" [ngModel]="availableRoomsSortingItems[0]"></cvi-ng-select>
+          </cvi-ng-track>
           <cvi-app-step>
             <cvi-app-step-panel [title]="labels[0]" [titleHidden]="true">
               <ng-container>
@@ -16,8 +20,9 @@
               </ng-container>
             </cvi-app-step-panel>
           </cvi-app-step>
-          <cvi-app-step>
-            <cvi-app-step-panel [title]="labels[1]" [titleHidden]="true" [disabled]="context.currentStep < 1">
+          <cvi-app-step class="personal-information-step">
+            <div class="personal-information-sidebar">sidebar</div>
+            <cvi-app-step-panel class="personal-information-container" [title]="labels[1]" [titleHidden]="true" [disabled]="context.currentStep < 1">
               <ng-container *ngIf="userCredentials$ | async as userCredentials; else loginButton">
                 <span>{{ userCredentials }}</span>
                 <cvi-ng-button [size]="'m'" [disabled]="false" [appearance]="'primary'" (click)="cancelBookingProcess(stepper)">Cancel</cvi-ng-button>

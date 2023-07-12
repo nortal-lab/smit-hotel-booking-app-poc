@@ -71,7 +71,7 @@ export class AuthService implements OnDestroy {
   }
 
   logout() {
-    return this.keycloakService.logout().then(() => {
+    return this.keycloakService.logout('http://localhost:4200/').then(() => {
       this.userSubject$.next(this.initialUserValue);
     });
   }

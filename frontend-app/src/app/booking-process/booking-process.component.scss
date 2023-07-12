@@ -1,3 +1,19 @@
 .booking-process-link {
   cursor: pointer;
 }
+
+.personal-information-step {
+  display: flex;
+  gap: 25px;
+
+  .personal-information-container {
+    flex-grow: 1;
+  }
+}
+
+.sorting-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+}
