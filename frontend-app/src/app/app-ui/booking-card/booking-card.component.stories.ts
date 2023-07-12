@@ -1,5 +1,8 @@
 import { Meta, StoryObj } from '@storybook/angular';
 import { BookingCardComponent } from './booking-card.component';
+import { faUser } from '@fortawesome/free-solid-svg-icons';
+import { faBed } from '@fortawesome/free-solid-svg-icons';
+import { faRulerCombined } from '@fortawesome/free-solid-svg-icons';
 
 const meta: Meta<BookingCardComponent & { content: string }> = {
   title: 'Components/Booking card',
@@ -33,6 +36,9 @@ export const Default: Story = {
   render: (args) => ({
     props: {
       ...args,
+      faUser,
+      faBed,
+      faRulerCombined
     },
     /* template */
     template: `
@@ -42,6 +48,23 @@ export const Default: Story = {
           <cvi-ng-button>View</cvi-ng-button>
         </app-booking-card>
         <app-booking-card title="Some title that is very long" price="13€" [img]="{ src: 'https://i.imgur.com/HNyuxM3.jpeg', alt: 'planet'}" summary="6 days, 4 nights">
+          <cvi-ng-track [gap]="4" flexDirection="vertical">
+            <cvi-ng-track [gap]="4">
+              <cvi-ng-track [gap]="1">
+                <fa-icon [icon]="faUser"></fa-icon>
+                2 people
+              </cvi-ng-track>  
+              <cvi-ng-track [gap]="1">
+                <fa-icon [icon]="faBed"></fa-icon>
+                1 king or 2 twin
+              </cvi-ng-track>  
+              <cvi-ng-track [gap]="1">
+                <fa-icon [icon]="faRulerCombined"></fa-icon>
+                28 m<sup>2</sup>
+              </cvi-ng-track>
+            </cvi-ng-track>
+            Free wifi &bull; free bottled water &bull; bathrobe and slippers &bull; in-room safe &bull; iron and ironing board &bull; smart TV &bull; air conditioning &bull; rain shower
+          </cvi-ng-track>
           Main pipe standard castle fair fast test diameter up entire could sat our action biggest throw dress adult slightly almost send character including tie
           <cvi-ng-button>Book</cvi-ng-button>
         </app-booking-card>
