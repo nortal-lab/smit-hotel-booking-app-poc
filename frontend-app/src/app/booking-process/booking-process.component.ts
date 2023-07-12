@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { combineLatest, EMPTY, map, Observable, switchMap } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
-import { RoomDTO } from '../models/room.interface';
+import { Room } from '../models/room.interface';
 import { CustomerFacade } from '../facades/customer.facade';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { AuthService } from '../services/auth.service';
@@ -25,7 +25,7 @@ export class BookingProcessComponent implements OnInit {
   dateTo$ = this.activatedRoute.queryParamMap.pipe(map((paramMap) => paramMap.get('dateTo')));
   roomCount$ = this.activatedRoute.queryParamMap.pipe(map((paramMap) => paramMap.get('rooms')));
   guestCount$ = this.activatedRoute.queryParamMap.pipe(map((paramMap) => paramMap.get('guests')));
-  availableRooms$?: Observable<RoomDTO>;
+  availableRooms$?: Observable<Room[]>;
   userCredentials$?: Observable<string>;
   noResultsNotificationSeverity: NotificationSeverity = 'warning';
   noResultsNotificationSize: NotificationSize = 'regular';

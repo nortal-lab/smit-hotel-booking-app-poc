@@ -1,5 +1,5 @@
 <div class="track">
-  <img [src]="img.src" [alt]="img.alt" class="image">
+  <img [src]="img.src" [alt]="img.alt" class="image" />
   <div class="main">
     <h3 class="title">{{ title }}</h3>
     <ng-content></ng-content>
@@ -8,7 +8,7 @@
     <div class="aside-track">
       <div class="summary">
         {{ summary }}
-        <span class="price">{{ price }}</span>
+        <span class="price">{{ price }} {{ currency }}</span>
       </div>
       <ng-content select="cvi-ng-button"></ng-content>
     </div>
