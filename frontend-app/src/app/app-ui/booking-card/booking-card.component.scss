@@ -1,0 +1,53 @@
+:host {
+  --border-color: var(--cvi-color-black-coral-2);
+  --gap: var(--cvi-spacing-haapsalu);
+  
+  display: block;
+  padding: var(--cvi-spacing-kuressaare);
+  border-radius: var(--cvi-radius-s);
+  border: 1px solid var(--border-color);
+}
+
+.track {
+  display: flex;
+  gap: var(--gap);
+}
+
+.image {
+  display: block;
+  max-width: 232px;
+  object-fit: contain;
+}
+
+.main {
+  flex-grow: 1;
+  border-right: 1px solid var(--border-color);
+  padding-right: var(--gap);
+  color: var(--cvi-color-black-coral-16);
+}
+
+.title {
+  font-size: var(--cvi-font-size-220);
+  margin-bottom: var(--cvi-spacing-paldiski);
+}
+
+.aside {
+  color: var(--cvi-color-black-coral-20);
+  fill: var(--cvi-color-white);
+  min-width: 150px;
+  text-align: right;
+}
+
+.aside-track {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.price {
+  display: block;
+  padding-top: var(--cvi-spacing-rapla);
+  font-size: var(--cvi-font-size-250);
+  font-weight: var(--cvi-font-weight-delta);
+}
