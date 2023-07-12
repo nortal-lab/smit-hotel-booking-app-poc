@@ -4,6 +4,7 @@ import { AppTitleContainerComponent } from './title-container.component';
 export default {
   title: 'Components/Title container',
   component: AppTitleContainerComponent,
+  tags: ['autodocs'],
   parameters: {
     layout: 'padded',
   },
