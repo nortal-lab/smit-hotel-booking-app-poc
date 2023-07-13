@@ -1,0 +1,19 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  gap: var(--cvi-spacing-paldiski);
+}
+
+.wrapper {
+  display: block;
+  background-color: var(--cvi-color-black-coral-0);
+  padding: var(--cvi-spacing-haapsalu);
+  border-radius: var(--cvi-radius-s);
+}
+
+.image {
+  display: block;
+  border-radius: var(--cvi-radius-s);
+  width: 100%;
+  object-fit: contain;
+}

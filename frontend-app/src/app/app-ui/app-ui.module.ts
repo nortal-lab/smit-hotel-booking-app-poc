@@ -16,6 +16,7 @@ import { BookingSidebarComponent } from './booking-sidebar/booking-sidebar.compo
 import { DataSectionComponent } from './data-section/data-section.component';
 import { DefinitionTableComponent } from './definition-table/definition-table.component';
 import { DefinitionItemComponent } from './definition-item/definition-item.component';
+import { BookingDetailsComponent } from './booking-details/booking-details.component';
 import { CircularButtonComponent } from './circular-button/circular-button.component';
 import { SearchInputComponent } from './search-input/search-input.component';
 
@@ -33,7 +34,8 @@ const components = [
   HeroComponent,
   SearchContainerComponent,
   CircularButtonComponent,
-  SearchInputComponent
+  SearchInputComponent,
+  BookingDetailsComponent
 ];
 
 @NgModule({
