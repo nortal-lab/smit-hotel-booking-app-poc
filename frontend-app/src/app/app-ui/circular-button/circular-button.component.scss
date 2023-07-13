@@ -1,0 +1,22 @@
+:host {
+  display: block;
+  fill: var(--cvi-color-white);
+}
+
+.button {
+  border-radius: 51%;
+  overflow: hidden;
+  background-color: var(--cvi-color-sapphire-blue-10);
+  padding: var(--cvi-spacing-rapla);
+  aspect-ratio: 1;
+  height: 100%;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.button-icon-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

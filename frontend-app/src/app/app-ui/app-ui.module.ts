@@ -14,6 +14,8 @@ import { BookingSidebarComponent } from './booking-sidebar/booking-sidebar.compo
 import { DataSectionComponent } from './data-section/data-section.component';
 import { DefinitionTableComponent } from './definition-table/definition-table.component';
 import { DefinitionItemComponent } from './definition-item/definition-item.component';
+import { CircularButtonComponent } from './circular-button/circular-button.component';
+import { SearchInputComponent } from './search-input/search-input.component';
 
 const components = [
   AppStepsComponent,
@@ -25,7 +27,9 @@ const components = [
   DataSectionComponent,
   DefinitionTableComponent,
   DefinitionItemComponent,
-  AppTitleContainerComponent
+  AppTitleContainerComponent,
+  CircularButtonComponent,
+  SearchInputComponent
 ];
 
 @NgModule({
