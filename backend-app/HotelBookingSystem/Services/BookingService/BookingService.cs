@@ -1,4 +1,5 @@
-﻿using HotelBookingSystem.API.Data.BookingRepository;
+﻿using HotelBookingSystem.API.Common;
+using HotelBookingSystem.API.Data.BookingRepository;
 using HotelBookingSystem.API.Exceptions;
 using HotelBookingSystem.API.Models;
 
@@ -13,9 +14,21 @@ namespace HotelBookingSystem.API.Services.BookingService
             _bookingRepository = bookingRepository;
         }
 
-        public List<Booking> GetAllBookings()
+        public List<Booking> GetAllCustomerBookings(Guid customerId)
         {
-            return _bookingRepository.GetAllBookings();
+            return _bookingRepository.GetAllCustomerBookings(customerId);
+        }
+
+        public Booking? GetBookingById(Guid bookingId, Guid customerId)
+        {
+            Booking? booking = GetBookingById(bookingId);
+
+            if (booking?.CustomerId != customerId)
+            {
+                throw new BookingAccessException("Customers can only access their own bookings.");
+            }
+
+            return booking;
         }
 
         public Booking? GetBookingById(Guid bookingId)
@@ -34,19 +47,40 @@ namespace HotelBookingSystem.API.Services.BookingService
 
         public List<Booking> FindAllActiveBookings()
         {
-            return _bookingRepository.GetAllBookings().Where(booking => booking.EndDate >= DateTime.Now).ToList();
+            return _bookingRepository.FindAllActiveBookings();
         }
 
-        public void CreateBooking(Booking booking)
+        public Booking CreateBooking(Booking booking, Guid customerId)
         {
             try
             {
-                _bookingRepository.CreateBooking(booking);
+                Booking preparedBooking = PrepareBooking(booking, customerId);
+                _bookingRepository.CreateBooking(preparedBooking);
+                return preparedBooking;
             }
             catch (Exception)
             {
                 throw new BookingCreationException("Failed to create the booking.");
             }
+        }
+
+        private Booking PrepareBooking(Booking booking, Guid customerId)
+        {
+            DateTime startDate = booking.StartDate;
+            DateTime endDate = booking.EndDate;
+
+            Booking preparedBooking = new()
+            {
+                BookingId = Guid.NewGuid(),
+                CustomerId = customerId,
+                RoomId = booking.RoomId,
+                CreationDate = DateTime.Now,
+                StartDate = new DateTime(startDate.Year, startDate.Month, startDate.Day, 15, 0, 0),
+                EndDate = new DateTime(endDate.Year, endDate.Month, endDate.Day, 12, 0, 0),
+                Status = Status.Confirmed
+            };
+
+            return preparedBooking;
         }
     }
 }

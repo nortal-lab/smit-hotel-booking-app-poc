@@ -11,7 +11,22 @@ namespace HotelBookingSystem.API.Models.Room
 
         public int RoomNumber { get; set; }
 
-        public decimal PricePerNight { get; set; }
+        private decimal _pricePerNightIncludingTaxes { get; set; }
+
+        public decimal PricePerNightIncludingTaxes
+        {
+            get => _pricePerNightIncludingTaxes;
+            set
+            {
+                _pricePerNightIncludingTaxes = value;
+                EstimatedTaxes = CalculateEstimatedTaxes(_pricePerNightIncludingTaxes);
+                PriceBeforeTaxes = CalculatePriceBeforeTaxes(value, EstimatedTaxes);
+            }
+        }
+
+        public decimal PriceBeforeTaxes { get; private set; }
+
+        public decimal EstimatedTaxes { get; private set; }
 
         public int PeopleCapacity { get; set; }
 
@@ -40,5 +55,15 @@ namespace HotelBookingSystem.API.Models.Room
         public bool ProfessionalHairDryer { get; set; } = true;
 
         public bool Balcony { get; set; } = false;
+
+        private decimal CalculatePriceBeforeTaxes(decimal pricePerNightIncludingTaxes, decimal estimatedTaxes)
+        {
+            return pricePerNightIncludingTaxes - estimatedTaxes;
+        }
+
+        private decimal CalculateEstimatedTaxes(decimal pricePerNightIncludingTaxes)
+        {
+            return pricePerNightIncludingTaxes * 0.21m;
+        }
     }
 }
