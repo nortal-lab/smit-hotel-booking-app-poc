@@ -6,10 +6,11 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppStepsComponent } from './steps/steps/steps.component';
 import { AppStepComponent } from './steps/step/step.component';
 import { AppStepPanelComponent } from './steps/step-panel/step-panel.component';
+import { AppHeroComponent } from './hero/hero.component';
 
 @NgModule({
-  declarations: [AppStepsComponent, AppStepComponent, AppStepPanelComponent],
-  exports: [AppStepsComponent, AppStepComponent, AppStepPanelComponent],
+  declarations: [AppStepsComponent, AppStepComponent, AppStepPanelComponent, AppHeroComponent],
+  exports: [AppStepsComponent, AppStepComponent, AppStepPanelComponent, AppHeroComponent],
   providers: [],
   imports: [UiModule, FormsModule, CommonModule, HttpClientModule],
 })
