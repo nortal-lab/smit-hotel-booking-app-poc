@@ -5,29 +5,27 @@ import { faBed } from '@fortawesome/free-solid-svg-icons';
 import { faRulerCombined } from '@fortawesome/free-solid-svg-icons';
 
 export default {
-  title: 'Components/Booking Details',
+  title: 'Components/Booking details',
   component: BookingDetailsComponent,
   tags: ['autodocs'],
   parameters: {
     layout: 'padded',
   },
-  argTypes: {},
   args: {
     img: {
       alt: 'room',
       src: 'https://images.unsplash.com/photo-1611892440504-42a792e24d32?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80',
     },
+    faUser,
+    faBed,
+    faRulerCombined,
   },
 } as Meta;
 
 const Template: StoryFn<BookingDetailsComponent> = (args: BookingDetailsComponent) => ({
   component: BookingDetailsComponent,
-  props: {
-    ...args,
-    faUser,
-    faBed,
-    faRulerCombined,
-  },
+  props: args,
+  /* template */
   template: `
     <app-page-content-wrapper>
       <app-booking-details [img]="img">
@@ -50,19 +48,18 @@ const Template: StoryFn<BookingDetailsComponent> = (args: BookingDetailsComponen
           hair dryer • balcony
         </cvi-ng-track>
       </app-booking-details>
-  </app-page-content-wrapper>
-    `,
+    </app-page-content-wrapper>
+  `,
 });
 
 export const Default = {
   render: Template,
 };
 
-const WithDetails: StoryFn<BookingDetailsComponent> = (args: BookingDetailsComponent) => { 
+const TemplateWithDetails: StoryFn<BookingDetailsComponent> = (args: BookingDetailsComponent) => { 
   return {
-    props: {
-      ...args,
-    },
+    props: args,
+    /* template */
     template: `
       <app-page-content-wrapper>
         <app-booking-details [img]="img">
@@ -98,12 +95,12 @@ const WithDetails: StoryFn<BookingDetailsComponent> = (args: BookingDetailsCompo
           smiles; and he was right both times. There is no inconsistency. The lyrical poet does not have to prove anything. The only proof is the intensity of his own
           emotion.
         </app-data-section>
-    </app-page-content-wrapper>
+      </app-page-content-wrapper>
     `
   }
 }
 
 export const PageWithDetails = {
   name: 'Example with more data',
-  render: WithDetails,
+  render: TemplateWithDetails,
 };
