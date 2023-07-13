@@ -20,7 +20,7 @@
 
 .label {
   /* stylelint-disable-next-line custom-property-pattern */
-  font-size: var(--cvi-font-size-70);
+  font-size: var(--app-definition-item--label--font-size);
   color: var(--cvi-color-black-coral-12);
   display: block;
 }
