@@ -6,7 +6,7 @@
     <ng-container *ngIf="bookings.length > 0; else noResultsPlaceholder">
       <div *ngFor="let booking of bookings">
         <span>{{ booking.roomId }}</span>
-        <cvi-ng-button size="m" [disabled]="false" appearance="primary" [cviNgModal]="modal">Cancel</cvi-ng-button>
+        <cvi-ng-button size="m" [disabled]="disableBookingCancelling" appearance="primary" [cviNgModal]="modal">Cancel</cvi-ng-button>
         <ng-template #modal let-modal>
           <cvi-ng-confirmation-modal
             title="Are you sure you want to cancel this reservation?"
