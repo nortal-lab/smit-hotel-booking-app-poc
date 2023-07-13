@@ -1,9 +1,9 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { Observable, take, tap } from 'rxjs';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { catchError, Observable, of, take, tap } from 'rxjs';
 import { CustomerFacade } from '../facades/customer.facade';
 import { Booking } from '../models/booking.interface';
 import { NotificationSeverity } from '@egov/cvi-ng/lib/notification/notification';
-import { NotificationSize } from '@egov/cvi-ng';
+import { NotificationSize, ToastService } from '@egov/cvi-ng';
 import { Router } from '@angular/router';
 
 @Component({
@@ -16,8 +16,14 @@ export class CustomerBookingsComponent implements OnInit {
   customerBookings$?: Observable<Booking[] | null>;
   noResultsNotificationSeverity: NotificationSeverity = 'warning';
   noResultsNotificationSize: NotificationSize = 'regular';
+  disableBookingCancelling = false;
 
-  constructor(private readonly customerFacade: CustomerFacade, private readonly router: Router) {}
+  constructor(
+    private readonly customerFacade: CustomerFacade,
+    private readonly router: Router,
+    private readonly toastService: ToastService,
+    private readonly cd: ChangeDetectorRef
+  ) {}
 
   ngOnInit() {
     this.getCustomerBookings();
@@ -29,11 +35,21 @@ export class CustomerBookingsComponent implements OnInit {
   }
 
   cancelBooking(bookingId: string, closeModal: () => void) {
+    this.disableBookingCancelling = true;
+
     this.customerFacade
       .cancelBooking(bookingId)
       .pipe(
         take(1),
-        tap(() => closeModal)
+        tap(() => {
+          closeModal;
+          this.disableBookingCancelling = false;
+        }),
+        catchError((error) => {
+          this.disableBookingCancelling = false;
+          this.cd.detectChanges();
+          return of(this.toastService.error(error.error.detail));
+        })
       )
       .subscribe();
   }

@@ -19,6 +19,8 @@ import { DefinitionItemComponent } from './definition-item/definition-item.compo
 import { BookingDetailsComponent } from './booking-details/booking-details.component';
 import { CircularButtonComponent } from './circular-button/circular-button.component';
 import { SearchInputComponent } from './search-input/search-input.component';
+import { HeaderComponent } from './header/header.component';
+import { IconButtonComponent } from './icon-button/icon-button.component';
 
 const components = [
   AppStepsComponent,
@@ -35,7 +37,9 @@ const components = [
   SearchContainerComponent,
   CircularButtonComponent,
   SearchInputComponent,
-  BookingDetailsComponent
+  BookingDetailsComponent,
+  HeaderComponent,
+  IconButtonComponent,
 ];
 
 @NgModule({
