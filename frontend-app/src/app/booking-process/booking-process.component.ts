@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { combineLatest, EMPTY, map, Observable, Subject, switchMap, take, takeUntil, tap } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Room } from '../models/room.interface';
+import { AvailableRooms, Room } from '../models/room.interface';
 import { CustomerFacade } from '../facades/customer.facade';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { AuthService } from '../services/auth.service';
@@ -20,7 +20,7 @@ import { User } from '../models/user.interface';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BookingProcessComponent implements OnInit, OnDestroy {
-  private availableRooms$ = new BehaviorSubject<Room[] | null>(null);
+  private availableRooms$ = new BehaviorSubject<AvailableRooms | null>(null);
   private readonly isDestroyed$ = new Subject<void>();
 
   labels = ['Select room', 'Personal information', 'Confirmation'];
@@ -71,7 +71,12 @@ export class BookingProcessComponent implements OnInit, OnDestroy {
         takeUntil(this.isDestroyed$),
         switchMap(([dateFrom, dateTo, guestCount, sortOrder]) => {
           return dateFrom && dateTo && guestCount
-            ? this.customerFacade.getAvailableRooms(dateFrom, dateTo, guestCount).pipe(map((data) => this.sortRoomsByPrice(data.availableRooms, sortOrder)))
+            ? this.customerFacade.getAvailableRooms(dateFrom, dateTo, guestCount).pipe(
+                map((data) => ({
+                  ...data,
+                  availableRooms: this.sortRoomsByPrice(data.availableRooms, sortOrder),
+                }))
+              )
             : EMPTY;
         }),
         tap((rooms) => this.availableRooms$.next(rooms))
@@ -92,9 +97,12 @@ export class BookingProcessComponent implements OnInit, OnDestroy {
 
   changeSort(sortOrder: SortByPrice) {
     this.sortOrder$.next(sortOrder === SortByPrice.ASC ? SortOrder.ASC : SortOrder.DESC);
-    const availableRooms = this.availableRooms$.getValue();
-    if (availableRooms) {
-      this.availableRooms$.next(this.sortRoomsByPrice(availableRooms, this.sortOrder$.getValue()));
+    const availableRoomsData = this.availableRooms$.getValue();
+    if (availableRoomsData) {
+      this.availableRooms$.next({
+        ...availableRoomsData,
+        availableRooms: this.sortRoomsByPrice(availableRoomsData.availableRooms, this.sortOrder$.getValue()),
+      });
     }
   }
 
@@ -152,9 +160,9 @@ export class BookingProcessComponent implements OnInit, OnDestroy {
     });
   }
 
-  confirmBooking() {
+  confirmBooking(roomId: string, startDate: string, endDate: string) {
     this.customerFacade
-      .bookRoom()
+      .bookRoom(roomId, startDate, endDate)
       .pipe(
         take(1),
         tap(() => {

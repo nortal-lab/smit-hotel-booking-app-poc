@@ -30,7 +30,7 @@ export class EmployeeFacade {
       .cancelBooking(bookingId)
       .pipe(
         tap(() => this.removeBookingFromActiveBookings(bookingId)),
-        catchError(() => of(this.toastService.error('Unable to cancel booking, please contact system Administrator.')))
+        catchError((error) => of(this.toastService.error(error.detail)))
       )
       .subscribe();
   }
