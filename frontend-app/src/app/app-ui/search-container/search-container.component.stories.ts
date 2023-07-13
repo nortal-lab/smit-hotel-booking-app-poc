@@ -57,28 +57,13 @@ const Template: StoryFn<AppSearchContainerComponent> = (args: AppSearchContainer
     guestNumber: new FormControl('2 guests'),
   });
 
-  function selectedValue() {
-    let selectedValues = {
-      date1: form.controls.date1.value,
-      date2: form.controls.date2.value,
-      guestNumber: form.controls.guestNumber.value,
-    };
-    return selectedValues;
-  }
-
-  function displaySelectedValues() {
-    const values = selectedValue();
-    action('Selected Values')(JSON.stringify(values));
-  }
-
   return {
     props: {
       ...args,
       form,
-      displaySelectedValues,
     },
     template: `
-      <app-search-container [form]="form" [guestItem]="guestItem" [datePickers]="datePickers" (onsSearchClick)="displaySelectedValues()"></app-search-container>
+      <app-search-container [form]="form" [guestItem]="guestItem" [datePickers]="datePickers"></app-search-container>
       `,
   };
 };
