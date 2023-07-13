@@ -26,44 +26,50 @@ export default {
   },
 } as Meta;
 
-const Template: StoryFn<HeroComponent> = (args: HeroComponent) => ({
-  component: HeroComponent,
-  props: {
-    ...args,
-  },
-  template: `
-    Some text that impersonates header and a lot of random content something must sign crowd begun space drove graph reach burst hard composed popular born tropical represent different smooth energy send note two what happy
-    <app-hero [imgSrc]="imgSrc">
-      <form>
-        <cvi-ng-track [horizontalAlignment]="'center'">
-          <app-page-content-wrapper>
-            <cvi-ng-track [gap]="4">
-              <cvi-ng-track [gap]="2">
-                <cvi-ng-form-item label="Choose starting date" [isLabelHidden]="true" [htmlId]="htmliIdDatepicker1">
-                  <cvi-ng-datepicker [placeholder]="13.11.2023" [htmlId]="htmliIdDatepicker1"></cvi-ng-datepicker>
-                </cvi-ng-form-item>
-                <cvi-ng-form-item label="Choose end date" [isLabelHidden]="true" [htmlId]="htmliIdDatepicker2">
-                  <cvi-ng-datepicker [placeholder]="14.11.2023" [htmlId]="htmliIdDatepicker2"></cvi-ng-datepicker>
-                </cvi-ng-form-item>
-                <cvi-ng-form-item [label]="Date" [isLabelHidden]="true" [htmlId]="htmlfor1" [labelId]="labelfor1">
-                  <cvi-ng-select [items]="['1 room', '2 rooms']" [labelId]="labelfor1" placeholder="1 room" [htmlId]="htmlfor1"></cvi-ng-select>
-                </cvi-ng-form-item>
-                <cvi-ng-form-item [label]="Date - 1" [isLabelHidden]="true" [htmlId]="htmlfor2" [labelId]="labelfor2">
-                  <cvi-ng-select [items]="['1 guest', '2 guests']" [labelId]="labelfor2" placeholder="2 guests" [htmlId]="htmlfor2"></cvi-ng-select>
-                </cvi-ng-form-item>
-              </cvi-ng-track>
-              <cvi-ng-button>Search</cvi-ng-button>
-            </cvi-ng-track>
-          </app-page-content-wrapper>
-        </cvi-ng-track>
-      </form>
-  </app-hero>
-      `,
-});
-
 export const Default = {
-  name: 'Default example with form',
-  render: Template,
+  render: (args: HeroComponent) => ({
+    props: args,
+    /* template */
+    template: `
+      <cvi-ng-track flexDirection="vertical" [ngStyle]="{'height.%': 100}">
+        HEADER – Some text that impersonates header and a lot of random content something must sign crowd begun space drove graph reach burst hard composed popular born tropical represent different smooth energy send note two what happy
+        <app-hero [imgSrc]="imgSrc">
+          <form>
+            <cvi-ng-track [horizontalAlignment]="'center'">
+              <app-page-content-wrapper>
+                <cvi-ng-track [gap]="4">
+                  <cvi-ng-track [gap]="2">
+                    <cvi-ng-form-item label="Choose starting date" [isLabelHidden]="true" [htmlId]="htmliIdDatepicker1">
+                      <cvi-ng-datepicker [placeholder]="13.11.2023" [htmlId]="htmliIdDatepicker1"></cvi-ng-datepicker>
+                    </cvi-ng-form-item>
+                    <cvi-ng-form-item label="Choose end date" [isLabelHidden]="true" [htmlId]="htmliIdDatepicker2">
+                      <cvi-ng-datepicker [placeholder]="14.11.2023" [htmlId]="htmliIdDatepicker2"></cvi-ng-datepicker>
+                    </cvi-ng-form-item>
+                    <cvi-ng-form-item [label]="Date" [isLabelHidden]="true" [htmlId]="htmlfor1" [labelId]="labelfor1">
+                      <cvi-ng-select [items]="['1 room', '2 rooms']" [labelId]="labelfor1" placeholder="1 room" [htmlId]="htmlfor1"></cvi-ng-select>
+                    </cvi-ng-form-item>
+                    <cvi-ng-form-item [label]="Date - 1" [isLabelHidden]="true" [htmlId]="htmlfor2" [labelId]="labelfor2">
+                      <cvi-ng-select [items]="['1 guest', '2 guests']" [labelId]="labelfor2" placeholder="2 guests" [htmlId]="htmlfor2"></cvi-ng-select>
+                    </cvi-ng-form-item>
+                  </cvi-ng-track>
+                  <cvi-ng-button>Search</cvi-ng-button>
+                </cvi-ng-track>
+              </app-page-content-wrapper>
+            </cvi-ng-track>
+          </form>
+        </app-hero>
+        FOOTER - camp clothes available city war mud atmosphere syllable exist smaller wish wooden compound opposite enough dark distant different cast conversation actually below gravity machine seeing am not terrible cake symbol serious pure adjective report greater slight term nails bowl needle system matter detail warn finally memory test speak
+      </cvi-ng-track>
+    `,
+    styles: [
+      `
+        :host {
+          height: 100%;
+          display: block;
+        }
+      `,
+    ],
+  }),
 };
 
 const FormTemplate: StoryFn<HeroComponent> = (args: HeroComponent) => {
