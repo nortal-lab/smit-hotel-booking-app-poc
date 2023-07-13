@@ -25,11 +25,13 @@ export class CustomerService {
     return this.http.get<Booking[]>(`${this.apiPath}/bookings`);
   }
 
-  bookRoom() {
+  bookRoom(roomId: string, startDate: string, endDate: string, firstName: string, familyName: string) {
     return this.http.post(`${this.apiPath}/bookings`, {
-      roomId: '7c6ad62a-e424-4ebb-b747-a8027299459a',
-      startDate: '2023-07-20',
-      endDate: '2023-07-22',
+      roomId,
+      startDate,
+      endDate,
+      customerLastName: familyName,
+      customerFirstName: firstName,
     });
   }
 

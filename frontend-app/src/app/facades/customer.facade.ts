@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { CustomerService } from '../services/customer.service';
-import { catchError, map, of, tap } from 'rxjs';
+import { catchError, map, of, switchMap, tap } from 'rxjs';
 import { Room } from '../models/room.interface';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { Booking } from '../models/booking.interface';
 import { ToastService } from '@egov/cvi-ng';
+import { AuthService } from '../services/auth.service';
 
 @Injectable({
   providedIn: 'root',
@@ -13,7 +14,7 @@ export class CustomerFacade {
   customerBookings = new BehaviorSubject<Booking[] | null>(null);
   customerBookings$ = this.customerBookings.asObservable();
 
-  constructor(private readonly customerService: CustomerService, private readonly toastService: ToastService) {}
+  constructor(private readonly customerService: CustomerService, private readonly toastService: ToastService, private readonly authService: AuthService) {}
 
   getAvailableRooms(dateFrom: string, dateTo: string, guestCount: string) {
     return this.customerService.getAvailableRooms(dateFrom, dateTo, guestCount).pipe(
@@ -60,8 +61,8 @@ export class CustomerFacade {
       .subscribe();
   }
 
-  bookRoom() {
-    return this.customerService.bookRoom();
+  bookRoom(roomId: string, startDate: string, endDate: string) {
+    return this.authService.user$.pipe(switchMap((user) => this.customerService.bookRoom(roomId, startDate, endDate, user.givenName, user.familyName)));
   }
 
   cancelBooking(bookingId: string) {
