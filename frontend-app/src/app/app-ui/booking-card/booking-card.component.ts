@@ -10,7 +10,7 @@ import { UiImage } from '../../models/ui/Image.type';
 export class BookingCardComponent {
   @Input() img!: UiImage;
   @Input() title!: string;
-  @Input() summary!: string;
   @Input() price!: string;
   @Input() currency!: string;
+  @Input() badgeLabel!: string;
 }
