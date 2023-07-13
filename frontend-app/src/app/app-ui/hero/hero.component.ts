@@ -5,6 +5,6 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./hero.component.scss'],
   templateUrl: './hero.component.html',
 })
-export class AppHeroComponent {
+export class HeroComponent {
   @Input() imgSrc: string = '';
 }

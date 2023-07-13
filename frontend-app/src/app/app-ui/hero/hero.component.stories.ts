@@ -1,11 +1,11 @@
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { AppHeroComponent } from './hero.component';
+import { HeroComponent } from './hero.component';
 import { action } from '@storybook/addon-actions';
 
 export default {
   title: 'Components/Hero',
-  component: AppHeroComponent,
+  component: HeroComponent,
   tags: ['autodocs'],
   decorators: [
     moduleMetadata({
@@ -26,8 +26,8 @@ export default {
   },
 } as Meta;
 
-const Template: StoryFn<AppHeroComponent> = (args: AppHeroComponent) => ({
-  component: AppHeroComponent,
+const Template: StoryFn<HeroComponent> = (args: HeroComponent) => ({
+  component: HeroComponent,
   props: {
     ...args,
   },
@@ -65,7 +65,7 @@ export const Default = {
   render: Template,
 };
 
-const FormTemplate: StoryFn<AppHeroComponent> = (args: AppHeroComponent) => {
+const FormTemplate: StoryFn<HeroComponent> = (args: HeroComponent) => {
   const form = new FormGroup({
     date1: new FormControl('13.07.2023'),
     date2: new FormControl('14.07.2023'),
