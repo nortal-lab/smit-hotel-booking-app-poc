@@ -1,11 +1,6 @@
 <ng-container *ngFor="let room of rooms">
-  <app-booking-card
-    class="room"
-    [img]="roomImage"
-    [title]="room.roomType | roomType"
-    summary="1 night / {{ room.peopleCapacity }} adults"
-    [price]="room.pricePerNightIncludingTaxes"
-    currency="€">
+  <app-booking-card class="room" [img]="roomImage" [title]="room.roomType | roomType" [price]="room.pricePerNightIncludingTaxes" currency="€">
+    <div app-booking-card="summary">1 night / {{ room.peopleCapacity }} adults</div>
     <div>
       <cvi-ng-track [gap]="4" class="room-details-wrapper">
         <div class="room-details"><fa-icon [icon]="faUser"></fa-icon>{{ room.peopleCapacity }} {{ room.peopleCapacity > 1 ? 'people' : 'person' }}</div>
@@ -25,6 +20,6 @@
         <span *ngIf="room.smartTV" class="room-feature">smart TV</span>
       </div>
     </div>
-    <cvi-ng-button *ngIf="showButton" (clickEvent)="click()" cvi-ng-button="">{{ buttonTitle }}</cvi-ng-button>
+    <cvi-ng-button *ngIf="showButton" (clickEvent)="click(room)" cvi-ng-button="">{{ buttonTitle }}</cvi-ng-button>
   </app-booking-card>
 </ng-container>

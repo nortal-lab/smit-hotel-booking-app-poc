@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { RoomDTO } from '../models/room.interface';
+import { AvailableRoomsDTO } from '../models/room.interface';
 import { Booking } from '../models/booking.interface';
 
 @Injectable({
@@ -12,10 +12,11 @@ export class CustomerService {
   constructor(private readonly http: HttpClient) {}
 
   getAvailableRooms(dateFrom: string, dateTo: string, guestCount: string) {
-    return this.http.get<RoomDTO[]>(`${this.apiPath}/rooms/available`, {
+    return this.http.get<AvailableRoomsDTO>(`${this.apiPath}/rooms/available`, {
       params: {
         startDate: dateFrom,
         endDate: dateTo,
+        guestCount: guestCount,
       },
     });
   }

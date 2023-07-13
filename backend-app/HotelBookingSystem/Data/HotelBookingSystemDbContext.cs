@@ -9,6 +9,14 @@ namespace HotelBookingSystem.API.Data
         public DbSet<Booking> Bookings { get; set; }
         public DbSet<Room> Rooms { get; set; }
 
+        public HotelBookingSystemDbContext()
+        {
+        }
+
+        public HotelBookingSystemDbContext(DbContextOptions<HotelBookingSystemDbContext> options) : base(options)
+        {
+        }
+
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
             options.UseInMemoryDatabase("HotelBookingSystemDb");

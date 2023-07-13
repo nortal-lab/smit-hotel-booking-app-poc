@@ -1,0 +1,30 @@
+<ng-container *ngIf="room">
+  <div class="room-details">
+    <div class="room-type">{{ room.roomType | roomType }}</div>
+    <div class="booking-details" [ngStyle]="{'--app-definition-item--label--font-size': 'var(--cvi-font-size-70)'}">
+      <div class="booking-title">My booking</div>
+      <app-definition-item label="Occupancy">
+        <div class="definition">{{ room.peopleCapacity }} adults</div>
+      </app-definition-item>
+      <app-definition-item label="Check-in">
+        <div class="definition">2020-01-01</div>
+      </app-definition-item>
+      <app-definition-item label="Check-out">
+        <div class="definition">2020-01-01</div>
+      </app-definition-item>
+    </div>
+    <div class="price-summary">Price summary</div>
+    <div class="room-cost">
+      <div class="room-cost-label">Room cost</div>
+      <div class="room-cost-value">{{ room.priceBeforeTaxes }}€</div>
+    </div>
+    <div class="taxes">
+      <div class="taxes-label">Estimated Taxes</div>
+      <div class="taxes-value">{{ room.estimatedTaxes }}€</div>
+    </div>
+    <div class="total-price">
+      <div class="total-price-label">Total price</div>
+      <div class="total-price-value">{{ room.pricePerNightIncludingTaxes }}€</div>
+    </div>
+  </div>
+</ng-container>

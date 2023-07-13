@@ -1,4 +1,5 @@
-﻿using HotelBookingSystem.API.Models;
+﻿using HotelBookingSystem.API.Auth.Model;
+using HotelBookingSystem.API.Models;
 
 namespace HotelBookingSystem.API.Services.BookingService
 {
@@ -9,6 +10,6 @@ namespace HotelBookingSystem.API.Services.BookingService
         public Booking? GetBookingById(Guid bookingId);
         public void RemoveBookingById(Guid bookingId);
         public List<Booking> FindAllActiveBookings();
-        public Booking CreateBooking(Booking booking, Guid customerId);
+        public Booking CreateBooking(Booking booking, ICurrentUser customer);
     }
 }

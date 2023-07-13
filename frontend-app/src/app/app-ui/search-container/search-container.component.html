@@ -1,0 +1,21 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+<cvi-ng-track [gap]="4">
+  <cvi-ng-track [gap]="2">
+    <ng-container *ngFor="let item of datePickers">
+      <cvi-ng-form-item [label]="item.label" [isLabelHidden]="true" [htmlId]="item.htmlId">
+        <cvi-ng-datepicker [htmlId]="item.htmlId" [formControlName]="item.formControlName" [placeholder]="item.placeholder"></cvi-ng-datepicker>
+      </cvi-ng-form-item>
+    </ng-container>
+    <cvi-ng-form-item [label]="guestItem.label" [isLabelHidden]="true" [htmlId]="guestItem.htmlId" [labelId]="guestItem.labelId">
+      <cvi-ng-select
+        [items]="guestItem.items"
+        [placeholder]="guestItem.placeholder"
+        [htmlId]="guestItem.htmlId"
+        [labelId]="guestItem.labelId"
+        [formControlName]="guestItem.formControlName">
+      </cvi-ng-select>
+    </cvi-ng-form-item>
+  </cvi-ng-track>
+  <app-circular-button type="submit"></app-circular-button>
+</cvi-ng-track>
+</form>

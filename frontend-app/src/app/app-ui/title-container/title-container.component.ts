@@ -8,7 +8,7 @@ import { Component, Input } from '@angular/core';
     <ng-content *ngIf="withContentRight"></ng-content>
   `,
 })
-export class AppTitleContainerComponent {
+export class TitleContainerComponent {
   @Input() title: string = '';
   @Input() withContentRight: boolean = false;
 }

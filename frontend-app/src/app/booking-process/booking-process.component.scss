@@ -1,19 +1,44 @@
-.booking-process-link {
-  cursor: pointer;
-}
+:host {
+  --border-color: var(--cvi-color-black-coral-2);
+  --gap: var(--cvi-spacing-haapsalu);
 
-.personal-information-step {
-  display: flex;
-  gap: 25px;
-
-  .personal-information-container {
-    flex-grow: 1;
+  .breadcrumb {
+    display: block;
+    padding-bottom: var(--cvi-spacing-viljandi);
   }
-}
 
-.sorting-container {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 16px;
+  .booking-process-link {
+    cursor: pointer;
+  }
+
+  .personal-information-step {
+    display: flex;
+    gap: 25px;
+
+    .personal-information-container {
+      flex-grow: 1;
+      height: fit-content;
+    }
+  }
+
+  .sorting-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+
+  .personal-information-block {
+    display: block;
+    margin-top: var(--gap);
+  }
+
+  .price-summary-block {
+    display: block;
+    padding-bottom: var(--gap);
+  }
+
+  .no-results-title {
+    padding-bottom: var(--gap);
+  }
 }

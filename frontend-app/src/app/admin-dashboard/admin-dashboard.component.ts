@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { EmployeeFacade } from '../facades/employee.facade';
+import { Booking } from '../models/booking.interface';
 
 @Component({
   selector: 'app-customer-dashboard',
@@ -9,9 +10,8 @@ import { EmployeeFacade } from '../facades/employee.facade';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AdminDashboardComponent implements OnInit {
-  bookings$?: Observable<any>;
+  bookings$?: Observable<Booking[]>;
   rooms$?: Observable<any>;
-  reservationsTableHeaderLabels = ['Booking No.', 'Room', 'Guest', 'Dates'];
 
   constructor(private readonly employeeFacade: EmployeeFacade) {}
 
@@ -27,10 +27,5 @@ export class AdminDashboardComponent implements OnInit {
 
   getRooms() {
     return this.employeeFacade.getRooms();
-  }
-
-  cancelBooking(bookingId: string, closeModal: () => void) {
-    this.employeeFacade.cancelBooking(bookingId);
-    closeModal;
   }
 }

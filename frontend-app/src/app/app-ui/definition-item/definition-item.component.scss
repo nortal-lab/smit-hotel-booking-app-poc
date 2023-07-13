@@ -6,7 +6,7 @@
   display: flex;
   gap: var(--app-definition-table, 0) var(--cvi-spacing-loksa);
   flex-direction: var(--app-definition-table, column);
-  
+
   // The toggle space technique doesn't support setting shorthand properties
   padding-inline-start: var(--has-stripes--padding-inline);
   padding-inline-end: var(--has-stripes--padding-inline);
