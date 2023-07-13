@@ -34,7 +34,7 @@ const Template: StoryFn<HeroComponent> = (args: HeroComponent) => ({
   template: `
     <app-hero [imgSrc]="imgSrc">
       <form>
-        <cvi-ng-track style="padding-top: 100px" [horizontalAlignment]="'center'">
+        <cvi-ng-track [horizontalAlignment]="'center'">
           <app-page-content-wrapper>
             <cvi-ng-track [gap]="4">
               <cvi-ng-track [gap]="2">
