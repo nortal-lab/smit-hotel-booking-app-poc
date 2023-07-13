@@ -8,7 +8,7 @@
   <div class="aside">
     <div class="aside-track">
       <div class="summary">
-        {{ summary }}
+        <ng-content select="[app-booking-card=summary]"></ng-content>
         <span class="price">{{ price }} {{ currency }}</span>
       </div>
       <ng-content select="cvi-ng-button"></ng-content>

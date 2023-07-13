@@ -17,7 +17,6 @@ const meta: Meta<BookingCardComponent> = {
       alt: 'chocolate',
       src: 'https://i.imgur.com/r8ySn9d.jpeg'
     },
-    summary: '1 night/2 adults',
     price: '87',
     currency: '€',
     badgeLabel: 'In 5 months'
@@ -37,11 +36,14 @@ export const Default: StoryObj = {
     /* template */
     template: `
       <cvi-ng-track flexDirection="vertical" [gap]="4">
-        <app-booking-card [title]="title" [price]="price" [currency]="currency" [img]="img" [summary]="summary" [badgeLabel]="badgeLabel">
+        <app-booking-card [title]="title" [price]="price" [currency]="currency" [img]="img" [badgeLabel]="badgeLabel">
           anywhere mother heard branch drink plant previous younger put hurried disappear cake nodded voyage direct tribe war former paragraph successful oil determine noted leaving
           <cvi-ng-button>View</cvi-ng-button>
+          <cvi-ng-track [gap]="2" flexDirection="vertical" app-booking-card="summary">
+            <span><strong>1 night</strong>/2 adults</span>
+          </cvi-ng-track>
         </app-booking-card>
-        <app-booking-card title="Some title that is very long" price="13" currency="€" [img]="{ src: 'https://i.imgur.com/HNyuxM3.jpeg', alt: 'planet'}" summary="6 days, 4 nights">
+        <app-booking-card title="Some title that is very long" price="13" currency="€" [img]="{ src: 'https://i.imgur.com/HNyuxM3.jpeg', alt: 'planet'}">
           <cvi-ng-track [gap]="4" flexDirection="vertical">
             <cvi-ng-track [gap]="4">
               <cvi-ng-track [gap]="1">
@@ -61,6 +63,11 @@ export const Default: StoryObj = {
           </cvi-ng-track>
           Main pipe standard castle fair fast test diameter up entire could sat our action biggest throw dress adult slightly almost send character including tie
           <cvi-ng-button>Book</cvi-ng-button>
+          <cvi-ng-track [gap]="2" flexDirection="vertical" app-booking-card="summary">
+            <span>1 night/2 adults</span>
+            <span>Another line of text</span>
+            <span>Yet another line of text</span>
+          </cvi-ng-track>
         </app-booking-card>
       </cvi-ng-track>
     `,
