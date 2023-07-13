@@ -1,7 +1,8 @@
 ﻿using HotelBookingSystem.API.Exceptions;
+using HotelBookingSystem.API.Helpers;
 using HotelBookingSystem.API.Models.Room;
 using HotelBookingSystem.API.Services.RoomService;
-using HotelBookingSystem.API.Validators;
+using HotelBookingSystem.API.Validators.BookingValidator;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HotelBookingSystem.API.Controllers.Customer
@@ -11,10 +12,12 @@ namespace HotelBookingSystem.API.Controllers.Customer
     public class CustomerRoomController : ControllerBase
     {
         private readonly IRoomService _roomService;
+        private readonly IBookingValidator _bookingValidator;
 
-        public CustomerRoomController(IRoomService roomService)
+        public CustomerRoomController(IRoomService roomService, IBookingValidator bookingValidator)
         {
             _roomService = roomService;
+            _bookingValidator = bookingValidator;
         }
 
         /// <summary>
@@ -30,7 +33,7 @@ namespace HotelBookingSystem.API.Controllers.Customer
         {
             try
             {
-                DateValidator.DateRangeValidation(startDate, endDate);
+                _bookingValidator.BookingDateRangeValidation(startDate, endDate);
             }
             catch (InvalidDateRangeException ex)
             {
@@ -40,7 +43,14 @@ namespace HotelBookingSystem.API.Controllers.Customer
             IEnumerable<Room> availableRooms =
                 _roomService.FindAvailableRoomsByCriteria(startDate, endDate, peopleCapacity);
 
-            return Ok(availableRooms);
+            AvailableRoomsWrapper availableRoomsWrapper = new()
+            {
+                AvailableRooms = availableRooms.ToList(),
+                StartDate = DateHelper.SetStartTimeTo1500(startDate),
+                EndDate = DateHelper.SetEndTimeTo1200(endDate)
+            };
+
+            return Ok(availableRoomsWrapper);
         }
     }
 }

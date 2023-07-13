@@ -1,5 +1,5 @@
 <ng-container *ngIf="kind === 'button'">
-  <button class="button" type="button" (click)="onClick()">
+  <button class="button" [type]="type" (click)="onClick()">
     <ng-container *ngTemplateOutlet="icon"></ng-container>
   </button>
 </ng-container>
