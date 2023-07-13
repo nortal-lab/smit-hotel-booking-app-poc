@@ -1,8 +1,8 @@
 ﻿using HotelBookingSystem.API.Auth.Model;
 using HotelBookingSystem.API.Exceptions;
-using HotelBookingSystem.API.Helpers;
 using HotelBookingSystem.API.Models;
 using HotelBookingSystem.API.Services.BookingService;
+using HotelBookingSystem.API.Validators.BookingValidator;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,10 +14,12 @@ namespace HotelBookingSystem.API.Controllers.Employee
     public class EmployeeBookingController : ControllerBase
     {
         private readonly IBookingService _bookingService;
+        private readonly IBookingValidator _bookingValidator;
 
-        public EmployeeBookingController(IBookingService bookingService)
+        public EmployeeBookingController(IBookingService bookingService, IBookingValidator bookingValidator)
         {
             _bookingService = bookingService;
+            _bookingValidator = bookingValidator;
         }
 
         [HttpGet("active")]
@@ -37,7 +39,7 @@ namespace HotelBookingSystem.API.Controllers.Employee
 
             try
             {
-                BookingValidator.ValidateCancellation(booking);
+                _bookingValidator.ValidateCancellation(booking);
                 _bookingService.RemoveBookingById(bookingId);
             }
             catch (LessThanThreeDaysLeftException ex)
