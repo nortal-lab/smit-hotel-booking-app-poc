@@ -65,7 +65,9 @@ export class BookingProcessComponent implements OnInit {
 
   private sortRoomsByPrice(rooms: Room[], sortOrder: SortOrder) {
     return rooms.sort((a, b) =>
-      sortOrder === SortOrder.ASC ? Number(a.pricePerNight) - Number(b.pricePerNight) : Number(b.pricePerNight) - Number(a.pricePerNight)
+      sortOrder === SortOrder.ASC
+        ? Number(a.pricePerNightIncludingTaxes) - Number(b.pricePerNightIncludingTaxes)
+        : Number(b.pricePerNightIncludingTaxes) - Number(a.pricePerNightIncludingTaxes)
     );
   }
 

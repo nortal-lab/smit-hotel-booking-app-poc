@@ -5,7 +5,7 @@
 
   <ng-container *ngIf="!showConfirmationNotification; else confirmationNotification">
     <ng-container *ngIf="availableRooms$ | async as availableRooms">
-      <ng-container *ngIf="[availableRooms].length > 0; else noResultsPlaceholder">
+      <ng-container *ngIf="availableRooms.length > 0; else noResultsPlaceholder">
         <cvi-app-steps
           #stepper
           [title]="labels[context.currentStep]"

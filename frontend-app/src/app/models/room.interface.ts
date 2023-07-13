@@ -8,7 +8,6 @@ export interface RoomDTO {
   inRoomSafe: boolean;
   ironAndIroningBoard: boolean;
   peopleCapacity: number;
-  pricePerNight: number;
   professionalHairDryer: boolean;
   rainShower: true;
   roomId: string;
@@ -16,6 +15,9 @@ export interface RoomDTO {
   roomSizeInSquareMeters: number;
   roomType: RoomType;
   smartTV: boolean;
+  estimatedTaxes: number;
+  priceBeforeTaxes: number;
+  pricePerNightIncludingTaxes: number;
 }
 
 export interface Room {
@@ -28,7 +30,6 @@ export interface Room {
   inRoomSafe: boolean;
   ironAndIroningBoard: boolean;
   peopleCapacity: number;
-  pricePerNight: string;
   professionalHairDryer: boolean;
   rainShower: boolean;
   roomId: string;
@@ -36,6 +37,9 @@ export interface Room {
   roomSizeInSquareMeters: number;
   roomType: RoomType;
   smartTV: boolean;
+  estimatedTaxes: number;
+  priceBeforeTaxes: number;
+  pricePerNightIncludingTaxes: string;
 }
 
 export enum RoomType {

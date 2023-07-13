@@ -4,7 +4,7 @@
     [img]="roomImage"
     [title]="room.roomType | roomType"
     summary="1 night / {{ room.peopleCapacity }} adults"
-    [price]="room.pricePerNight"
+    [price]="room.pricePerNightIncludingTaxes"
     currency="€">
     <div>
       <cvi-ng-track [gap]="4" class="room-details-wrapper">
