@@ -1,9 +1,9 @@
 ﻿using HotelBookingSystem.API.Auth;
 using HotelBookingSystem.API.Auth.Model;
 using HotelBookingSystem.API.Exceptions;
-using HotelBookingSystem.API.Helpers;
 using HotelBookingSystem.API.Models;
 using HotelBookingSystem.API.Services.BookingService;
+using HotelBookingSystem.API.Validators.BookingValidator;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,12 +14,15 @@ namespace HotelBookingSystem.API.Controllers.Customer
     [Authorize(Roles = Roles.Customer)]
     public class CustomerBookingController : ControllerBase
     {
+        private static object _bookingLock = new();
         private readonly IBookingService _bookingService;
         private readonly ICurrentUser _currentUser;
+        private readonly IBookingValidator _bookingValidator;
 
-        public CustomerBookingController(IBookingService bookingService, IAuthenticationService authenticationService)
+        public CustomerBookingController(IBookingService bookingService, IAuthenticationService authenticationService, IBookingValidator bookingValidator)
         {
             _bookingService = bookingService;
+            _bookingValidator = bookingValidator;
             _currentUser = authenticationService.CurrentUser!;
         }
 
@@ -62,12 +65,21 @@ namespace HotelBookingSystem.API.Controllers.Customer
         {
             try
             {
-                BookingValidator.ValidateCreation(booking);
-                Booking createdBooking = _bookingService.CreateBooking(booking, new Guid(_currentUser.Id));
-                return CreatedAtAction(nameof(GetBookingDetails), new { bookingId = createdBooking.BookingId },
-                    createdBooking);
+                _bookingValidator.ValidateCreation(booking);
+
+                lock (_bookingLock)
+                {
+                    _bookingValidator.ValidateDoubleBooking(booking);
+                    Booking createdBooking = _bookingService.CreateBooking(booking, _currentUser);
+                    return CreatedAtAction(nameof(GetBookingDetails), new { bookingId = createdBooking.BookingId },
+                        createdBooking);
+                }
             }
             catch (InvalidDateRangeException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (BookingDateOverlapException ex)
             {
                 return BadRequest(ex.Message);
             }
@@ -88,7 +100,7 @@ namespace HotelBookingSystem.API.Controllers.Customer
                     return NotFound();
                 }
 
-                BookingValidator.ValidateCancellation(booking);
+                _bookingValidator.ValidateCancellation(booking);
                 _bookingService.RemoveBookingById(bookingId);
             }
             catch (BookingAccessException ex)

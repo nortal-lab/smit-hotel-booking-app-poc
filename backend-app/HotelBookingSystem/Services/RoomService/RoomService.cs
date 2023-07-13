@@ -1,5 +1,6 @@
 ﻿using HotelBookingSystem.API.Data.BookingRepository;
 using HotelBookingSystem.API.Data.RoomRepository;
+using HotelBookingSystem.API.Helpers;
 using HotelBookingSystem.API.Models.Room;
 
 namespace HotelBookingSystem.API.Services.RoomService
@@ -22,7 +23,8 @@ namespace HotelBookingSystem.API.Services.RoomService
 
         public List<Room> FindAvailableRoomsByCriteria(DateTime startDate, DateTime endDate, int? peopleCapacity)
         {
-            return _roomRepository.FindAvailableRoomsByCriteria(startDate, endDate, peopleCapacity);
+            return _roomRepository.FindAvailableRoomsByCriteria(DateHelper.SetStartTimeTo1500(startDate),
+                DateHelper.SetEndTimeTo1200(endDate), peopleCapacity);
         }
     }
 }

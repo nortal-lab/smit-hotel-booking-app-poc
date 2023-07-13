@@ -45,6 +45,18 @@ namespace HotelBookingSystem.API.Data.BookingRepository
             _dbContext.SaveChanges();
         }
 
+        public bool IsBookingDateAvailable(Booking bookingToCheck)
+        {
+            var existingBookings = _dbContext.Bookings
+                .Where(existingBooking => existingBooking.RoomId == bookingToCheck.RoomId);
+
+            bool isAvailable = !existingBookings.Any(existingBooking =>
+                bookingToCheck.StartDate < existingBooking.EndDate &&
+                bookingToCheck.EndDate > existingBooking.StartDate);
+
+            return isAvailable;
+        }
+
         public List<Booking> FindAllActiveBookings()
         {
             return _dbContext.Bookings.Where(booking => booking.EndDate >= DateTime.Now).ToList();
