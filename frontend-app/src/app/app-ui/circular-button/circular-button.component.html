@@ -1,0 +1,14 @@
+<ng-container *ngIf="kind === 'button'">
+  <button class="button" type="button" (click)="onClick()">
+    <ng-container *ngTemplateOutlet="icon"></ng-container>
+  </button>
+</ng-container>
+<ng-container *ngIf="kind === 'container'">
+  <span class="button">
+    <ng-container *ngTemplateOutlet="icon"></ng-container>
+  </span>
+</ng-container>
+
+<ng-template #icon>
+  <cvi-ng-icon name="loupe" [height]="20" class="button-icon-wrapper" svgClass="button-icon"></cvi-ng-icon>
+</ng-template>
