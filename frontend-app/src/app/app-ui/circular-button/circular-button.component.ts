@@ -12,6 +12,7 @@ import {
 })
 export class CircularButtonComponent {
   @Input() kind: 'button' | 'container' = 'button';
+  @Input() type: 'button' | 'submit' = 'button';
   @Output() clickEvent = new EventEmitter();
   
   onClick(): void {
