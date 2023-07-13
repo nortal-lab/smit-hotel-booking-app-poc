@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { combineLatest, EMPTY, map, Observable, switchMap, take, tap } from 'rxjs';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import { combineLatest, EMPTY, map, Observable, Subject, switchMap, take, takeUntil, tap } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Room } from '../models/room.interface';
 import { CustomerFacade } from '../facades/customer.facade';
@@ -19,16 +19,17 @@ import { User } from '../models/user.interface';
   styleUrls: ['./booking-process.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BookingProcessComponent implements OnInit {
+export class BookingProcessComponent implements OnInit, OnDestroy {
+  private availableRooms$ = new BehaviorSubject<Room[] | null>(null);
+  private readonly isDestroyed$ = new Subject<void>();
+
   labels = ['Select room', 'Personal information', 'Confirmation'];
   availableRoomsSortingItems = [SortByPrice.ASC, SortByPrice.DESC];
   initialCurrentStep = this.getInitialCurrentStep();
   currentStepSubject$ = new BehaviorSubject(this.initialCurrentStep);
   dateFrom$ = this.activatedRoute.queryParamMap.pipe(map((paramMap) => paramMap.get('dateFrom')));
   dateTo$ = this.activatedRoute.queryParamMap.pipe(map((paramMap) => paramMap.get('dateTo')));
-  roomCount$ = this.activatedRoute.queryParamMap.pipe(map((paramMap) => paramMap.get('rooms')));
   guestCount$ = this.activatedRoute.queryParamMap.pipe(map((paramMap) => paramMap.get('guests')));
-  private availableRooms$ = new BehaviorSubject<Room[] | null>(null);
   sortedAvailableRooms$ = this.availableRooms$.asObservable();
   sortOrder$ = new BehaviorSubject<SortOrder>(SortOrder.ASC);
   userCredentials$?: Observable<User>;
@@ -65,14 +66,14 @@ export class BookingProcessComponent implements OnInit {
   }
 
   ngOnInit() {
-    combineLatest([this.dateFrom$, this.dateTo$, this.roomCount$, this.guestCount$, this.sortOrder$])
+    combineLatest([this.dateFrom$, this.dateTo$, this.guestCount$, this.sortOrder$])
       .pipe(
-        take(1),
-        switchMap(([dateFrom, dateTo, roomCount, guestCount, sortOrder]) =>
-          dateFrom && dateTo && roomCount && guestCount
+        takeUntil(this.isDestroyed$),
+        switchMap(([dateFrom, dateTo, guestCount, sortOrder]) => {
+          return dateFrom && dateTo && guestCount
             ? this.customerFacade.getAvailableRooms(dateFrom, dateTo, guestCount).pipe(map((rooms) => this.sortRoomsByPrice(rooms, sortOrder)))
-            : EMPTY
-        ),
+            : EMPTY;
+        }),
         tap((rooms) => this.availableRooms$.next(rooms))
       )
       .subscribe();
@@ -168,6 +169,10 @@ export class BookingProcessComponent implements OnInit {
     if (index === 0) {
       this.router.navigate(['/']);
     }
+  }
+
+  ngOnDestroy() {
+    this.isDestroyed$.complete();
   }
 }
 
