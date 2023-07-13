@@ -5,7 +5,7 @@ import { Room } from '../models/room.interface';
 import { CustomerFacade } from '../facades/customer.facade';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { AuthService } from '../services/auth.service';
-import { NotificationSize, ToastService } from '@egov/cvi-ng';
+import { NotificationSize } from '@egov/cvi-ng';
 import { LocalStorageService } from '../services/local-storage.service';
 import { NotificationSeverity } from '@egov/cvi-ng/lib/notification/notification';
 import { AppStepsComponent } from '../app-ui/steps/steps/steps.component';
@@ -26,7 +26,6 @@ export class BookingProcessComponent implements OnInit {
   currentStepSubject$ = new BehaviorSubject(this.initialCurrentStep);
   dateFrom$ = this.activatedRoute.queryParamMap.pipe(map((paramMap) => paramMap.get('dateFrom')));
   dateTo$ = this.activatedRoute.queryParamMap.pipe(map((paramMap) => paramMap.get('dateTo')));
-  roomCount$ = this.activatedRoute.queryParamMap.pipe(map((paramMap) => paramMap.get('rooms')));
   guestCount$ = this.activatedRoute.queryParamMap.pipe(map((paramMap) => paramMap.get('guests')));
   private availableRooms$ = new BehaviorSubject<Room[] | null>(null);
   sortedAvailableRooms$ = this.availableRooms$.asObservable();
@@ -50,7 +49,6 @@ export class BookingProcessComponent implements OnInit {
     private readonly activatedRoute: ActivatedRoute,
     private readonly authService: AuthService,
     private readonly localStorage: LocalStorageService,
-    private readonly toastService: ToastService,
     private readonly router: Router
   ) {}
 
@@ -65,11 +63,11 @@ export class BookingProcessComponent implements OnInit {
   }
 
   ngOnInit() {
-    combineLatest([this.dateFrom$, this.dateTo$, this.roomCount$, this.guestCount$, this.sortOrder$])
+    combineLatest([this.dateFrom$, this.dateTo$, this.guestCount$, this.sortOrder$])
       .pipe(
         take(1),
-        switchMap(([dateFrom, dateTo, roomCount, guestCount, sortOrder]) =>
-          dateFrom && dateTo && roomCount && guestCount
+        switchMap(([dateFrom, dateTo, guestCount, sortOrder]) =>
+          dateFrom && dateTo && guestCount
             ? this.customerFacade.getAvailableRooms(dateFrom, dateTo, guestCount).pipe(map((rooms) => this.sortRoomsByPrice(rooms, sortOrder)))
             : EMPTY
         ),
@@ -81,7 +79,7 @@ export class BookingProcessComponent implements OnInit {
   }
 
   private sortRoomsByPrice(rooms: Room[], sortOrder: SortOrder) {
-    const roomsCopy = structuredClone(rooms);
+    const roomsCopy = structuredClone<Room[]>(rooms);
     return roomsCopy.sort((a, b) =>
       sortOrder === SortOrder.ASC
         ? Number(a.pricePerNightIncludingTaxes) - Number(b.pricePerNightIncludingTaxes)
@@ -146,9 +144,7 @@ export class BookingProcessComponent implements OnInit {
   }
 
   login() {
-    this.authService.login().catch(() => {
-      this.toastService.error('An error has happened. Please, try again in a while or contact administrator.');
-    });
+    this.authService.login();
   }
 
   confirmBooking() {
