@@ -1,9 +1,9 @@
 import { Meta, StoryFn } from '@storybook/angular';
-import { AppTitleContainerComponent } from './title-container.component';
+import { TitleContainerComponent } from './title-container.component';
 
 export default {
   title: 'Components/Title container',
-  component: AppTitleContainerComponent,
+  component: TitleContainerComponent,
   tags: ['autodocs'],
   parameters: {
     layout: 'padded',
@@ -23,8 +23,8 @@ export default {
   },
 } as Meta;
 
-const Template: StoryFn<AppTitleContainerComponent> = (args: AppTitleContainerComponent) => ({
-  component: AppTitleContainerComponent,
+const Template: StoryFn<TitleContainerComponent> = (args: TitleContainerComponent) => ({
+  component: TitleContainerComponent,
   props: {
     ...args,
   },
