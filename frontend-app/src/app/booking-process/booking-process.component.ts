@@ -26,7 +26,8 @@ export class BookingProcessComponent implements OnInit {
   dateTo$ = this.activatedRoute.queryParamMap.pipe(map((paramMap) => paramMap.get('dateTo')));
   roomCount$ = this.activatedRoute.queryParamMap.pipe(map((paramMap) => paramMap.get('rooms')));
   guestCount$ = this.activatedRoute.queryParamMap.pipe(map((paramMap) => paramMap.get('guests')));
-  availableRooms$?: Observable<Room[]>;
+  private availableRooms$ = new BehaviorSubject<Room[] | null>(null);
+  sortedAvailableRooms$ = this.availableRooms$.asObservable();
   sortOrder$ = new BehaviorSubject<SortOrder>(SortOrder.ASC);
   userCredentials$?: Observable<string>;
   noResultsNotificationSeverity: NotificationSeverity = 'warning';
@@ -52,19 +53,24 @@ export class BookingProcessComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.availableRooms$ = combineLatest([this.dateFrom$, this.dateTo$, this.roomCount$, this.guestCount$, this.sortOrder$]).pipe(
-      switchMap(([dateFrom, dateTo, roomCount, guestCount, sortOrder]) =>
-        dateFrom && dateTo && roomCount && guestCount
-          ? this.customerFacade.getAvailableRooms(dateFrom, dateTo, guestCount).pipe(map((rooms) => this.sortRoomsByPrice(rooms, sortOrder)))
-          : EMPTY
+    combineLatest([this.dateFrom$, this.dateTo$, this.roomCount$, this.guestCount$, this.sortOrder$])
+      .pipe(
+        take(1),
+        switchMap(([dateFrom, dateTo, roomCount, guestCount, sortOrder]) =>
+          dateFrom && dateTo && roomCount && guestCount
+            ? this.customerFacade.getAvailableRooms(dateFrom, dateTo, guestCount).pipe(map((rooms) => this.sortRoomsByPrice(rooms, sortOrder)))
+            : EMPTY
+        ),
+        tap((rooms) => this.availableRooms$.next(rooms))
       )
-    );
+      .subscribe();
 
     this.userCredentials$ = this.authService.user$.pipe(map((user) => user.username));
   }
 
   private sortRoomsByPrice(rooms: Room[], sortOrder: SortOrder) {
-    return rooms.sort((a, b) =>
+    const roomsCopy = structuredClone(rooms);
+    return roomsCopy.sort((a, b) =>
       sortOrder === SortOrder.ASC
         ? Number(a.pricePerNightIncludingTaxes) - Number(b.pricePerNightIncludingTaxes)
         : Number(b.pricePerNightIncludingTaxes) - Number(a.pricePerNightIncludingTaxes)
@@ -73,6 +79,10 @@ export class BookingProcessComponent implements OnInit {
 
   changeSort(sortOrder: SortByPrice) {
     this.sortOrder$.next(sortOrder === SortByPrice.ASC ? SortOrder.ASC : SortOrder.DESC);
+    const availableRooms = this.availableRooms$.getValue();
+    if (availableRooms) {
+      this.availableRooms$.next(this.sortRoomsByPrice(availableRooms, this.sortOrder$.getValue()));
+    }
   }
 
   nextStep(stepper: AppStepsComponent) {

@@ -4,7 +4,7 @@
     (breadcrumbChange)="changeBreadcrumb($event)"></cvi-ng-breadcrumbs>
 
   <ng-container *ngIf="!showConfirmationNotification; else confirmationNotification">
-    <ng-container *ngIf="availableRooms$ | async as availableRooms">
+    <ng-container *ngIf="sortedAvailableRooms$ | async as availableRooms">
       <ng-container *ngIf="availableRooms.length > 0; else noResultsPlaceholder">
         <cvi-app-steps
           #stepper
