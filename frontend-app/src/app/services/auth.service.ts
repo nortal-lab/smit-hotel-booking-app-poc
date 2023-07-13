@@ -11,7 +11,9 @@ import { Router } from '@angular/router';
 export class AuthService implements OnDestroy {
   private initialUserValue: User = {
     role: UserRoles.CUSTOMER,
-    username: '',
+    familyName: '',
+    givenName: '',
+    email: '',
     personalIdentificationNumber: '',
   };
 
@@ -35,7 +37,9 @@ export class AuthService implements OnDestroy {
 
   private setUser(role: UserRoles) {
     this.userSubject$.next({
-      username: this.getUsername(),
+      familyName: this.getFamilyName(),
+      givenName: this.getGivenName(),
+      email: this.getEmail(),
       personalIdentificationNumber: this.getPersonalIdentificationNumber(),
       role,
     });
@@ -51,9 +55,19 @@ export class AuthService implements OnDestroy {
     return this.keycloakService.getKeycloakInstance().tokenParsed;
   }
 
-  private getUsername() {
+  private getFamilyName() {
     const parsedToken = this.getParsedToken();
     return parsedToken?.['family_name'];
+  }
+
+  private getGivenName() {
+    const parsedToken = this.getParsedToken();
+    return parsedToken?.['given_name'];
+  }
+
+  private getEmail() {
+    const parsedToken = this.getParsedToken();
+    return parsedToken?.['email'];
   }
 
   private getPersonalIdentificationNumber() {
