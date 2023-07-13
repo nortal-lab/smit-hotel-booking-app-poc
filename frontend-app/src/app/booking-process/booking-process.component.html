@@ -30,24 +30,29 @@
               <app-room-reservation-details [room]="selectedRoom"></app-room-reservation-details>
             </app-booking-sidebar>
             <cvi-app-step-panel class="personal-information-container" [title]="labels[1]" [titleHidden]="true" [disabled]="context.currentStep < 1">
-              <ng-container *ngIf="userCredentials$ | async as userCredentials; else loginButton">
-                <app-personal-information-block [userCredentials]="userCredentials"></app-personal-information-block>
-                <app-payment-method-block></app-payment-method-block>
+              <ng-container *ngIf="userCredentials$ | async as userCredentials">
+                <ng-container *ngIf="userCredentials.personalIdentificationNumber; else loginButton">
+                  <app-personal-information-block [userCredentials]="userCredentials"></app-personal-information-block>
+                  <app-payment-method-block></app-payment-method-block>
+                </ng-container>
+                <ng-template #loginButton>
+                  <cvi-ng-notification
+                    class="login-notification"
+                    [severity]="signInNotificationSeverity"
+                    [size]="signInNotificationSize"
+                    [showCloseButton]="false"
+                    [showIcon]="true"
+                    title="No available rooms for selected dates">
+                    <a (click)="login()" class="booking-process-link">Sign In</a> to continue with booking.
+                  </cvi-ng-notification>
+                </ng-template>
                 <cvi-ng-track horizontalAlignment="right" [gap]="2">
-                  <cvi-ng-button size="m" [disabled]="false" appearance="secondary" (click)="cancelBookingProcess(stepper)">Cancel</cvi-ng-button>
-                  <cvi-ng-button size="m" [disabled]="false" appearance="primary" (click)="nextStep(stepper)">Next</cvi-ng-button>
+                  <cvi-ng-button size="m" appearance="secondary" (click)="cancelBookingProcess(stepper)">Cancel</cvi-ng-button>
+                  <cvi-ng-button size="m" [disabled]="!userCredentials.personalIdentificationNumber" appearance="primary" (click)="nextStep(stepper)"
+                    >Next</cvi-ng-button
+                  >
                 </cvi-ng-track>
               </ng-container>
-              <ng-template #loginButton>
-                <cvi-ng-notification
-                  [severity]="signInNotificationSeverity"
-                  [size]="signInNotificationSize"
-                  [showCloseButton]="false"
-                  [showIcon]="true"
-                  title="No available rooms for selected dates">
-                  <a (click)="login()" class="booking-process-link">Sign In</a> to continue with booking.
-                </cvi-ng-notification>
-              </ng-template>
             </cvi-app-step-panel>
           </cvi-app-step>
           <cvi-app-step>
