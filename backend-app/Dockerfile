@@ -8,6 +8,7 @@ COPY ApiTests/*.csproj ./ApiTests/
 RUN dotnet restore
 
 COPY HotelBookingSystem/. ./HotelBookingSystem/
+COPY ApiTests/. ./ApiTests/
 
 RUN dotnet test
 RUN dotnet publish -c release -o /app --no-restore
