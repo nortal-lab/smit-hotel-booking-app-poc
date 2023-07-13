@@ -109,15 +109,6 @@ const FormTemplate: StoryFn<AppHeroComponent> = (args: AppHeroComponent) => {
             <cvi-ng-form-item label="Choose end date" [isLabelHidden]="true" [htmlId]="htmliIdDatepicker2">
               <cvi-ng-datepicker [htmlId]="htmliIdDatepicker2" formControlName="date2"></cvi-ng-datepicker>
             </cvi-ng-form-item>
-            <cvi-ng-form-item [label]="Date" [isLabelHidden]="true" [htmlId]="htmlfor1" [labelId]="labelfor1">
-              <cvi-ng-select
-                [items]="['1 room', '2 rooms']"
-                placeholder="1 room"
-                [labelId]="labelfor1"
-                placeholder="1 room"
-                [htmlId]="htmlfor1"
-                formControlName="room"></cvi-ng-select>
-            </cvi-ng-form-item>
             <cvi-ng-form-item [label]="Date - 1" [isLabelHidden]="true" [htmlId]="htmlfor2" [labelId]="labelfor2">
               <cvi-ng-select
                 [items]="['1 guest', '2 guests']"
