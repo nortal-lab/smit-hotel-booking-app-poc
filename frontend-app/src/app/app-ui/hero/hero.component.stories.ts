@@ -32,6 +32,7 @@ const Template: StoryFn<HeroComponent> = (args: HeroComponent) => ({
     ...args,
   },
   template: `
+    Some text that impersonates header and a lot of random content something must sign crowd begun space drove graph reach burst hard composed popular born tropical represent different smooth energy send note two what happy
     <app-hero [imgSrc]="imgSrc">
       <form>
         <cvi-ng-track [horizontalAlignment]="'center'">
