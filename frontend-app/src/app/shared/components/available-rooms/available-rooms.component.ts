@@ -14,7 +14,7 @@ export class AvailableRoomsComponent {
   @Input() buttonTitle = 'Book';
   @Input() showButton = true;
 
-  @Output() onClick = new EventEmitter<void>();
+  @Output() onClick = new EventEmitter<Room>();
 
   protected readonly faUser = faUser;
   protected readonly faBed = faBed;
@@ -25,7 +25,7 @@ export class AvailableRoomsComponent {
     alt: 'Room Image',
   };
 
-  click() {
-    this.onClick.emit();
+  click(room: Room) {
+    this.onClick.emit(room);
   }
 }
