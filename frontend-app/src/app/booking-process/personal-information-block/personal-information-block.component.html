@@ -1,0 +1,21 @@
+<div class="personal-information">Personal Information</div>
+<ng-container *ngIf="userCredentials">
+  <div class="user-details">
+    <div class="user-details-left">
+      <app-definition-item label="First Name">
+        {{ userCredentials.givenName }}
+      </app-definition-item>
+      <app-definition-item label="Last Name">
+        {{ userCredentials.familyName }}
+      </app-definition-item>
+    </div>
+    <div class="user-details-right">
+      <app-definition-item label="Personal Identification Number">
+        {{ userCredentials.personalIdentificationNumber }}
+      </app-definition-item>
+      <app-definition-item label="Email address">
+        {{ userCredentials.email }}
+      </app-definition-item>
+    </div>
+  </div>
+</ng-container>

@@ -1,34 +1,36 @@
-<cvi-ng-breadcrumbs [breadcrumbLabels]="['Home', 'My Reservations']" (breadcrumbChange)="changeBreadcrumb($event)"></cvi-ng-breadcrumbs>
-<div>My reservations</div>
+<cvi-ng-breadcrumbs class="breadcrumb" [breadcrumbLabels]="['Home', 'My Reservations']" (breadcrumbChange)="changeBreadcrumb($event)"></cvi-ng-breadcrumbs>
+<app-title-container title="My reservations" class="my-reservations"></app-title-container>
 
-<div *ngIf="customerBookings$ | async as bookings">
-  <ng-container *ngIf="bookings.length > 0; else noResultsPlaceholder">
-    <div *ngFor="let booking of bookings">
-      <span>{{ booking.roomId }}</span>
-      <cvi-ng-button size="m" [disabled]="false" appearance="primary" [cviNgModal]="modal">Cancel</cvi-ng-button>
-      <ng-template #modal let-modal>
-        <cvi-ng-confirmation-modal
-          title="Are you sure you want to cancel this reservation?"
-          confirmButtonText="Confirm cancellation"
-          cancelButtonText="Back"
-          (cancelled)="modal.closeModal()"
-          (confirmed)="cancelBooking(booking.bookingId, modal.closeModal())">
-          <p>You are able to cancel reservation at least 3 days before your stay and you will be fully refunded.</p>
-        </cvi-ng-confirmation-modal>
-      </ng-template>
-    </div>
-  </ng-container>
+<app-page-content-wrapper>
+  <div *ngIf="customerBookings$ | async as bookings">
+    <ng-container *ngIf="bookings.length > 0; else noResultsPlaceholder">
+      <div *ngFor="let booking of bookings">
+        <span>{{ booking.roomId }}</span>
+        <cvi-ng-button size="m" [disabled]="false" appearance="primary" [cviNgModal]="modal">Cancel</cvi-ng-button>
+        <ng-template #modal let-modal>
+          <cvi-ng-confirmation-modal
+            title="Are you sure you want to cancel this reservation?"
+            confirmButtonText="Confirm cancellation"
+            cancelButtonText="Back"
+            (cancelled)="modal.closeModal()"
+            (confirmed)="cancelBooking(booking.bookingId, modal.closeModal())">
+            <p>You are able to cancel reservation at least 3 days before your stay and you will be fully refunded.</p>
+          </cvi-ng-confirmation-modal>
+        </ng-template>
+      </div>
+    </ng-container>
 
-  <ng-template #noResultsPlaceholder>
-    <cvi-ng-notification
-      [severity]="noResultsNotificationSeverity"
-      [size]="noResultsNotificationSize"
-      [showCloseButton]="false"
-      [showIcon]="false"
-      title="No current reservations">
-      You do not have any reservations yet. If you made a reservation and it does not appear on this page, please contact our customer support for additional
-      information +372 612 62.
-      <a routerLink="/">Back to the homepage.</a>
-    </cvi-ng-notification>
-  </ng-template>
-</div>
+    <ng-template #noResultsPlaceholder>
+      <cvi-ng-notification
+        [severity]="noResultsNotificationSeverity"
+        [size]="noResultsNotificationSize"
+        [showCloseButton]="false"
+        [showIcon]="false"
+        title="No current reservations">
+        You do not have any reservations yet. If you made a reservation and it does not appear on this page, please contact our customer support for additional
+        information +372 612 62.
+        <a routerLink="/">Back to the homepage.</a>
+      </cvi-ng-notification>
+    </ng-template>
+  </div>
+</app-page-content-wrapper>

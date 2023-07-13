@@ -1,0 +1,9 @@
+<label class="inner">
+  <span class="cvi-screenreader-text">Search</span>
+  <input [ngModel]="_internalValue"
+         (ngModelChange)="setValue($event)"
+         [placeholder]="placeholder"
+         class="control"
+         type="text" />
+  <app-circular-button kind="container"></app-circular-button>
+</label>

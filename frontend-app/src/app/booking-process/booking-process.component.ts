@@ -10,6 +10,8 @@ import { LocalStorageService } from '../services/local-storage.service';
 import { NotificationSeverity } from '@egov/cvi-ng/lib/notification/notification';
 import { AppStepsComponent } from '../app-ui/steps/steps/steps.component';
 import { SortOrder } from '../models/sort-order.enum';
+import { UiImage } from '../models/ui/Image.type';
+import { User } from '../models/user.interface';
 
 @Component({
   selector: 'app-booking-process',
@@ -26,9 +28,10 @@ export class BookingProcessComponent implements OnInit {
   dateTo$ = this.activatedRoute.queryParamMap.pipe(map((paramMap) => paramMap.get('dateTo')));
   roomCount$ = this.activatedRoute.queryParamMap.pipe(map((paramMap) => paramMap.get('rooms')));
   guestCount$ = this.activatedRoute.queryParamMap.pipe(map((paramMap) => paramMap.get('guests')));
-  availableRooms$?: Observable<Room[]>;
+  private availableRooms$ = new BehaviorSubject<Room[] | null>(null);
+  sortedAvailableRooms$ = this.availableRooms$.asObservable();
   sortOrder$ = new BehaviorSubject<SortOrder>(SortOrder.ASC);
-  userCredentials$?: Observable<string>;
+  userCredentials$?: Observable<User>;
   noResultsNotificationSeverity: NotificationSeverity = 'warning';
   noResultsNotificationSize: NotificationSize = 'regular';
   signInNotificationSeverity: NotificationSeverity = 'info';
@@ -36,6 +39,11 @@ export class BookingProcessComponent implements OnInit {
   confirmationNotificationSeverity: NotificationSeverity = 'success';
   confirmationNotificationSize: NotificationSize = 'regular';
   showConfirmationNotification = false;
+  roomImage: UiImage = {
+    src: '/assets/images/room.jpg',
+    alt: 'Room Image',
+  };
+  selectedRoom = this.getSelectedRoomFromLocalStorage();
 
   constructor(
     private readonly customerFacade: CustomerFacade,
@@ -51,40 +59,73 @@ export class BookingProcessComponent implements OnInit {
     return currentStep ?? 0;
   }
 
-  ngOnInit() {
-    this.availableRooms$ = combineLatest([this.dateFrom$, this.dateTo$, this.roomCount$, this.guestCount$, this.sortOrder$]).pipe(
-      switchMap(([dateFrom, dateTo, roomCount, guestCount, sortOrder]) =>
-        dateFrom && dateTo && roomCount && guestCount
-          ? this.customerFacade.getAvailableRooms(dateFrom, dateTo, guestCount).pipe(map((rooms) => this.sortRoomsByPrice(rooms, sortOrder)))
-          : EMPTY
-      )
-    );
+  private getSelectedRoomFromLocalStorage() {
+    const selectedRoom = JSON.parse(this.localStorage.getData() || 'null')?.selectedRoom;
+    return selectedRoom ?? null;
+  }
 
-    this.userCredentials$ = this.authService.user$.pipe(map((user) => user.username));
+  ngOnInit() {
+    combineLatest([this.dateFrom$, this.dateTo$, this.roomCount$, this.guestCount$, this.sortOrder$])
+      .pipe(
+        take(1),
+        switchMap(([dateFrom, dateTo, roomCount, guestCount, sortOrder]) =>
+          dateFrom && dateTo && roomCount && guestCount
+            ? this.customerFacade.getAvailableRooms(dateFrom, dateTo, guestCount).pipe(map((rooms) => this.sortRoomsByPrice(rooms, sortOrder)))
+            : EMPTY
+        ),
+        tap((rooms) => this.availableRooms$.next(rooms))
+      )
+      .subscribe();
+
+    this.userCredentials$ = this.authService.user$;
   }
 
   private sortRoomsByPrice(rooms: Room[], sortOrder: SortOrder) {
-    return rooms.sort((a, b) =>
-      sortOrder === SortOrder.ASC ? Number(a.pricePerNight) - Number(b.pricePerNight) : Number(b.pricePerNight) - Number(a.pricePerNight)
+    const roomsCopy = structuredClone(rooms);
+    return roomsCopy.sort((a, b) =>
+      sortOrder === SortOrder.ASC
+        ? Number(a.pricePerNightIncludingTaxes) - Number(b.pricePerNightIncludingTaxes)
+        : Number(b.pricePerNightIncludingTaxes) - Number(a.pricePerNightIncludingTaxes)
     );
   }
 
   changeSort(sortOrder: SortByPrice) {
     this.sortOrder$.next(sortOrder === SortByPrice.ASC ? SortOrder.ASC : SortOrder.DESC);
+    const availableRooms = this.availableRooms$.getValue();
+    if (availableRooms) {
+      this.availableRooms$.next(this.sortRoomsByPrice(availableRooms, this.sortOrder$.getValue()));
+    }
   }
 
-  nextStep(stepper: AppStepsComponent) {
+  nextStep(stepper: AppStepsComponent, room?: Room) {
     stepper.anyStepSelected = true;
     stepper.currentStepIndex = stepper.currentStepIndex! + 1;
     stepper.hideStepsContent();
     stepper.setProgress(stepper.currentStepIndex! + 1);
     stepper.stepChange.emit(stepper.currentStepIndex);
     this.setCurrentStepToLocalStorage(stepper.currentStepIndex);
+    if (room) {
+      this.selectedRoom = room;
+      this.setSelectedRoomToLocalStorage(room);
+    }
+  }
+
+  private setSelectedRoomToLocalStorage(room: Room) {
+    const currentLocalStorageData = JSON.parse(this.localStorage.getData() ?? 'null') ?? {};
+    this.localStorage.saveData(
+      JSON.stringify({
+        ...currentLocalStorageData,
+        selectedRoom: room,
+      })
+    );
   }
 
   private setCurrentStepToLocalStorage(currentBookingStep: number) {
+    const currentLocalStorageData = JSON.parse(this.localStorage.getData() ?? 'null') ?? {};
+
     this.localStorage.saveData(
       JSON.stringify({
+        ...currentLocalStorageData,
         currentBookingStep,
       })
     );

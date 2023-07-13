@@ -10,6 +10,12 @@ import { AppStepPanelComponent } from './steps/step-panel/step-panel.component';
 import { AppTitleContainerComponent } from './title-container/title-container.component';
 import { BookingCardComponent } from './booking-card/booking-card.component';
 import { PageContentWrapperComponent } from './page-content-wrapper/page-content-wrapper.component';
+import { BookingSidebarComponent } from './booking-sidebar/booking-sidebar.component';
+import { DataSectionComponent } from './data-section/data-section.component';
+import { DefinitionTableComponent } from './definition-table/definition-table.component';
+import { DefinitionItemComponent } from './definition-item/definition-item.component';
+import { CircularButtonComponent } from './circular-button/circular-button.component';
+import { SearchInputComponent } from './search-input/search-input.component';
 
 const components = [
   AppStepsComponent,
@@ -17,7 +23,13 @@ const components = [
   AppStepPanelComponent,
   BookingCardComponent,
   PageContentWrapperComponent,
-  AppTitleContainerComponent
+  BookingSidebarComponent,
+  DataSectionComponent,
+  DefinitionTableComponent,
+  DefinitionItemComponent,
+  AppTitleContainerComponent,
+  CircularButtonComponent,
+  SearchInputComponent
 ];
 
 @NgModule({
