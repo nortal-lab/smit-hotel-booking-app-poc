@@ -1,11 +1,10 @@
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { AppSearchContainerComponent } from './search-container.component';
-import { action } from '@storybook/addon-actions';
+import { SearchContainerComponent } from './search-container.component';
 
 export default {
   title: 'Components/Search container',
-  component: AppSearchContainerComponent,
+  component: SearchContainerComponent,
   tags: ['autodocs'],
   decorators: [
     moduleMetadata({
@@ -49,7 +48,7 @@ export default {
   },
 } as Meta;
 
-const Template: StoryFn<AppSearchContainerComponent> = (args: AppSearchContainerComponent) => {
+const Template: StoryFn<SearchContainerComponent> = (args: SearchContainerComponent) => {
   let form = new FormGroup({
     date1: new FormControl('13.07.2023'),
     date2: new FormControl('14.07.2023'),

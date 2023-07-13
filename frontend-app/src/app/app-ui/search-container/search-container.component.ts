@@ -6,7 +6,7 @@ import { DatePickerItem, GuestFormItem } from 'src/app/models/ui/search-containe
   selector: 'app-search-container',
   templateUrl: './search-container.component.html',
 })
-export class AppSearchContainerComponent {
+export class SearchContainerComponent {
   @Input() form!: FormGroup;
   @Input() guestItem!: GuestFormItem;
   @Input() datePickers: DatePickerItem[] = [];

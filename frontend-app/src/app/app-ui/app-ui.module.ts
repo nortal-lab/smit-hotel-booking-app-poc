@@ -10,7 +10,7 @@ import { AppStepPanelComponent } from './steps/step-panel/step-panel.component';
 import { AppTitleContainerComponent } from './title-container/title-container.component';
 import { BookingCardComponent } from './booking-card/booking-card.component';
 import { PageContentWrapperComponent } from './page-content-wrapper/page-content-wrapper.component';
-import { AppSearchContainerComponent } from './search-container/search-container.component';
+import { SearchContainerComponent } from './search-container/search-container.component';
 import { BookingSidebarComponent } from './booking-sidebar/booking-sidebar.component';
 import { DataSectionComponent } from './data-section/data-section.component';
 import { DefinitionTableComponent } from './definition-table/definition-table.component';
@@ -29,7 +29,7 @@ const components = [
   DefinitionTableComponent,
   DefinitionItemComponent,
   AppTitleContainerComponent,
-  AppSearchContainerComponent,
+  SearchContainerComponent,
   CircularButtonComponent,
   SearchInputComponent
 ];
