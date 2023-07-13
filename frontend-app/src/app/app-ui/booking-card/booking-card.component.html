@@ -1,4 +1,5 @@
 <div class="track">
+  <span *ngIf="badgeLabel" class="badge">{{ badgeLabel }}</span>
   <img [src]="img.src" [alt]="img.alt" class="image" />
   <div class="main">
     <h3 class="title">{{ title }}</h3>

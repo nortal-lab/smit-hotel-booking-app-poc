@@ -12,4 +12,5 @@ export class BookingCardComponent {
   @Input() title!: string;
   @Input() price!: string;
   @Input() currency!: string;
+  @Input() badgeLabel!: string;
 }
