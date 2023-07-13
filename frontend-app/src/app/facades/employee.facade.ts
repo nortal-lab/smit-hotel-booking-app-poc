@@ -30,7 +30,7 @@ export class EmployeeFacade {
       .cancelBooking(bookingId)
       .pipe(
         tap(() => this.removeBookingFromActiveBookings(bookingId)),
-        catchError((error) => of(this.toastService.error(error.detail)))
+        catchError((error) => of(this.toastService.error(error.error.detail)))
       )
       .subscribe();
   }
