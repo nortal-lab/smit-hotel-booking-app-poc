@@ -1,20 +1,37 @@
-<div>This is admin view</div>
+<div>Management</div>
 
-<div>rooms:</div>
-<div *ngFor="let item of results$ | async" [style]="{padding: '20px'}">
-  <span>bookingId: {{item.bookingId}}</span>
-  <span>creationDate: {{item.creationDate}}</span>
-  <span>endDate: {{item.endDate}}</span>
-  <span>roomId: {{item.roomId}}</span>
-  <span>startDate: {{item.startDate}}</span>
-  <span>status: {{item.status}}</span>
-  <span>userId: {{item.userId}}</span>
-</div>
-
-<ng-container *ngIf="{user: user$ | async } as data">
-  <div>username: {{data.user?.username}}</div>
-  <div>personal identification number: {{data.user?.personalIdentificationNumber}}</div>
-</ng-container>
-
-<cvi-ng-button [size]="'m'" [disabled]="false" [appearance]="'primary'" (click)="login()">Login</cvi-ng-button>
-<cvi-ng-button [size]="'m'" [disabled]="false" [appearance]="'primary'" (click)="logout()">Log out</cvi-ng-button>
+<cvi-ng-tab-group>
+  <cvi-ng-tab title="Manage Reservations">
+    <cvi-ng-table [data]="bookings$ | async" class="reservations-table">
+      <ng-template #headers>
+        <ng-container *ngFor="let headerLabel of reservationsTableHeaderLabels">
+          <th cvi-ng-header-cell>{{ headerLabel }}</th>
+        </ng-container>
+      </ng-template>
+      <ng-template #rows let-row>
+        <td cvi-ng-body-cell>{{ row.bookingId }}</td>
+        <td cvi-ng-body-cell>
+          {{ '256 (Deluxe)' }}
+        </td>
+        <td cvi-ng-body-cell>{{ 'guest' }}</td>
+        <td cvi-ng-body-cell>{{ row.startDate | dateFormat }}-{{ row.endDate | dateFormat }}</td>
+        <td cvi-ng-body-cell>
+          <cvi-ng-button size="s" [disabled]="false" appearance="text" [cviNgModal]="modal">Cancel</cvi-ng-button>
+          <ng-template #modal let-modal>
+            <cvi-ng-confirmation-modal
+              title="Are you sure you want to cancel this reservation?"
+              confirmButtonText="Confirm cancellation"
+              cancelButtonText="Back"
+              (cancelled)="modal.closeModal()"
+              (confirmed)="cancelBooking(row.bookingId, modal.closeModal())">
+              <p>You are able to cancel reservation at least 3 days before the guest checks-in and the guest will be fully refunded.</p>
+            </cvi-ng-confirmation-modal>
+          </ng-template>
+        </td>
+      </ng-template>
+    </cvi-ng-table>
+  </cvi-ng-tab>
+  <cvi-ng-tab title="Rooms">
+    <app-available-rooms [rooms]="rooms$ | async" buttonTitle="Cancel" [showButton]="false"></app-available-rooms>
+  </cvi-ng-tab>
+</cvi-ng-tab-group>

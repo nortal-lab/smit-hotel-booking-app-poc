@@ -1,0 +1,25 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.room {
+  width: 780px;
+}
+
+.room-details-wrapper {
+  margin-bottom: 8px;
+}
+
+.room-feature,
+.room-details {
+  font-size: 14px;
+}
+
+.room-details {
+  fa-icon {
+    margin-right: 3px;
+  }
+}

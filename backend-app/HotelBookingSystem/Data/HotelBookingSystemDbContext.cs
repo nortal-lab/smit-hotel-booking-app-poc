@@ -1,4 +1,5 @@
 ﻿using HotelBookingSystem.API.Models;
+using HotelBookingSystem.API.Models.Room;
 using Microsoft.EntityFrameworkCore;
 
 namespace HotelBookingSystem.API.Data
@@ -8,8 +9,6 @@ namespace HotelBookingSystem.API.Data
         public DbSet<Booking> Bookings { get; set; }
         public DbSet<Room> Rooms { get; set; }
 
-        protected readonly IConfiguration Configuration;
-
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
             options.UseInMemoryDatabase("HotelBookingSystemDb");
@@ -18,7 +17,6 @@ namespace HotelBookingSystem.API.Data
         // Add mock data to the in-memory database
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Booking>().HasData(MockData.BookingsHardcoded);
             modelBuilder.Entity<Room>().HasData(MockData.RoomsHardcoded);
 
             base.OnModelCreating(modelBuilder);
