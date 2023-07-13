@@ -67,7 +67,7 @@
                 <cvi-ng-button size="m" [disabled]="false" appearance="secondary" (click)="cancelBookingProcess(stepper)">Cancel</cvi-ng-button>
                 <cvi-ng-button
                   size="m"
-                  [disabled]="false"
+                  [disabled]="disableConfirmationButton"
                   appearance="primary"
                   (click)="confirmBooking(selectedRoom.roomId, availableRoomsData.startDate, availableRoomsData.endDate)"
                   >Confirm Booking</cvi-ng-button
