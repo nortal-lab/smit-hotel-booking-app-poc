@@ -60,7 +60,7 @@ export const Default = {
             </cvi-ng-track>
           </form>
         </app-hero>
-        FOOTER - camp clothes available city war mud atmosphere syllable exist smaller wish wooden compound opposite enough dark distant different cast conversation actually below gravity machine seeing am not terrible cake symbol serious pure adjective report greater slight term nails bowl needle system matter detail warn finally memory test speak
+        <app-footer></app-footer>
       </cvi-ng-track>
     `,
     styles: [

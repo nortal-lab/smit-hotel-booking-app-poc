@@ -18,6 +18,7 @@ import { DefinitionTableComponent } from './definition-table/definition-table.co
 import { DefinitionItemComponent } from './definition-item/definition-item.component';
 import { CircularButtonComponent } from './circular-button/circular-button.component';
 import { SearchInputComponent } from './search-input/search-input.component';
+import { FooterComponent } from './footer/footer.component';
 import { HeaderComponent } from './header/header.component';
 import { IconButtonComponent } from './icon-button/icon-button.component';
 
@@ -36,6 +37,7 @@ const components = [
   SearchContainerComponent,
   CircularButtonComponent,
   SearchInputComponent,
+  FooterComponent,
   HeaderComponent,
   IconButtonComponent,
 ];
