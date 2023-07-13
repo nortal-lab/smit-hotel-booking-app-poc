@@ -12,9 +12,11 @@ namespace HotelBookingSystem.API.Data.BookingRepository
             _dbContext.Database.EnsureCreated();
         }
 
-        public List<Booking> GetAllBookings()
+        public List<Booking> GetAllCustomerBookings(Guid customerId)
         {
-            return _dbContext.Bookings.ToList();
+            return _dbContext.Bookings
+                .Where(booking => booking.CustomerId == customerId)
+                .ToList();
         }
 
         public Booking? GetBookingById(Guid bookingId)
@@ -41,6 +43,11 @@ namespace HotelBookingSystem.API.Data.BookingRepository
         {
             _dbContext.Bookings.Add(booking);
             _dbContext.SaveChanges();
+        }
+
+        public List<Booking> FindAllActiveBookings()
+        {
+            return _dbContext.Bookings.Where(booking => booking.EndDate >= DateTime.Now).ToList();
         }
     }
 }
