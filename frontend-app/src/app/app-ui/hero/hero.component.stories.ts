@@ -35,25 +35,25 @@ const Template: StoryFn<AppHeroComponent> = (args: AppHeroComponent) => ({
     <app-hero [imgSrc]="imgSrc">
       <form>
         <cvi-ng-track style="padding-top: 100px" [horizontalAlignment]="'center'">
-          <cvi-ng-track
-            [gap]="4"
-            style="padding: calc(var(--cvi-spacing-rapla) * 4); background-color: var(--cvi-color-white); border-radius: var(--cvi-spacing-unit)">
-            <cvi-ng-track [gap]="2">
-              <cvi-ng-form-item label="Choose starting date" [isLabelHidden]="true" [htmlId]="htmliIdDatepicker1">
-                <cvi-ng-datepicker [placeholder]="13.11.2023" [htmlId]="htmliIdDatepicker1"></cvi-ng-datepicker>
-              </cvi-ng-form-item>
-              <cvi-ng-form-item label="Choose end date" [isLabelHidden]="true" [htmlId]="htmliIdDatepicker2">
-                <cvi-ng-datepicker [placeholder]="14.11.2023" [htmlId]="htmliIdDatepicker2"></cvi-ng-datepicker>
-              </cvi-ng-form-item>
-              <cvi-ng-form-item [label]="Date" [isLabelHidden]="true" [htmlId]="htmlfor1" [labelId]="labelfor1">
-                <cvi-ng-select [items]="['1 room', '2 rooms']" [labelId]="labelfor1" placeholder="1 room" [htmlId]="htmlfor1"></cvi-ng-select>
-              </cvi-ng-form-item>
-              <cvi-ng-form-item [label]="Date - 1" [isLabelHidden]="true" [htmlId]="htmlfor2" [labelId]="labelfor2">
-                <cvi-ng-select [items]="['1 guest', '2 guests']" [labelId]="labelfor2" placeholder="2 guests" [htmlId]="htmlfor2"></cvi-ng-select>
-              </cvi-ng-form-item>
+          <app-page-content-wrapper>
+            <cvi-ng-track [gap]="4">
+              <cvi-ng-track [gap]="2">
+                <cvi-ng-form-item label="Choose starting date" [isLabelHidden]="true" [htmlId]="htmliIdDatepicker1">
+                  <cvi-ng-datepicker [placeholder]="13.11.2023" [htmlId]="htmliIdDatepicker1"></cvi-ng-datepicker>
+                </cvi-ng-form-item>
+                <cvi-ng-form-item label="Choose end date" [isLabelHidden]="true" [htmlId]="htmliIdDatepicker2">
+                  <cvi-ng-datepicker [placeholder]="14.11.2023" [htmlId]="htmliIdDatepicker2"></cvi-ng-datepicker>
+                </cvi-ng-form-item>
+                <cvi-ng-form-item [label]="Date" [isLabelHidden]="true" [htmlId]="htmlfor1" [labelId]="labelfor1">
+                  <cvi-ng-select [items]="['1 room', '2 rooms']" [labelId]="labelfor1" placeholder="1 room" [htmlId]="htmlfor1"></cvi-ng-select>
+                </cvi-ng-form-item>
+                <cvi-ng-form-item [label]="Date - 1" [isLabelHidden]="true" [htmlId]="htmlfor2" [labelId]="labelfor2">
+                  <cvi-ng-select [items]="['1 guest', '2 guests']" [labelId]="labelfor2" placeholder="2 guests" [htmlId]="htmlfor2"></cvi-ng-select>
+                </cvi-ng-form-item>
+              </cvi-ng-track>
+              <cvi-ng-button>Search</cvi-ng-button>
             </cvi-ng-track>
-            <cvi-ng-button>Search</cvi-ng-button>
-          </cvi-ng-track>
+          </app-page-content-wrapper>
         </cvi-ng-track>
       </form>
   </app-hero>
