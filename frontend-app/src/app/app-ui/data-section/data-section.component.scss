@@ -1,0 +1,19 @@
+:host {
+  display: block;
+  padding: var(--cvi-spacing-haapsalu);
+  border-bottom: 1px solid var(--cvi-color-black-coral-2);
+  
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.title {
+  font-weight: var(--cvi-font-weight-delta);
+  font-size: var(--cvi-font-size-100);
+  color: var(--cvi-color-black-coral-15);
+  
+  &:not(:only-child) {
+    margin-bottom: var(--cvi-spacing-haapsalu);
+  }
+}

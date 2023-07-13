@@ -1,0 +1,40 @@
+:host {
+  --has-stripes--padding-inline: var(--app-definition-table--has-stripes, 0) var(--cvi-spacing-haapsalu);
+  --has-stripes--padding-block: var(--app-definition-table--has-stripes, 0) var(--cvi-spacing-paldiski);
+
+  width: 100%;
+  display: flex;
+  gap: var(--app-definition-table, 0) var(--cvi-spacing-loksa);
+  flex-direction: var(--app-definition-table, column);
+  
+  // The toggle space technique doesn't support setting shorthand properties
+  padding-inline-start: var(--has-stripes--padding-inline);
+  padding-inline-end: var(--has-stripes--padding-inline);
+  padding-block-start: var(--has-stripes--padding-block);
+  padding-block-end: var(--has-stripes--padding-block);
+
+  &:nth-child(even) {
+    background-color: var(--app-definition-table--has-stripes, transparent) var(--cvi-color-black-coral-0);
+  }
+}
+
+.label {
+  /* stylelint-disable-next-line custom-property-pattern */
+  font-size: var(--app-definition-item--label--font-size);
+  color: var(--cvi-color-black-coral-12);
+  display: block;
+}
+
+:host(.is-highlighted) {
+  font-weight: var(--cvi-font-weight-delta);
+  color: var(--cvi-color-black-coral-20);
+
+  .label {
+    color: inherit;
+  }
+}
+
+.value {
+  flex-grow: 1;
+  text-align: var(--app-definition-table, start) end;
+}
