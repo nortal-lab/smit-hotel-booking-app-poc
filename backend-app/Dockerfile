@@ -3,9 +3,14 @@ WORKDIR /source
 
 COPY *.sln .
 COPY HotelBookingSystem/*.csproj ./HotelBookingSystem/
+COPY ApiTests/*.csproj ./ApiTests/
+
 RUN dotnet restore
 
 COPY HotelBookingSystem/. ./HotelBookingSystem/
+COPY ApiTests/. ./ApiTests/
+
+RUN dotnet test
 RUN dotnet publish -c release -o /app --no-restore
 
 FROM mcr.microsoft.com/dotnet/aspnet:6.0
