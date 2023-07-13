@@ -71,7 +71,7 @@ export class BookingProcessComponent implements OnInit, OnDestroy {
         takeUntil(this.isDestroyed$),
         switchMap(([dateFrom, dateTo, guestCount, sortOrder]) => {
           return dateFrom && dateTo && guestCount
-            ? this.customerFacade.getAvailableRooms(dateFrom, dateTo, guestCount).pipe(map((rooms) => this.sortRoomsByPrice(rooms, sortOrder)))
+            ? this.customerFacade.getAvailableRooms(dateFrom, dateTo, guestCount).pipe(map((data) => this.sortRoomsByPrice(data.availableRooms, sortOrder)))
             : EMPTY;
         }),
         tap((rooms) => this.availableRooms$.next(rooms))
