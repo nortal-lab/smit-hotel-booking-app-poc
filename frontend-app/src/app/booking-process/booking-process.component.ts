@@ -40,6 +40,7 @@ export class BookingProcessComponent implements OnInit, OnDestroy {
   confirmationNotificationSeverity: NotificationSeverity = 'success';
   confirmationNotificationSize: NotificationSize = 'regular';
   showConfirmationNotification = false;
+  disableConfirmationButton = false;
   roomImage: UiImage = {
     src: '/assets/images/room.jpg',
     alt: 'Room Image',
@@ -161,6 +162,8 @@ export class BookingProcessComponent implements OnInit, OnDestroy {
   }
 
   confirmBooking(roomId: string, startDate: string, endDate: string) {
+    this.disableConfirmationButton = true;
+
     this.customerFacade
       .bookRoom(roomId, startDate, endDate)
       .pipe(
@@ -168,6 +171,7 @@ export class BookingProcessComponent implements OnInit, OnDestroy {
         tap(() => {
           this.showConfirmationNotification = true;
           this.onStepChange(0);
+          this.disableConfirmationButton = false;
         })
       )
       .subscribe();

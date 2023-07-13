@@ -66,10 +66,7 @@ export class CustomerFacade {
   }
 
   cancelBooking(bookingId: string) {
-    return this.customerService.cancelBooking(bookingId).pipe(
-      tap(() => this.removeCustomerBooking(bookingId)),
-      catchError((error) => of(this.toastService.error(error.error.detail)))
-    );
+    return this.customerService.cancelBooking(bookingId).pipe(tap(() => this.removeCustomerBooking(bookingId)));
   }
 
   removeCustomerBooking(bookingId: string) {
