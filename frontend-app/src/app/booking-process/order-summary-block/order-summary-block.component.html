@@ -1,13 +1,10 @@
-<div class="order-summary">Order Summary</div>
-<ng-container *ngIf="room">
-  <div class="order-summary-details">
-    <div class="left">
-      <app-definition-item label="Room Type" class="order-summary-value">{{ room.roomType | roomType }}</app-definition-item>
-      <app-definition-item label="Occupancy" class="order-summary-value">{{ room.peopleCapacity }} adults</app-definition-item>
-    </div>
-    <div class="right">
-      <app-definition-item label="Check-in" class="order-summary-value">2020-02-01</app-definition-item>
-      <app-definition-item label="Check-out" class="order-summary-value">2020-02-02</app-definition-item>
-    </div>
-  </div>
-</ng-container>
+<app-data-section title="Order Summary">
+  <ng-container *ngIf="room">
+    <cvi-ng-track [gap]="3" layout="grid" verticalAlignment="bottom" [gridRows]="3">
+      <app-definition-item label="Room Type">{{ room.roomType | roomType }}</app-definition-item>
+      <app-definition-item label="Occupancy">{{ room.peopleCapacity }} adults</app-definition-item>
+      <app-definition-item label="Check-in"> 020-02-01</app-definition-item>
+      <app-definition-item label="Check-out">2020-02-02 </app-definition-item>
+    </cvi-ng-track>
+  </ng-container>
+</app-data-section>
