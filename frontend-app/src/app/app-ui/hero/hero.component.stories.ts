@@ -19,6 +19,9 @@ export default {
     imgSrc: {
       name: 'Image source',
     },
+    onSubmit: {
+      action: 'submitted'
+    }
   },
   args: {
     imgSrc:
@@ -52,7 +55,7 @@ export const Default = {
                       <cvi-ng-select [items]="['1 guest', '2 guests']" [labelId]="labelfor2" placeholder="2 guests" [htmlId]="htmlfor2"></cvi-ng-select>
                     </cvi-ng-form-item>
                   </cvi-ng-track>
-                  <cvi-ng-button>Search</cvi-ng-button>
+                  <app-circular-button (click)="onSubmit()"></app-circular-button>
                 </cvi-ng-track>
               </app-page-content-wrapper>
             </cvi-ng-track>
