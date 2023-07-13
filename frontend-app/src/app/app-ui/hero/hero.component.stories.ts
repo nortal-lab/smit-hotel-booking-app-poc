@@ -24,8 +24,7 @@ export default {
     }
   },
   args: {
-    imgSrc:
-      'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80',
+    imgSrc: '/images/hero.jpg',
   },
 } as Meta;
 
@@ -35,7 +34,7 @@ export const Default = {
     /* template */
     template: `
       <cvi-ng-track flexDirection="vertical" [ngStyle]="{'height.%': 100}">
-        HEADER – Some text that impersonates header and a lot of random content something must sign crowd begun space drove graph reach burst hard composed popular born tropical represent different smooth energy send note two what happy
+        <app-header><cvi-ng-button>Login</cvi-ng-button></app-header>
         <app-hero [imgSrc]="imgSrc">
           <form>
             <cvi-ng-track [horizontalAlignment]="'center'">
