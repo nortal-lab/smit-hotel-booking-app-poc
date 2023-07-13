@@ -68,7 +68,7 @@ export class CustomerFacade {
   cancelBooking(bookingId: string) {
     return this.customerService.cancelBooking(bookingId).pipe(
       tap(() => this.removeCustomerBooking(bookingId)),
-      catchError(() => of(this.toastService.error('Unable to cancel booking, please contact system Administrator.')))
+      catchError((error) => of(this.toastService.error(error.error.detail)))
     );
   }
 
