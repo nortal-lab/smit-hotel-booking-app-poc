@@ -1,5 +1,6 @@
 <ng-container *ngIf="{ currentStep: currentStepSubject$ | async } as context">
   <cvi-ng-breadcrumbs
+    class="breadcrumb"
     [breadcrumbLabels]="showConfirmationNotification ? ['Home', labels[2]] : ['Home', labels[context.currentStep]]"
     (breadcrumbChange)="changeBreadcrumb($event)"></cvi-ng-breadcrumbs>
 
@@ -69,6 +70,7 @@
   </ng-container>
 </ng-container>
 <ng-template #noResultsPlaceholder>
+  <app-title-container title="No Results" class="no-results-title"></app-title-container>
   <cvi-ng-notification
     [severity]="noResultsNotificationSeverity"
     [size]="noResultsNotificationSize"

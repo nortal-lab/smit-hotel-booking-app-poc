@@ -2,6 +2,11 @@
   --border-color: var(--cvi-color-black-coral-2);
   --gap: var(--cvi-spacing-haapsalu);
 
+  .breadcrumb {
+    display: block;
+    padding-bottom: var(--cvi-spacing-viljandi);
+  }
+
   .booking-process-link {
     cursor: pointer;
   }
@@ -30,6 +35,10 @@
 
   .price-summary-block {
     display: block;
+    padding-bottom: var(--gap);
+  }
+
+  .no-results-title {
     padding-bottom: var(--gap);
   }
 }
