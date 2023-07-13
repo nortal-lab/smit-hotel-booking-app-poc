@@ -1,0 +1,17 @@
+:host {
+  --color: var(--cvi-color-sapphire-blue-10);
+
+  display: block;
+}
+
+.button {
+  font-size: var(--cvi-font-size-100);
+  color: var(--color);
+  fill: var(--color);
+}
+
+.icon-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
