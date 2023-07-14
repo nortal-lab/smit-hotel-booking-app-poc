@@ -15,15 +15,23 @@ Application has two predefined roles:
 - Employees (`employee`)
 
 Application hase these predefined users:
-- Customer1 (role `customer`)
-  - Login: `customer1`
-  - Passwd: `customer1`
-- Customer2 (role `customer`)
-  - Login: `customer2`
-  - Passwd: `customer2`
-- Employee1 (role `employee`)
-  - Login: `employee1`
-  - Passwd: `employee1`
+- Customers (role `customer`):
+  - Julie Delphy, 6873911223, julie.deplhy@yahoo.com
+    - Login: `customer1`
+    - Passwd: `customer1`
+  - Arthur Li, 4652212312, arthurLi12@gmail.com
+    - Login: `customer2`
+    - Passwd: `customer2`
+  - Bill Karey, 6839214231, bill.karey@gmail.com
+    - Login: `customer3`
+    - Passwd: `customer3`
+- Employees (role `employee`):
+  - Martin Einnberg, martin.einnberg@hotel.com
+    - Login: `employee1`
+    - Passwd: `employee1`
+  - Susie Lamb, susie.lamb@hotel.com
+    - Login: `employee2`
+    - Passwd: `employee2`
 
 ## How to run the application
 
