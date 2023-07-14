@@ -9,3 +9,9 @@
   border-radius: 4px;
   box-shadow: 0 4px 15px 0 rgb(0 0 0 / 4%);
 }
+
+:host {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
