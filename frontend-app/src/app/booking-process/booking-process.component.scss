@@ -1,49 +1,35 @@
 :host {
   --border-color: var(--cvi-color-black-coral-2);
   --gap: var(--cvi-spacing-haapsalu);
+}
 
-  .breadcrumb {
-    display: block;
-    padding-bottom: var(--cvi-spacing-viljandi);
-  }
+.breadcrumb {
+  display: block;
+  padding-bottom: var(--cvi-spacing-viljandi);
+}
 
-  .booking-process-link {
-    cursor: pointer;
-  }
+.booking-process-link {
+  cursor: pointer;
+  color: var(--cvi-color-sapphire-blue-10);
+  text-decoration: underline;
+}
 
-  .personal-information-step {
-    display: flex;
-    gap: 25px;
+.login-notification {
+  display: block;
+  padding-bottom: var(--cvi-spacing-kuressaare);
+}
 
-    .personal-information-container {
-      flex-grow: 1;
-      height: fit-content;
-    }
-  }
+.panel-container {
+  flex-grow: 1;
+}
 
-  .sorting-container {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 16px;
-  }
+.buttons {
+  padding-top: var(--cvi-spacing-paldiski);
+}
 
-  .personal-information-block {
-    display: block;
-    margin-top: var(--gap);
-  }
-
-  .price-summary-block {
-    display: block;
-    padding-bottom: var(--gap);
-  }
-
-  .no-results-title {
-    padding-bottom: var(--gap);
-  }
-
-  .login-notification {
-    display: block;
-    padding-bottom: var(--cvi-spacing-kuressaare);
-  }
+.payment-method-block {
+  display: block;
+  border-bottom: 1px solid var(--cvi-color-black-coral-2);
+  padding-bottom: var(--cvi-spacing-haapsalu);
+  margin-bottom: var(--cvi-spacing-haapsalu);
 }

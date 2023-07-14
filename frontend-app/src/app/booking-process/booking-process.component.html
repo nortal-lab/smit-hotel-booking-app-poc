@@ -15,61 +15,68 @@
             [hasTableOfContents]="false"
             [directionalButtonsDisplayed]="false"
             (stepChange)="onStepChange($event)">
-            <cvi-ng-track horizontalAlignment="right" class="sorting-container" *ngIf="context.currentStep === 0">
-              <span class="sorting-label">Sort by:</span>
-              <cvi-ng-select
-                [items]="availableRoomsSortingItems"
-                [ngModel]="availableRoomsSortingItems[0]"
-                (ngModelChange)="changeSort($event)"></cvi-ng-select>
-            </cvi-ng-track>
             <cvi-app-step>
-              <cvi-app-step-panel [title]="labels[0]" [titleHidden]="true">
-                <ng-container>
-                  <app-available-rooms [rooms]="availableRoomsData.availableRooms" (onClick)="nextStep(stepper, $event)"></app-available-rooms>
-                </ng-container>
-              </cvi-app-step-panel>
-            </cvi-app-step>
-            <cvi-app-step class="personal-information-step">
-              <app-booking-sidebar [img]="roomImage">
-                <app-room-reservation-details
-                  [room]="selectedRoom"
-                  [checkInDate]="availableRoomsData.startDate"
-                  [checkOutDate]="availableRoomsData.endDate"></app-room-reservation-details>
-              </app-booking-sidebar>
-              <cvi-app-step-panel class="personal-information-container" [title]="labels[1]" [titleHidden]="true" [disabled]="context.currentStep < 1">
-                <ng-container *ngIf="userCredentials$ | async as userCredentials">
-                  <ng-container *ngIf="userCredentials.personalIdentificationNumber; else loginButton">
-                    <app-personal-information-block [userCredentials]="userCredentials"></app-personal-information-block>
-                    <app-payment-method-block></app-payment-method-block>
+              <cvi-ng-track [gap]="4" flexDirection="vertical">
+                <cvi-ng-track [gap]="2" horizontalAlignment="right" verticalAlignment="center">
+                  <label for="sorting-dropdown">Sort by:</label>
+                  <cvi-ng-select
+                    htmlId="sorting-dropdown"
+                    [items]="availableRoomsSortingItems"
+                    [ngModel]="availableRoomsSortingItems[0]"
+                    (ngModelChange)="changeSort($event)"></cvi-ng-select>
+                </cvi-ng-track>
+                <cvi-app-step-panel [title]="labels[0]" [titleHidden]="true">
+                  <ng-container>
+                    <app-available-rooms [rooms]="availableRoomsData.availableRooms" (onClick)="nextStep(stepper, $event)"></app-available-rooms>
                   </ng-container>
-                  <ng-template #loginButton>
-                    <cvi-ng-notification
-                      class="login-notification"
-                      [severity]="signInNotificationSeverity"
-                      [size]="signInNotificationSize"
-                      [showCloseButton]="false"
-                      [showIcon]="true"
-                      title="No available rooms for selected dates">
-                      <a (click)="login()" class="booking-process-link">Sign In</a> to continue with booking.
-                    </cvi-ng-notification>
-                  </ng-template>
-                  <cvi-ng-track horizontalAlignment="right" [gap]="2" style="padding-top: var(--cvi-spacing-paldiski);">
-                    <cvi-ng-button size="m" appearance="secondary" (click)="cancelBookingProcess(stepper)">Cancel</cvi-ng-button>
-                    <cvi-ng-button size="m" [disabled]="!userCredentials.personalIdentificationNumber" appearance="primary" (click)="nextStep(stepper)"
-                      >Next</cvi-ng-button
-                    >
-                  </cvi-ng-track>
-                </ng-container>
-              </cvi-app-step-panel>
+                </cvi-app-step-panel>
+              </cvi-ng-track>
+            </cvi-app-step>
+            <cvi-app-step>
+              <cvi-ng-track [gap]="6">
+                <app-booking-sidebar [img]="roomImage">
+                  <app-room-reservation-details
+                    [room]="selectedRoom"
+                    [checkInDate]="availableRoomsData.startDate"
+                    [checkOutDate]="availableRoomsData.endDate"></app-room-reservation-details>
+                </app-booking-sidebar>
+                <div class="panel-container">
+                  <cvi-app-step-panel [title]="labels[1]" [titleHidden]="true" [disabled]="context.currentStep < 1">
+                    <ng-container *ngIf="userCredentials$ | async as userCredentials">
+                      <ng-container *ngIf="userCredentials.personalIdentificationNumber; else loginButton">
+                        <app-personal-information-block [userCredentials]="userCredentials"></app-personal-information-block>
+                        <app-payment-method-block></app-payment-method-block>
+                      </ng-container>
+                      <ng-template #loginButton>
+                        <cvi-ng-notification
+                          class="login-notification"
+                          [severity]="signInNotificationSeverity"
+                          [size]="signInNotificationSize"
+                          [showCloseButton]="false"
+                          [showIcon]="true"
+                          title="No available rooms for selected dates">
+                          <button (click)="login()" class="booking-process-link">Sign In</button> to continue with booking.
+                        </cvi-ng-notification>
+                      </ng-template>
+                      <cvi-ng-track horizontalAlignment="right" [gap]="2" class="buttons">
+                        <cvi-ng-button size="m" appearance="secondary" (click)="cancelBookingProcess(stepper)">Cancel</cvi-ng-button>
+                        <cvi-ng-button size="m" [disabled]="!userCredentials.personalIdentificationNumber" appearance="primary" (click)="nextStep(stepper)"
+                          >Next</cvi-ng-button
+                        >
+                      </cvi-ng-track>
+                    </ng-container>
+                  </cvi-app-step-panel>
+                </div>
+              </cvi-ng-track>
             </cvi-app-step>
             <cvi-app-step>
               <cvi-app-step-panel [title]="labels[2]" [titleHidden]="true" [disabled]="context.currentStep < 2">
                 <ng-container *ngIf="userCredentials$ | async as userCredentials">
                   <app-order-summary-block [room]="selectedRoom"></app-order-summary-block>
-                  <app-personal-information-block class="personal-information-block" [userCredentials]="userCredentials"></app-personal-information-block>
-                  <app-payment-method-block></app-payment-method-block>
+                  <app-personal-information-block [userCredentials]="userCredentials"></app-personal-information-block>
+                  <app-payment-method-block class="payment-method-block"></app-payment-method-block>
                   <app-data-section title="Price Summary">
-                    <app-price-summary-block class="price-summary-block" [room]="selectedRoom"></app-price-summary-block>
+                    <app-price-summary-block [room]="selectedRoom"></app-price-summary-block>
                   </app-data-section>
                 </ng-container>
                 <cvi-ng-track horizontalAlignment="right" [gap]="2" style="padding-top: var(--cvi-spacing-paldiski);">
@@ -91,7 +98,7 @@
   </app-page-wrapper>
 </ng-container>
 <ng-template #noResultsPlaceholder>
-  <app-title-container title="No Results" class="no-results-title"></app-title-container>
+  <app-title-container title="No Results"></app-title-container>
   <cvi-ng-notification
     [severity]="noResultsNotificationSeverity"
     [size]="noResultsNotificationSize"
