@@ -35,7 +35,7 @@ export const Default: Story = {
   decorators: wrapperDecorators,
   args: {
     content: 'Sign out',
-    iconName: 'error_outline',
+    iconName: 'logout',
   }
 };
 

@@ -4,10 +4,9 @@
     <app-search-form *ngIf="router.isActive('booking', false) || router.isActive('my-reservations', false)"></app-search-form>
 
     <cvi-ng-button *ngIf="!context.isLoggedIn" size="m" appearance="primary" (click)="login()">Sign in</cvi-ng-button>
-    <cvi-ng-button *ngIf="context.isLoggedIn" size="m" appearance="text" (click)="logout()">
-      <fa-icon [icon]="faRightFromBracket"></fa-icon>
+    <app-icon-button *ngIf="context.isLoggedIn" iconName="logout" (click)="logout()">
       Sign out
-    </cvi-ng-button>
+    </app-icon-button>
   </app-header>
 </ng-container>
 
