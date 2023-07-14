@@ -1,6 +1,9 @@
 <div class="secondary-block">
   <cvi-ng-track horizontalAlignment="justify">
-    <a href="/" class="secondary-block-link">Home</a>
+    <div class="secondary-block-main-track">
+      <a href="/" class="secondary-block-link">Home</a>
+      <a *ngIf="extraLink" [href]="extraLink.href" class="secondary-block-link">{{ extraLink.label }}</a>
+    </div>
     <a href="/" class="secondary-block-link">Accessibility</a>
   </cvi-ng-track>
 </div>

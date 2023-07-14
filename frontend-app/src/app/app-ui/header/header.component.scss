@@ -10,6 +10,7 @@
   padding-inline-start: var(--cvi-spacing-elva);
   padding-inline-end: var(--padding-inline);
   padding-block: var(--cvi-spacing-paldiski);
+  background-color: var(--cvi-color-white);
 }
 
 .secondary-block {
@@ -21,4 +22,9 @@
 
 .secondary-block-link {
   color: var(--cvi-color-white);
+}
+
+.secondary-block-main-track {
+  display: flex;
+  gap: var(--cvi-spacing-kuressaare);
 }

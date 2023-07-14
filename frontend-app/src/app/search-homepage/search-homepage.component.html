@@ -1,5 +1,5 @@
 <app-hero [imgSrc]="'/assets/images/hero.jpg'">
-  <div class="search-wrapper">
+  <app-page-content-wrapper class="search-wrapper">
     <app-search-container (handleSubmit)="search($event)" [form]="searchForm" [guestItem]="guestItem" [datePickers]="datePickers"></app-search-container>
-  </div>
+  </app-page-content-wrapper>
 </app-hero>

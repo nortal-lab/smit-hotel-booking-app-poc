@@ -1,17 +1,10 @@
-.search-wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: white;
-  margin: 120px auto 0;
-  padding: 40px;
-  width: fit-content;
-  border-radius: 4px;
-  box-shadow: 0 4px 15px 0 rgb(0 0 0 / 4%);
-}
-
 :host {
   display: flex;
   flex-direction: column;
-  flex: 1;
+  flex-grow: 1;
+}
+
+.search-wrapper {
+  margin-inline: auto;
+  width: fit-content;
 }

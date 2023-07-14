@@ -26,6 +26,7 @@
 }
 
 :host(.is-highlighted) {
+  font-size: var(--cvi-font-size-100);
   font-weight: var(--cvi-font-weight-delta);
   color: var(--cvi-color-black-coral-20);
 

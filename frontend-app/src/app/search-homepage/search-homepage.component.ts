@@ -8,7 +8,7 @@ import { DatePickerItem, GuestFormItem } from '../models/ui/search-container';
 import { TimeService } from '../services/time.service';
 
 @Component({
-  selector: 'app-customer-dashboard',
+  selector: 'app-search-homepage',
   templateUrl: './search-homepage.component.html',
   styleUrls: ['./search-homepage.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
