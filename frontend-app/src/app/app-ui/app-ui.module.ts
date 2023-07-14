@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { UiModule } from '@egov/cvi-ng';
+import { IconsRegistry, UiModule } from '@egov/cvi-ng';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -23,6 +23,7 @@ import { FooterComponent } from './footer/footer.component';
 import { HeaderComponent } from './header/header.component';
 import { IconButtonComponent } from './icon-button/icon-button.component';
 import { PageWrapperComponent } from './page-wrapper/page-wrapper.component';
+import { cviLogout } from '@egov/cvi-icons';
 
 const components = [
   AppStepsComponent,
@@ -59,4 +60,10 @@ const components = [
     FontAwesomeModule
   ],
 })
-export class AppUiModule {}
+export class AppUiModule {
+  constructor(private registry: IconsRegistry) {
+    this.registry.registerIcons([
+      cviLogout,
+    ]);
+  }
+}
