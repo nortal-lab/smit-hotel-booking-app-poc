@@ -2367,9 +2367,9 @@
       "username": "employee1",
       "enabled": true,
       "emailVerified": true,
-      "firstName": "employee1",
-      "lastName": "employee1",
-      "email": "employee1@domain.com",
+      "firstName": "Martin",
+      "lastName": "Einnberg",
+      "email": "martin.einnberg@hotel.com",
       "credentials": [
         {
           "type": "password",
@@ -2381,12 +2381,29 @@
       ]
     },
     {
+      "username": "employee2",
+      "enabled": true,
+      "emailVerified": true,
+      "firstName": "Susie",
+      "lastName": "Lamb",
+      "email": "susie.lamb@hotel.com",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "employee2"
+        }
+      ],
+      "groups": [
+        "Employees"
+      ]
+    },
+    {
       "username": "customer1",
       "enabled": true,
       "emailVerified": true,
-      "firstName": "customer1",
-      "lastName": "customer1",
-      "email": "customer1@domain.com",
+      "firstName": "Julie",
+      "lastName": "Delphy",
+      "email": "julie.deplhy@yahoo.com",
       "credentials": [
         {
           "type": "password",
@@ -2397,16 +2414,16 @@
         "Customers"
       ],
       "attributes": {
-        "personal_identification_number": "0000000001"
+        "personal_identification_number": "6873911223"
       }
     },
     {
       "username": "customer2",
       "enabled": true,
       "emailVerified": true,
-      "firstName": "customer2",
-      "lastName": "customer2",
-      "email": "customer2@domain.com",
+      "firstName": "Arthur",
+      "lastName": "Li",
+      "email": "arthurLi12@gmail.com",
       "credentials": [
         {
           "type": "password",
@@ -2417,7 +2434,27 @@
         "Customers"
       ],
       "attributes": {
-        "personal_identification_number": "0000000002"
+        "personal_identification_number": "4652212312"
+      }
+    },
+    {
+      "username": "customer3",
+      "enabled": true,
+      "emailVerified": true,
+      "firstName": "Bill",
+      "lastName": "Karey",
+      "email": "bill.karey@gmail.com",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "customer3"
+        }
+      ],
+      "groups": [
+        "Customers"
+      ],
+      "attributes": {
+        "personal_identification_number": "6839214231"
       }
     }
   ]

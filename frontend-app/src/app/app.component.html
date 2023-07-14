@@ -1,8 +1,7 @@
 <ng-container *ngIf="{ isLoggedIn: isLoggedIn$ | async } as context">
   <app-header>
-    <div [routerLink]="['booking']" routerLinkActive #rla="routerLinkActive">
-      <app-search-form *ngIf="rla.isActive"></app-search-form>
-    </div>
+    <app-search-form *ngIf="router.isActive('booking', false) || router.isActive('my-reservations', false)"></app-search-form>
+
     <cvi-ng-button *ngIf="!context.isLoggedIn" size="m" appearance="primary" (click)="login()">Sign in</cvi-ng-button>
     <cvi-ng-button *ngIf="context.isLoggedIn" size="m" appearance="text" (click)="logout()">
       <fa-icon [icon]="faRightFromBracket"></fa-icon>

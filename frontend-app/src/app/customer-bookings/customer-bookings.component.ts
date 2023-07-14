@@ -5,6 +5,9 @@ import { Booking } from '../models/booking.interface';
 import { NotificationSeverity } from '@egov/cvi-ng/lib/notification/notification';
 import { NotificationSize, ToastService } from '@egov/cvi-ng';
 import { Router } from '@angular/router';
+import { UiImage } from '../models/ui/Image.type';
+import { faBed, faRulerCombined, faUser } from '@fortawesome/free-solid-svg-icons';
+import { TimeService } from '../services/time.service';
 
 @Component({
   selector: 'app-customer-bookings',
@@ -17,17 +20,38 @@ export class CustomerBookingsComponent implements OnInit {
   noResultsNotificationSeverity: NotificationSeverity = 'warning';
   noResultsNotificationSize: NotificationSize = 'regular';
   disableBookingCancelling = false;
+  roomImage: UiImage = {
+    src: '/assets/images/room.jpg',
+    alt: 'Room Image',
+  };
+  dateFormatString = 'dd.MM.yy';
 
   constructor(
     private readonly customerFacade: CustomerFacade,
     private readonly router: Router,
     private readonly toastService: ToastService,
-    private readonly cd: ChangeDetectorRef
+    private readonly cd: ChangeDetectorRef,
+    private readonly timeService: TimeService
   ) {}
 
   ngOnInit() {
     this.getCustomerBookings();
     this.customerBookings$ = this.customerFacade.customerBookings$;
+  }
+
+  getBadgeLabel(date: string) {
+    let label = '';
+
+    if (this.timeService.isTheSameDay(date)) {
+      label = 'Today';
+    }
+
+    if (this.timeService.isFutureDate(date)) {
+      label = this.timeService.daysUntilDate(date);
+    } else if (this.timeService.isFutureDate(date)) {
+      label = this.timeService.daysUntilDate(date);
+    }
+    return label;
   }
 
   getCustomerBookings() {
@@ -59,4 +83,9 @@ export class CustomerBookingsComponent implements OnInit {
       this.router.navigate(['/']);
     }
   }
+
+  protected readonly String = String;
+  protected readonly faUser = faUser;
+  protected readonly faRulerCombined = faRulerCombined;
+  protected readonly faBed = faBed;
 }
