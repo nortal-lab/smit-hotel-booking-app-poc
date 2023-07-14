@@ -6,7 +6,7 @@
 }
 
 .room {
-  width: 780px;
+  width: var(--app-content-width);
 }
 
 .room-details-wrapper {

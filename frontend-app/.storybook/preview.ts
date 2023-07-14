@@ -6,6 +6,7 @@ import docJson from '../documentation.json';
 import { AppUiModule } from 'src/app/app-ui/app-ui.module';
 import { UiModule } from '@egov/cvi-ng';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import '../src/styles.scss';
 
 setCompodocJson(docJson);
 

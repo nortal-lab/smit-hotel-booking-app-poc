@@ -8,6 +8,6 @@
 }
 
 .inner {
-  max-width: 780px;
+  max-width: var(--app-content-width);
   margin-inline: auto;
 }

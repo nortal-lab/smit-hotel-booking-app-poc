@@ -1,0 +1,10 @@
+.cvi-datepicker {
+  &__input-container {
+    height: 38px;
+    background-color: var(--cvi-color-white);
+  }
+
+  &__calendar {
+    z-index: 1;
+  }
+}
