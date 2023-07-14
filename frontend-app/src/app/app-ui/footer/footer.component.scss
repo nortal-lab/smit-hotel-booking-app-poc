@@ -22,13 +22,14 @@
 }
 
 .main {
+  background: var(--cvi-color-white);
   padding-block: var(--cvi-spacing-kuressaare);
   width: 100%;
 }
 
 .main-item {
   padding-inline: var(--cvi-spacing-haapsalu);
-  
+
   &:not(:last-child) {
     border-inline-end: 1px dashed var(--cvi-color-black-coral-8);
   }
@@ -43,6 +44,7 @@
   display: flex;
   align-items: center;
   gap: var(--cvi-spacing-elva);
+  
   &::before {
     content: '';
     width: 6px;

@@ -1,7 +1,8 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { IconsRegistry } from '@egov/cvi-ng';
-import { cviLoupe } from '@egov/cvi-icons';
 import { AuthService } from './services/auth.service';
+import { from } from 'rxjs';
+import { faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-root',
@@ -10,8 +11,10 @@ import { AuthService } from './services/auth.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent {
+  isLoggedIn$ = from(this.authService.isLoggedIn());
+
   constructor(private registry: IconsRegistry, private readonly authService: AuthService) {
-    this.registry.registerIcons([cviLoupe]);
+    this.registry.registerIcons([]);
   }
 
   login() {
@@ -21,4 +24,6 @@ export class AppComponent {
   logout() {
     this.authService.logout();
   }
+
+  protected readonly faRightFromBracket = faRightFromBracket;
 }

@@ -2,3 +2,13 @@
 .cvi-datepicker__input-container {
   height: 38px;
 }
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  display: flex;
+  align-items: stretch;
+}
