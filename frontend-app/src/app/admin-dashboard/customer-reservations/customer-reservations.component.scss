@@ -1,6 +1,6 @@
 :host {
   display: block;
-  max-width: 780px;
+  max-width: var(--app-content-width);
   margin: auto;
   padding-block: var(--cvi-spacing-viljandi);
 }
