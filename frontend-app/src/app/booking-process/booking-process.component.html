@@ -27,7 +27,10 @@
           </cvi-app-step>
           <cvi-app-step class="personal-information-step">
             <app-booking-sidebar [img]="roomImage">
-              <app-room-reservation-details [room]="selectedRoom"></app-room-reservation-details>
+              <app-room-reservation-details
+                [room]="selectedRoom"
+                [checkInDate]="availableRoomsData.startDate"
+                [checkOutDate]="availableRoomsData.endDate"></app-room-reservation-details>
             </app-booking-sidebar>
             <cvi-app-step-panel class="personal-information-container" [title]="labels[1]" [titleHidden]="true" [disabled]="context.currentStep < 1">
               <ng-container *ngIf="userCredentials$ | async as userCredentials">

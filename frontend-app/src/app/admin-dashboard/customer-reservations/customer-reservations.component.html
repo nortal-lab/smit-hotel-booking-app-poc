@@ -11,7 +11,7 @@
         {{ '256 (Deluxe)' }}
       </td>
       <td cvi-ng-body-cell>{{ row.customerFirstName }} {{ row.customerLastName }}</td>
-      <td cvi-ng-body-cell>{{ row.startDate | dateFormat }}-{{ row.endDate | dateFormat }}</td>
+      <td cvi-ng-body-cell>{{ row.startDate | dateFormat : dateFormatString }}-{{ row.endDate | dateFormat : dateFormatString }}</td>
       <td cvi-ng-body-cell>
         <cvi-ng-button size="s" [disabled]="false" appearance="text" [cviNgModal]="modal">Cancel</cvi-ng-button>
         <ng-template #modal let-modal>

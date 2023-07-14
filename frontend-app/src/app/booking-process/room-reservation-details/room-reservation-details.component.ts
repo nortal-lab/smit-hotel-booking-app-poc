@@ -9,4 +9,8 @@ import { Room } from '../../models/room.interface';
 })
 export class RoomReservationDetailsComponent {
   @Input() room?: Room;
+  @Input() checkInDate?: string;
+  @Input() checkOutDate?: string;
+
+  dateFormatString = 'eee, dd.MM.yyyy - HH:mm';
 }
