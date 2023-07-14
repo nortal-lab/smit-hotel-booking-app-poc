@@ -11,11 +11,9 @@ import { faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 })
 export class AppComponent {
   protected readonly faRightFromBracket = faRightFromBracket;
-
   isLoggedIn$ = from(this.authService.isLoggedIn());
 
-  constructor(private readonly authService: AuthService) {
-  }
+  constructor(private readonly authService: AuthService) {}
 
   login() {
     this.authService.login();
@@ -24,5 +22,4 @@ export class AppComponent {
   logout() {
     this.authService.logout();
   }
-
 }

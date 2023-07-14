@@ -5,8 +5,8 @@ import { addDays, format } from 'date-fns';
   providedIn: 'root',
 })
 export class TimeService {
-  convertDateFormat(date: string) {
-    return format(new Date(date), 'dd.MM.yyyy');
+  convertDateFormat(date: string, formatString: string) {
+    return format(new Date(date), formatString);
   }
 
   convertDateServerFormat(date: string) {

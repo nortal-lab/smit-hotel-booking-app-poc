@@ -4,16 +4,16 @@
     <cvi-ng-track
       flexDirection="vertical"
       [gap]="2"
-      [ngStyle]="{'--app-definition-item--label--font-size': 'var(--cvi-font-size-70)'}"
+      [ngStyle]="{ '--app-definition-item--label--font-size': 'var(--cvi-font-size-70)' }"
     >
       <app-definition-item label="Occupancy">
         <div class="definition">{{ room.peopleCapacity }} adults</div>
       </app-definition-item>
-      <app-definition-item label="Check-in">
-        <div class="definition">2020-01-01</div>
+      <app-definition-item label="Check-in" *ngIf="checkInDate">
+        <div class="definition">{{ checkInDate | dateFormat : dateFormatString }}</div>
       </app-definition-item>
-      <app-definition-item label="Check-out">
-        <div class="definition">2020-01-01</div>
+      <app-definition-item label="Check-out" *ngIf="checkOutDate">
+        <div class="definition">{{ checkOutDate | dateFormat : dateFormatString }}</div>
       </app-definition-item>
     </cvi-ng-track>
   </app-data-section>

@@ -14,6 +14,6 @@ describe('TimeService', () => {
   it('should convert date format correctly', () => {
     const date = '2023-07-10';
     const convertedDate = '10.07.2023';
-    expect(service.convertDateFormat(date)).toBe(convertedDate);
+    expect(service.convertDateFormat(date, 'dd.MM.yyyy')).toBe(convertedDate);
   });
 });

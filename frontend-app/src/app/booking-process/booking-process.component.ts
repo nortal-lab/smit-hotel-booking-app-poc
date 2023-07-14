@@ -29,7 +29,7 @@ export class BookingProcessComponent implements OnInit, OnDestroy {
   currentStepSubject$ = new BehaviorSubject(this.initialCurrentStep);
   dateFrom$ = this.activatedRoute.queryParamMap.pipe(map((paramMap) => paramMap.get('dateFrom')));
   dateTo$ = this.activatedRoute.queryParamMap.pipe(map((paramMap) => paramMap.get('dateTo')));
-  guestCount$ = this.activatedRoute.queryParamMap.pipe(map((paramMap) => paramMap.get('guests')));
+  guestCount$ = this.activatedRoute.queryParamMap.pipe(map((paramMap) => paramMap.get('peopleCapacity')));
   sortedAvailableRooms$ = this.availableRooms$.asObservable();
   sortOrder$ = new BehaviorSubject<SortOrder>(SortOrder.ASC);
   userCredentials$?: Observable<User>;

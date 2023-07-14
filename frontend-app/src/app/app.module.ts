@@ -13,6 +13,7 @@ import { SearchHomepageModule } from './search-homepage/search-homepage.module';
 import { BookingProcessModule } from './booking-process/booking-process.module';
 import { CustomerBookingsModule } from './customer-bookings/customer-bookings.module';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { SearchFormModule } from './search-form/search-form.module';
 
 function initializeKeycloak(keycloak: KeycloakService, authService: AuthService) {
   return () =>
@@ -46,6 +47,7 @@ function initializeKeycloak(keycloak: KeycloakService, authService: AuthService)
     SearchHomepageModule,
     CustomerBookingsModule,
     FontAwesomeModule,
+    SearchFormModule,
   ],
   providers: [
     {

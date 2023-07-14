@@ -30,6 +30,8 @@ export interface RoomDTO {
   estimatedTaxes: number;
   priceBeforeTaxes: number;
   pricePerNightIncludingTaxes: number;
+  customerFirstName?: string;
+  customerLastName?: string;
 }
 
 export interface Room {

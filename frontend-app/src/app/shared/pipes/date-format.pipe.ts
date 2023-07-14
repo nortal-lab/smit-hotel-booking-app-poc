@@ -7,7 +7,7 @@ import { TimeService } from '../../services/time.service';
 export class DateFormatPipe implements PipeTransform {
   constructor(private readonly timeService: TimeService) {}
 
-  transform(date: string): string {
-    return this.timeService.convertDateFormat(date);
+  transform(date: string, format: string): string {
+    return this.timeService.convertDateFormat(date, format);
   }
 }

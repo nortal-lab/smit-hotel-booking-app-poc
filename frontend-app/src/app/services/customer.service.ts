@@ -16,7 +16,7 @@ export class CustomerService {
       params: {
         startDate: dateFrom,
         endDate: dateTo,
-        guestCount: guestCount,
+        peopleCapacity: guestCount,
       },
     });
   }
