@@ -22,6 +22,7 @@ import { SearchInputComponent } from './search-input/search-input.component';
 import { FooterComponent } from './footer/footer.component';
 import { HeaderComponent } from './header/header.component';
 import { IconButtonComponent } from './icon-button/icon-button.component';
+import { PageWrapperComponent } from './page-wrapper/page-wrapper.component';
 
 const components = [
   AppStepsComponent,
@@ -42,6 +43,7 @@ const components = [
   FooterComponent,
   HeaderComponent,
   IconButtonComponent,
+  PageWrapperComponent
 ];
 
 @NgModule({
