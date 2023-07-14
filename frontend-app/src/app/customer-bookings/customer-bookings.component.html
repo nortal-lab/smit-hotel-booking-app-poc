@@ -1,68 +1,70 @@
-<cvi-ng-breadcrumbs class="breadcrumb" [breadcrumbLabels]="['Home', 'My Reservations']" (breadcrumbChange)="changeBreadcrumb($event)"></cvi-ng-breadcrumbs>
-<app-title-container title="My reservations" class="my-reservations"></app-title-container>
+<app-page-wrapper>
+  <cvi-ng-breadcrumbs class="breadcrumb" [breadcrumbLabels]="['Home', 'My Reservations']" (breadcrumbChange)="changeBreadcrumb($event)"></cvi-ng-breadcrumbs>
+  <app-title-container title="My reservations" class="my-reservations"></app-title-container>
 
-<app-page-content-wrapper>
-  <div *ngIf="customerBookings$ | async as bookings" class="booking-list">
-    <ng-container *ngIf="bookings.length > 0; else noResultsPlaceholder">
-      <ng-container *ngFor="let booking of bookings">
-        <app-booking-card
-          [title]="booking.room!.roomType | roomType"
-          [img]="roomImage"
-          [badgeLabel]="getBadgeLabel(booking.startDate)"
-          [price]="String(booking.room?.pricePerNightIncludingTaxes)"
-          currency="€">
-          <div app-booking-card="summary">
-            <div class="booking-dates">{{ booking.startDate | dateFormat : dateFormatString }} - {{ booking.endDate | dateFormat : dateFormatString }}</div>
-            <div>1 night / {{ booking.room?.peopleCapacity }} adults</div>
-          </div>
-          <div>
-            <cvi-ng-track [gap]="4" class="room-details-wrapper">
-              <div class="room-details">
-                <fa-icon [icon]="faUser"></fa-icon>{{ booking.room?.peopleCapacity }} {{ booking.room!.peopleCapacity > 1 ? 'people' : 'person' }}
-              </div>
-              <div class="room-details"><fa-icon [icon]="faBed"></fa-icon> {{ booking.room!.bedsType | bedType }}</div>
-              <div class="room-details"><fa-icon [icon]="faRulerCombined"></fa-icon>{{ booking.room?.roomSizeInSquareMeters }} m²</div>
-            </cvi-ng-track>
-            <div>
-              <span *ngIf="booking.room?.airConditioning" class="room-feature">air conditioning • </span>
-              <span *ngIf="booking.room?.balcony" class="room-feature">balcony • </span>
-              <span *ngIf="booking.room?.bathrobeAndSlippers" class="room-feature">bathrobe and slippers • </span>
-              <span *ngIf="booking.room?.freeBottledWater" class="room-feature">free bottle watter • </span>
-              <span *ngIf="booking.room?.freeWiFi" class="room-feature">free WI-FI • </span>
-              <span *ngIf="booking.room?.inRoomSafe" class="room-feature">in-room safe • </span>
-              <span *ngIf="booking.room?.ironAndIroningBoard" class="room-feature">iron and ironing board • </span>
-              <span *ngIf="booking.room?.professionalHairDryer" class="room-feature">professional hair dryer • </span>
-              <span *ngIf="booking.room?.rainShower" class="room-feature">rain shower • </span>
-              <span *ngIf="booking.room?.smartTV" class="room-feature">smart TV</span>
+  <app-page-content-wrapper>
+    <div *ngIf="customerBookings$ | async as bookings" class="booking-list">
+      <ng-container *ngIf="bookings.length > 0; else noResultsPlaceholder">
+        <ng-container *ngFor="let booking of bookings">
+          <app-booking-card
+            [title]="booking.room!.roomType | roomType"
+            [img]="roomImage"
+            [badgeLabel]="getBadgeLabel(booking.startDate)"
+            [price]="String(booking.room?.pricePerNightIncludingTaxes)"
+            currency="€">
+            <div app-booking-card="summary">
+              <div class="booking-dates">{{ booking.startDate | dateFormat : dateFormatString }} - {{ booking.endDate | dateFormat : dateFormatString }}</div>
+              <div>1 night / {{ booking.room?.peopleCapacity }} adults</div>
             </div>
-          </div>
-          <cvi-ng-button size="m" [disabled]="disableBookingCancelling" appearance="primary" [cviNgModal]="modal">Cancel</cvi-ng-button>
-        </app-booking-card>
+            <div>
+              <cvi-ng-track [gap]="4" class="room-details-wrapper">
+                <div class="room-details">
+                  <fa-icon [icon]="faUser"></fa-icon>{{ booking.room?.peopleCapacity }} {{ booking.room!.peopleCapacity > 1 ? 'people' : 'person' }}
+                </div>
+                <div class="room-details"><fa-icon [icon]="faBed"></fa-icon> {{ booking.room!.bedsType | bedType }}</div>
+                <div class="room-details"><fa-icon [icon]="faRulerCombined"></fa-icon>{{ booking.room?.roomSizeInSquareMeters }} m²</div>
+              </cvi-ng-track>
+              <div>
+                <span *ngIf="booking.room?.airConditioning" class="room-feature">air conditioning • </span>
+                <span *ngIf="booking.room?.balcony" class="room-feature">balcony • </span>
+                <span *ngIf="booking.room?.bathrobeAndSlippers" class="room-feature">bathrobe and slippers • </span>
+                <span *ngIf="booking.room?.freeBottledWater" class="room-feature">free bottle watter • </span>
+                <span *ngIf="booking.room?.freeWiFi" class="room-feature">free WI-FI • </span>
+                <span *ngIf="booking.room?.inRoomSafe" class="room-feature">in-room safe • </span>
+                <span *ngIf="booking.room?.ironAndIroningBoard" class="room-feature">iron and ironing board • </span>
+                <span *ngIf="booking.room?.professionalHairDryer" class="room-feature">professional hair dryer • </span>
+                <span *ngIf="booking.room?.rainShower" class="room-feature">rain shower • </span>
+                <span *ngIf="booking.room?.smartTV" class="room-feature">smart TV</span>
+              </div>
+            </div>
+            <cvi-ng-button size="m" [disabled]="disableBookingCancelling" appearance="primary" [cviNgModal]="modal">Cancel</cvi-ng-button>
+          </app-booking-card>
 
-        <ng-template #modal let-modal>
-          <cvi-ng-confirmation-modal
-            title="Are you sure you want to cancel this reservation?"
-            confirmButtonText="Confirm cancellation"
-            cancelButtonText="Back"
-            (cancelled)="modal.closeModal()"
-            (confirmed)="cancelBooking(booking.bookingId, modal.closeModal())">
-            <p>You are able to cancel reservation at least 3 days before your stay and you will be fully refunded.</p>
-          </cvi-ng-confirmation-modal>
-        </ng-template>
+          <ng-template #modal let-modal>
+            <cvi-ng-confirmation-modal
+              title="Are you sure you want to cancel this reservation?"
+              confirmButtonText="Confirm cancellation"
+              cancelButtonText="Back"
+              (cancelled)="modal.closeModal()"
+              (confirmed)="cancelBooking(booking.bookingId, modal.closeModal())">
+              <p>You are able to cancel reservation at least 3 days before your stay and you will be fully refunded.</p>
+            </cvi-ng-confirmation-modal>
+          </ng-template>
+        </ng-container>
       </ng-container>
-    </ng-container>
 
-    <ng-template #noResultsPlaceholder>
-      <cvi-ng-notification
-        [severity]="noResultsNotificationSeverity"
-        [size]="noResultsNotificationSize"
-        [showCloseButton]="false"
-        [showIcon]="false"
-        title="No current reservations">
-        You do not have any reservations yet. If you made a reservation and it does not appear on this page, please contact our customer support for additional
-        information +372 612 62.
-        <a routerLink="/">Back to the homepage.</a>
-      </cvi-ng-notification>
-    </ng-template>
-  </div>
-</app-page-content-wrapper>
+      <ng-template #noResultsPlaceholder>
+        <cvi-ng-notification
+          [severity]="noResultsNotificationSeverity"
+          [size]="noResultsNotificationSize"
+          [showCloseButton]="false"
+          [showIcon]="false"
+          title="No current reservations">
+          You do not have any reservations yet. If you made a reservation and it does not appear on this page, please contact our customer support for additional
+          information +372 612 62.
+          <a routerLink="/">Back to the homepage.</a>
+        </cvi-ng-notification>
+      </ng-template>
+    </div>
+  </app-page-content-wrapper>
+</app-page-wrapper>
