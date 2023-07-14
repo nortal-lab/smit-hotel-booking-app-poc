@@ -45,6 +45,7 @@
               title="Are you sure you want to cancel this reservation?"
               confirmButtonText="Confirm cancellation"
               cancelButtonText="Back"
+              [attr.style]="'--cvi-button-color: var(--cvi-color-jasper-10); --cvi-button-color--hover: var(--cvi-color-jasper-12);'"
               (cancelled)="modal.closeModal()"
               (confirmed)="cancelBooking(booking.bookingId, modal.closeModal())">
               <p>You are able to cancel reservation at least 3 days before your stay and you will be fully refunded.</p>
