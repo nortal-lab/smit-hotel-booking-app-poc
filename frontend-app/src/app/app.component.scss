@@ -1,11 +1,11 @@
 :host {
   display: flex;
   flex-direction: column;
-  flex: 1;
+  flex-grow: 1;
 
   .main {
     display: flex;
-    flex: 1;
+    flex-grow: 1;
   }
 
   .hide-search-form {

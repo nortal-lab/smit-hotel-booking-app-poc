@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { LocalStorageService } from '../services/local-storage.service';
 
 @Component({
-  selector: 'app-customer-dashboard',
+  selector: 'app-search-homepage',
   templateUrl: './search-homepage.component.html',
   styleUrls: ['./search-homepage.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

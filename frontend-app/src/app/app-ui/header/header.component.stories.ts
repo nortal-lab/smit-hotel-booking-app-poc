@@ -1,7 +1,7 @@
 import { Meta, StoryObj } from '@storybook/angular';
 import { HeaderComponent } from './header.component';
 
-const meta: Meta<HeaderComponent> = {
+const meta: Meta<HeaderComponent & { onLogout: any }> = {
   title: 'Components/Header',
   component: HeaderComponent,
   tags: ['autodocs'],
@@ -30,10 +30,16 @@ export const Default: StoryObj = {
 
 export const WithSearchForm: StoryObj = {
   render: (args) => ({
-    props: args,
+    props: {
+      ...args,
+      extraLink: {
+        href: '/my-reservations',
+        label: 'My reservations'
+      }
+    },
     /* template */
     template: `
-      <app-header>
+      <app-header [extraLink]="extraLink">
 
         <!-- Search container below -->
         <cvi-ng-track [gap]="4">
@@ -65,7 +71,7 @@ export const WithLogoutButton: StoryObj = {
     props: args,
     /* template */
     template: `
-      <app-header>
+      <app-header [extraLink]="extraLink">
 
         <!-- Search container below -->
         <cvi-ng-track [gap]="4">

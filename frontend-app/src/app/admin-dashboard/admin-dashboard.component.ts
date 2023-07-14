@@ -6,7 +6,6 @@ import { Booking } from '../models/booking.interface';
 @Component({
   selector: 'app-customer-dashboard',
   templateUrl: './admin-dashboard.component.html',
-  styleUrls: ['./admin-dashboard.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AdminDashboardComponent implements OnInit {
