@@ -1,5 +1,6 @@
 ﻿using ApiTests.TestFixtures;
 using ApiTests.TestHelpers;
+using HotelBookingSystem.API.Auth.Model;
 using HotelBookingSystem.API.Data;
 using HotelBookingSystem.API.Data.BookingRepository;
 using HotelBookingSystem.API.Exceptions;
@@ -148,6 +149,34 @@ namespace ApiTests.ServiceTests
             // Assert
             Assert.DoesNotThrow(Act);
             Assert.IsNull(_sut.GetBookingById(bookingExpected.BookingId));
+        }
+
+        [Test]
+        public void CreateBooking_CreatesBooking_IfCorrectBookingData()
+        {
+            // Arrange
+            var roomId = MockData.RoomsHardcoded.ElementAt(0).RoomId;
+
+            Booking bookingExpected =
+                BookingTestFixture.SetUpBooking(roomId, new DateTime(2023, 07, 15), new DateTime(2023, 07, 20));
+
+            var currentCustomer = new Mock<ICurrentUser>();
+            currentCustomer.SetupGet(c => c.Id).Returns(Guid.NewGuid().ToString());
+            currentCustomer.SetupGet(c => c.FirstName).Returns("name");
+            currentCustomer.SetupGet(c => c.LastName).Returns("surname");
+
+            // Act
+            var bookingActual = _sut.CreateBooking(bookingExpected, currentCustomer.Object);
+
+            // Assert
+            Assert.Multiple(() =>
+            {
+                Assert.That(bookingActual.BookingIdentifierNumber, Is.Not.EqualTo(bookingExpected.BookingIdentifierNumber));
+                Assert.That(bookingActual.BookingId, Is.Not.EqualTo(bookingExpected.BookingId));
+                Assert.That(bookingActual.CustomerId.ToString(), Is.EqualTo(currentCustomer.Object.Id));
+                Assert.That(bookingActual.CustomerFirstName, Is.EqualTo(currentCustomer.Object.FirstName));
+                Assert.That(bookingActual.CustomerLastName, Is.EqualTo(currentCustomer.Object.LastName));
+            });
         }
     }
 }
