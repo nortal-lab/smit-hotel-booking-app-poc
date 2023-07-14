@@ -1,25 +1,12 @@
 :host {
+  max-width: var(--app-content-width);
+  display: block;
+  margin-inline: auto;
+}
+
+.icons-track {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 16px;
-}
-
-.room {
-  width: var(--app-content-width);
-}
-
-.room-details-wrapper {
-  margin-bottom: 8px;
-}
-
-.room-feature,
-.room-details {
-  font-size: 14px;
-}
-
-.room-details {
-  fa-icon {
-    margin-right: 3px;
-  }
+  flex-wrap: wrap;
+  row-gap: var(--cvi-spacing-loksa);
+  column-gap: var(--cvi-spacing-haapsalu);
 }
