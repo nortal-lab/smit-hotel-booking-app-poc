@@ -21,6 +21,11 @@ namespace HotelBookingSystem.API.Services.RoomService
             return _roomRepository.GetAllRooms();
         }
 
+        public Room? GetRoomById(Guid roomId)
+        {
+            return _roomRepository.GetRoomById(roomId);
+        }
+
         public List<Room> FindAvailableRoomsByCriteria(DateTime startDate, DateTime endDate, int? peopleCapacity)
         {
             return _roomRepository.FindAvailableRoomsByCriteria(DateHelper.SetStartTimeTo1500(startDate),

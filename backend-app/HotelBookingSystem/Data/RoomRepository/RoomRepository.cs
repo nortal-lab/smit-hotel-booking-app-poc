@@ -17,6 +17,11 @@ namespace HotelBookingSystem.API.Data.RoomRepository
             return _dbContext.Rooms.ToList();
         }
 
+        public Room? GetRoomById(Guid roomId)
+        {
+            return _dbContext.Rooms.SingleOrDefault(room => room.RoomId == roomId);
+        }
+
         public List<Room> FindAvailableRoomsByCriteria(DateTime startDate, DateTime endDate, int? peopleCapacity)
         {
             var availableRooms = from room in _dbContext.Rooms
