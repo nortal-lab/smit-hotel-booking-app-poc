@@ -24,7 +24,7 @@ export default {
     }
   },
   args: {
-    imgSrc: '/images/hero.jpg',
+    imgSrc: '/assets/images/hero.jpg',
   },
 } as Meta;
 
