@@ -18,6 +18,6 @@ describe('DateFormatPipe', () => {
     const date = '2023-07-10';
     const convertedDate = '10.07.2023';
 
-    expect(pipe.transform(date)).toBe(convertedDate);
+    expect(pipe.transform(date, 'dd.MM.yyyy')).toBe(convertedDate);
   });
 });
