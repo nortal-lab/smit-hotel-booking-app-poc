@@ -1,0 +1,29 @@
+:host {
+  --padding-inline: var(--cvi-spacing-viljandi);
+
+  display: block;
+  box-shadow: var(--cvi-shadow-beta);
+}
+
+.primary-block {
+  padding-inline-start: var(--cvi-spacing-elva);
+  padding-inline-end: var(--padding-inline);
+  padding-block: var(--cvi-spacing-paldiski);
+  background-color: var(--cvi-color-white);
+}
+
+.secondary-block {
+  background-color: var(--cvi-color-sapphire-blue-18);
+  padding-inline: var(--cvi-spacing-viljandi);
+  padding-block: var(--cvi-spacing-elva);
+  font-size: var(--cvi-font-size-80);
+}
+
+.secondary-block-link {
+  color: var(--cvi-color-white);
+}
+
+.secondary-block-main-track {
+  display: flex;
+  gap: var(--cvi-spacing-kuressaare);
+}

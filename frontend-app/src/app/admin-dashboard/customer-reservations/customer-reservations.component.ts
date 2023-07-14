@@ -11,6 +11,7 @@ import { EmployeeFacade } from '../../facades/employee.facade';
 export class CustomerReservationsComponent {
   @Input() bookings?: Booking[] | null;
 
+  dateFormatString = 'dd.MM.yyyy';
   reservationsTableHeaderLabels = ['Booking No.', 'Room', 'Guest', 'Dates'];
 
   constructor(private readonly employeeFacade: EmployeeFacade) {}

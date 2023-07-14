@@ -23,8 +23,7 @@ export class AuthService implements OnDestroy {
   constructor(private readonly keycloakService: KeycloakService, private readonly router: Router) {}
 
   async init() {
-    const isLoggedIn = await this.keycloakService.isLoggedIn();
-    if (isLoggedIn) {
+    if (await this.isLoggedIn()) {
       const role = this.getUserRole();
 
       this.setUser(role);
@@ -33,6 +32,10 @@ export class AuthService implements OnDestroy {
         this.router.navigate(['/admin']);
       }
     }
+  }
+
+  isLoggedIn() {
+    return this.keycloakService.isLoggedIn();
   }
 
   private setUser(role: UserRoles) {

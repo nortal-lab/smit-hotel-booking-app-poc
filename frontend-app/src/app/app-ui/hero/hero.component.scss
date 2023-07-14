@@ -1,0 +1,14 @@
+:host {
+  display: block;
+  width: 100%;
+  flex-grow: 1;
+}
+
+.hero-wrapper {
+  width: 100%;
+  height: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  padding-block: 124px;
+}

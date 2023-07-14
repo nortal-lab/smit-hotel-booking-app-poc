@@ -1,3 +1,15 @@
+export interface AvailableRoomsDTO {
+  startDate: string;
+  endDate: string;
+  availableRooms: RoomDTO[];
+}
+
+export interface AvailableRooms {
+  startDate: string;
+  endDate: string;
+  availableRooms: Room[];
+}
+
 export interface RoomDTO {
   airConditioning: boolean;
   balcony: boolean;
@@ -18,6 +30,8 @@ export interface RoomDTO {
   estimatedTaxes: number;
   priceBeforeTaxes: number;
   pricePerNightIncludingTaxes: number;
+  customerFirstName?: string;
+  customerLastName?: string;
 }
 
 export interface Room {

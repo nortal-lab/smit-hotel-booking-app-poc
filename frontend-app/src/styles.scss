@@ -1,1 +1,19 @@
 /* You can add global styles to this file, and also import other style files */
+.cvi-datepicker__input-container {
+  height: 38px;
+  background-color: var(--cvi-color-white);
+}
+
+.cvi-datepicker__calendar {
+  z-index: 1;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  display: flex;
+  align-items: stretch;
+}

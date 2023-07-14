@@ -20,12 +20,13 @@
 
 .label {
   /* stylelint-disable-next-line custom-property-pattern */
-  font-size: var(--cvi-font-size-70);
+  font-size: var(--app-definition-item--label--font-size);
   color: var(--cvi-color-black-coral-12);
   display: block;
 }
 
 :host(.is-highlighted) {
+  font-size: var(--cvi-font-size-100);
   font-weight: var(--cvi-font-weight-delta);
   color: var(--cvi-color-black-coral-20);
 

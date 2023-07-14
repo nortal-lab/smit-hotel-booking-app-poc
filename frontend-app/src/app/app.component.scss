@@ -1,0 +1,15 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+
+  .main {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+
+  .hide-search-form {
+    display: none;
+  }
+}

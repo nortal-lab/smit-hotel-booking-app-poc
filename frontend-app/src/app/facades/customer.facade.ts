@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { CustomerService } from '../services/customer.service';
-import { map, tap } from 'rxjs';
+import { forkJoin, map, switchMap, tap } from 'rxjs';
 import { Room } from '../models/room.interface';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { Booking } from '../models/booking.interface';
+import { AuthService } from '../services/auth.service';
 
 @Injectable({
   providedIn: 'root',
@@ -12,36 +13,39 @@ export class CustomerFacade {
   customerBookings = new BehaviorSubject<Booking[] | null>(null);
   customerBookings$ = this.customerBookings.asObservable();
 
-  constructor(private readonly customerService: CustomerService) {}
+  constructor(private readonly customerService: CustomerService, private readonly authService: AuthService) {}
 
   getAvailableRooms(dateFrom: string, dateTo: string, guestCount: string) {
     return this.customerService.getAvailableRooms(dateFrom, dateTo, guestCount).pipe(
       map((data) => {
-        return data.map((room) => {
-          const mappedRoom: Room = {
-            airConditioning: room.airConditioning,
-            balcony: room.balcony,
-            bathrobeAndSlippers: room.bathrobeAndSlippers,
-            freeBottledWater: room.freeBottledWater,
-            freeWiFi: room.freeWiFi,
-            inRoomSafe: room.inRoomSafe,
-            ironAndIroningBoard: room.ironAndIroningBoard,
-            professionalHairDryer: room.professionalHairDryer,
-            smartTV: room.smartTV,
-            rainShower: room.rainShower,
-            roomId: room.roomId,
-            peopleCapacity: room.peopleCapacity,
-            priceBeforeTaxes: room.priceBeforeTaxes,
-            pricePerNightIncludingTaxes: String(room.pricePerNightIncludingTaxes),
-            estimatedTaxes: room.estimatedTaxes,
-            roomNumber: room.roomNumber,
-            roomSizeInSquareMeters: room.roomSizeInSquareMeters,
-            roomType: room.roomType,
-            bedsType: room.bedsType,
-          };
+        return {
+          ...data,
+          availableRooms: data.availableRooms.map((room) => {
+            const mappedRoom: Room = {
+              airConditioning: room.airConditioning,
+              balcony: room.balcony,
+              bathrobeAndSlippers: room.bathrobeAndSlippers,
+              freeBottledWater: room.freeBottledWater,
+              freeWiFi: room.freeWiFi,
+              inRoomSafe: room.inRoomSafe,
+              ironAndIroningBoard: room.ironAndIroningBoard,
+              professionalHairDryer: room.professionalHairDryer,
+              smartTV: room.smartTV,
+              rainShower: room.rainShower,
+              roomId: room.roomId,
+              peopleCapacity: room.peopleCapacity,
+              priceBeforeTaxes: room.priceBeforeTaxes,
+              pricePerNightIncludingTaxes: String(room.pricePerNightIncludingTaxes),
+              estimatedTaxes: room.estimatedTaxes,
+              roomNumber: room.roomNumber,
+              roomSizeInSquareMeters: room.roomSizeInSquareMeters,
+              roomType: room.roomType,
+              bedsType: room.bedsType,
+            };
 
-          return mappedRoom;
-        });
+            return mappedRoom;
+          }),
+        };
       })
     );
   }
@@ -49,12 +53,29 @@ export class CustomerFacade {
   getBookings() {
     this.customerService
       .getBookings()
-      .pipe(tap((bookings) => this.customerBookings.next(bookings)))
+      .pipe(
+        switchMap((bookings) => {
+          let allRooms = bookings.map((booking) => this.customerService.getRoom(booking.roomId));
+
+          return forkJoin(allRooms).pipe(
+            map((room) => {
+              return bookings.map(
+                (x, index) =>
+                  ({
+                    ...x,
+                    room: room[index],
+                  } as Booking)
+              );
+            })
+          );
+        }),
+        tap((bookings) => this.customerBookings.next(bookings)),
+      )
       .subscribe();
   }
 
-  bookRoom() {
-    return this.customerService.bookRoom();
+  bookRoom(roomId: string, startDate: string, endDate: string) {
+    return this.authService.user$.pipe(switchMap((user) => this.customerService.bookRoom(roomId, startDate, endDate, user.givenName, user.familyName)));
   }
 
   cancelBooking(bookingId: string) {

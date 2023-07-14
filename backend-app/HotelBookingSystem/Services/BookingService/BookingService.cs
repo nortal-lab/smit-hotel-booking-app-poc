@@ -1,4 +1,5 @@
-﻿using HotelBookingSystem.API.Common;
+﻿using HotelBookingSystem.API.Auth.Model;
+using HotelBookingSystem.API.Common;
 using HotelBookingSystem.API.Data.BookingRepository;
 using HotelBookingSystem.API.Exceptions;
 using HotelBookingSystem.API.Models;
@@ -50,11 +51,11 @@ namespace HotelBookingSystem.API.Services.BookingService
             return _bookingRepository.FindAllActiveBookings();
         }
 
-        public Booking CreateBooking(Booking booking, Guid customerId)
+        public Booking CreateBooking(Booking booking, ICurrentUser customer)
         {
             try
             {
-                Booking preparedBooking = PrepareBooking(booking, customerId);
+                Booking preparedBooking = PrepareBooking(booking, customer);
                 _bookingRepository.CreateBooking(preparedBooking);
                 return preparedBooking;
             }
@@ -64,7 +65,7 @@ namespace HotelBookingSystem.API.Services.BookingService
             }
         }
 
-        private Booking PrepareBooking(Booking booking, Guid customerId)
+        private Booking PrepareBooking(Booking booking, ICurrentUser customer)
         {
             DateTime startDate = booking.StartDate;
             DateTime endDate = booking.EndDate;
@@ -72,11 +73,14 @@ namespace HotelBookingSystem.API.Services.BookingService
             Booking preparedBooking = new()
             {
                 BookingId = Guid.NewGuid(),
-                CustomerId = customerId,
+                BookingIdentifierNumber = new Random().Next(10000000, 99999999),
+                CustomerId = new Guid(customer.Id),
+                CustomerFirstName = customer.FirstName,
+                CustomerLastName = customer.LastName,
                 RoomId = booking.RoomId,
                 CreationDate = DateTime.Now,
-                StartDate = new DateTime(startDate.Year, startDate.Month, startDate.Day, 15, 0, 0),
-                EndDate = new DateTime(endDate.Year, endDate.Month, endDate.Day, 12, 0, 0),
+                StartDate = startDate,
+                EndDate = endDate,
                 Status = Status.Confirmed
             };
 
