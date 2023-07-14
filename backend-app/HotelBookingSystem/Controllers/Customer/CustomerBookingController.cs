@@ -31,6 +31,7 @@ namespace HotelBookingSystem.API.Controllers.Customer
         /// </summary>
         /// <returns></returns>
         [HttpGet("")]
+        [ProducesResponseType(typeof(Booking), StatusCodes.Status200OK)]
         public IActionResult GetCustomerBookings()
         {
             return Ok(_bookingService.GetAllCustomerBookings(new Guid(_currentUser.Id)));
@@ -42,6 +43,7 @@ namespace HotelBookingSystem.API.Controllers.Customer
         /// <param name="bookingId"></param>
         /// <returns></returns>
         [HttpGet("{bookingId}")]
+        [ProducesResponseType(typeof(Booking), StatusCodes.Status200OK)]
         public IActionResult GetBookingDetails([FromRoute] Guid bookingId)
         {
             try
@@ -61,6 +63,7 @@ namespace HotelBookingSystem.API.Controllers.Customer
         }
 
         [HttpPost("")]
+        [ProducesResponseType(typeof(Booking), StatusCodes.Status201Created)]
         public IActionResult CreateBooking([FromBody] Booking booking)
         {
             try
@@ -90,6 +93,7 @@ namespace HotelBookingSystem.API.Controllers.Customer
         }
 
         [HttpDelete("{bookingId}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         public IActionResult CancelBooking([FromRoute] Guid bookingId)
         {
             try

@@ -25,6 +25,7 @@ namespace HotelBookingSystem.API.Controllers.Employee
         }
 
         [HttpGet("available")]
+        [ProducesResponseType(typeof(Room), StatusCodes.Status200OK)]
         public IActionResult FindAvailableRoomsByCriteria([FromQuery] DateTime startDate, DateTime endDate,
             int? peopleCapacity)
         {
@@ -37,6 +38,7 @@ namespace HotelBookingSystem.API.Controllers.Employee
         // Currently this method has the same implementation as for the customer
         // In the future it might have a different implementation, for example more details, etc.
         [HttpGet("{roomId}")]
+        [ProducesResponseType(typeof(Room), StatusCodes.Status200OK)]
         public IActionResult GetRoomDetails([FromRoute] Guid roomId)
         {
             Room? room = _roomService.GetRoomById(roomId);
