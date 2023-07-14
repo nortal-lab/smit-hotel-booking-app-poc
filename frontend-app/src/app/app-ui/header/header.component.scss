@@ -23,3 +23,8 @@
 .secondary-block-link {
   color: var(--cvi-color-white);
 }
+
+.secondary-block-main-track {
+  display: flex;
+  gap: var(--cvi-spacing-kuressaare);
+}

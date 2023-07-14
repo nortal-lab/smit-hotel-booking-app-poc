@@ -1,6 +1,7 @@
 import {
-  Component,
+  Component, Input,
 } from '@angular/core';
+import { UiLink } from 'src/app/models/ui/link.type';
 
 @Component({
   selector: 'app-header',
@@ -8,4 +9,5 @@ import {
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent {
+  @Input() extraLink!: UiLink; 
 }
