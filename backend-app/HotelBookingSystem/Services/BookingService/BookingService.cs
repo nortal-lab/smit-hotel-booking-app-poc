@@ -9,10 +9,12 @@ namespace HotelBookingSystem.API.Services.BookingService
     public class BookingService : IBookingService
     {
         private readonly IBookingRepository _bookingRepository;
+        private readonly ILogger<BookingService> _logger;
 
-        public BookingService(IBookingRepository bookingRepository)
+        public BookingService(IBookingRepository bookingRepository, ILogger<BookingService> logger)
         {
             _bookingRepository = bookingRepository;
+            _logger = logger;
         }
 
         public List<Booking> GetAllCustomerBookings(Guid customerId)
@@ -22,8 +24,7 @@ namespace HotelBookingSystem.API.Services.BookingService
 
         public Booking? GetBookingById(Guid bookingId, Guid customerId)
         {
-            Booking? booking = GetBookingById(bookingId);
-
+            Booking ? booking = GetBookingById(bookingId);
             if (booking?.CustomerId != customerId)
             {
                 throw new BookingAccessException("Customers can only access their own bookings.");
@@ -39,11 +40,12 @@ namespace HotelBookingSystem.API.Services.BookingService
 
         public void RemoveBookingById(Guid bookingId)
         {
-             bool isRemoved = _bookingRepository.RemoveBookingById(bookingId);
+            bool isRemoved = _bookingRepository.RemoveBookingById(bookingId);
              if (!isRemoved)
              {
-                 throw new BookingRemovalException("Failed to remove the booking.");
+                throw new BookingRemovalException("Failed to remove the booking.");
              }
+
         }
 
         public List<Booking> FindAllActiveBookings()
@@ -57,10 +59,12 @@ namespace HotelBookingSystem.API.Services.BookingService
             {
                 Booking preparedBooking = PrepareBooking(booking, customer);
                 _bookingRepository.CreateBooking(preparedBooking);
+
                 return preparedBooking;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                _logger.LogError(ex, "Failed to create the booking.");
                 throw new BookingCreationException("Failed to create the booking.");
             }
         }

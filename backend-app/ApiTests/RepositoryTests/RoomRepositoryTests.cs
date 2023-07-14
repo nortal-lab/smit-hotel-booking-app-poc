@@ -2,12 +2,15 @@
 using HotelBookingSystem.API.Data;
 using HotelBookingSystem.API.Data.RoomRepository;
 using HotelBookingSystem.API.Models.Room;
+using Microsoft.Extensions.Logging;
+using Moq;
 
 namespace ApiTests.RepositoryTests
 {
     public class RoomRepositoryTests
     {
         private IRoomRepository _sut;
+        
 
         [SetUp]
         public void Setup()

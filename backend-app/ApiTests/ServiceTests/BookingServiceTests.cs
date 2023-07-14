@@ -2,10 +2,10 @@
 using ApiTests.TestHelpers;
 using HotelBookingSystem.API.Data;
 using HotelBookingSystem.API.Data.BookingRepository;
-using HotelBookingSystem.API.Data.RoomRepository;
 using HotelBookingSystem.API.Exceptions;
 using HotelBookingSystem.API.Models;
 using HotelBookingSystem.API.Services.BookingService;
+using Microsoft.Extensions.Logging;
 using Moq;
 
 namespace ApiTests.ServiceTests
@@ -19,7 +19,7 @@ namespace ApiTests.ServiceTests
         public void Setup()
         {
             _bookingRepository = new BookingRepository(DatabaseTestFixture.SetupDatabase());
-            _sut = new BookingService(_bookingRepository);
+            _sut = new BookingService(_bookingRepository, new Mock<ILogger<BookingService>>().Object);
         }
 
         [Test]
