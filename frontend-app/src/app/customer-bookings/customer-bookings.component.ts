@@ -16,6 +16,11 @@ import { TimeService } from '../services/time.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CustomerBookingsComponent implements OnInit {
+  protected readonly String = String;
+  protected readonly faUser = faUser;
+  protected readonly faRulerCombined = faRulerCombined;
+  protected readonly faBed = faBed;
+
   customerBookings$?: Observable<Booking[] | null>;
   noResultsNotificationSeverity: NotificationSeverity = 'warning';
   noResultsNotificationSize: NotificationSize = 'regular';
@@ -41,7 +46,6 @@ export class CustomerBookingsComponent implements OnInit {
 
   getBadgeLabel(date: string) {
     let label = '';
-
     if (this.timeService.isTheSameDay(date)) {
       label = 'Today';
     }
@@ -83,9 +87,4 @@ export class CustomerBookingsComponent implements OnInit {
       this.router.navigate(['/']);
     }
   }
-
-  protected readonly String = String;
-  protected readonly faUser = faUser;
-  protected readonly faRulerCombined = faRulerCombined;
-  protected readonly faBed = faBed;
 }

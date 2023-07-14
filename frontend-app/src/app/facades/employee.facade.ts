@@ -12,7 +12,7 @@ export class EmployeeFacade {
   activeBookings = new BehaviorSubject<Booking[]>([]);
   activeBookings$ = this.activeBookings.asObservable();
 
-  constructor(private readonly employeeService: EmployeeService, private readonly toastService: ToastService) {}
+  constructor(private readonly employeeService: EmployeeService) {}
 
   getRooms() {
     return this.employeeService.getRooms();
@@ -42,13 +42,7 @@ export class EmployeeFacade {
   }
 
   cancelBooking(bookingId: string) {
-    this.employeeService
-      .cancelBooking(bookingId)
-      .pipe(
-        tap(() => this.removeBookingFromActiveBookings(bookingId)),
-        catchError((error) => of(this.toastService.error(error.error.detail)))
-      )
-      .subscribe();
+    return this.employeeService.cancelBooking(bookingId).pipe(tap(() => this.removeBookingFromActiveBookings(bookingId)));
   }
 
   removeBookingFromActiveBookings(bookingId: string) {

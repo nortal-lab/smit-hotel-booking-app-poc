@@ -5,7 +5,7 @@ import { AvailableRooms, Room } from '../models/room.interface';
 import { CustomerFacade } from '../facades/customer.facade';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { AuthService } from '../services/auth.service';
-import { NotificationSize, ToastService } from '@egov/cvi-ng';
+import { NotificationSize } from '@egov/cvi-ng';
 import { LocalStorageService } from '../services/local-storage.service';
 import { NotificationSeverity } from '@egov/cvi-ng/lib/notification/notification';
 import { AppStepsComponent } from '../app-ui/steps/steps/steps.component';
@@ -52,7 +52,6 @@ export class BookingProcessComponent implements OnInit, OnDestroy {
     private readonly activatedRoute: ActivatedRoute,
     private readonly authService: AuthService,
     private readonly localStorage: LocalStorageService,
-    private readonly toastService: ToastService,
     private readonly router: Router
   ) {}
 
@@ -88,7 +87,7 @@ export class BookingProcessComponent implements OnInit, OnDestroy {
   }
 
   private sortRoomsByPrice(rooms: Room[], sortOrder: SortOrder) {
-    const roomsCopy = structuredClone(rooms);
+    const roomsCopy = structuredClone<Room[]>(rooms);
     return roomsCopy.sort((a, b) =>
       sortOrder === SortOrder.ASC
         ? Number(a.pricePerNightIncludingTaxes) - Number(b.pricePerNightIncludingTaxes)
@@ -156,9 +155,7 @@ export class BookingProcessComponent implements OnInit, OnDestroy {
   }
 
   login() {
-    this.authService.login().catch(() => {
-      this.toastService.error('An error has happened. Please, try again in a while or contact administrator.');
-    });
+    this.authService.login();
   }
 
   confirmBooking(roomId: string, startDate: string, endDate: string) {

@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
 import { CustomerService } from '../services/customer.service';
-import { catchError, forkJoin, map, of, switchMap, tap } from 'rxjs';
+import { forkJoin, map, switchMap, tap } from 'rxjs';
 import { Room } from '../models/room.interface';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { Booking } from '../models/booking.interface';
-import { ToastService } from '@egov/cvi-ng';
 import { AuthService } from '../services/auth.service';
 
 @Injectable({
@@ -14,7 +13,7 @@ export class CustomerFacade {
   customerBookings = new BehaviorSubject<Booking[] | null>(null);
   customerBookings$ = this.customerBookings.asObservable();
 
-  constructor(private readonly customerService: CustomerService, private readonly toastService: ToastService, private readonly authService: AuthService) {}
+  constructor(private readonly customerService: CustomerService, private readonly authService: AuthService) {}
 
   getAvailableRooms(dateFrom: string, dateTo: string, guestCount: string) {
     return this.customerService.getAvailableRooms(dateFrom, dateTo, guestCount).pipe(
@@ -71,7 +70,6 @@ export class CustomerFacade {
           );
         }),
         tap((bookings) => this.customerBookings.next(bookings)),
-        catchError(() => of(this.toastService.error('Unable to retrieve reservations, please contact system Administrator.')))
       )
       .subscribe();
   }
