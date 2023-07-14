@@ -1,7 +1,7 @@
 import {
   Component, Input,
 } from '@angular/core';
-import { UiLink } from 'src/app/models/ui/link.type';
+import { UiLink } from '../../models/ui/link.type';
 
 @Component({
   selector: 'app-header',
