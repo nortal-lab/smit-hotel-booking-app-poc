@@ -36,7 +36,7 @@ export class CustomerBookingsComponent implements OnInit {
 
   ngOnInit() {
     this.getCustomerBookings();
-    this.customerBookings$ = this.customerFacade.customerBookings$.pipe(tap((x) => console.log(x)));
+    this.customerBookings$ = this.customerFacade.customerBookings$;
   }
 
   getBadgeLabel(date: string) {
