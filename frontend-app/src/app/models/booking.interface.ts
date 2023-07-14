@@ -1,5 +1,5 @@
 import { BookingStatus } from './booking-status.enum';
-import { RoomType } from './room.interface';
+import { RoomDTO, RoomType } from './room.interface';
 
 export interface Booking {
   bookingIdentifierNumber: number;
@@ -14,4 +14,5 @@ export interface Booking {
   roomNumber: number;
   startDate: string;
   status: BookingStatus;
+  room?: RoomDTO;
 }

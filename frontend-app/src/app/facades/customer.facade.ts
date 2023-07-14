@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CustomerService } from '../services/customer.service';
-import { catchError, map, of, switchMap, tap } from 'rxjs';
+import { catchError, forkJoin, map, of, switchMap, tap } from 'rxjs';
 import { Room } from '../models/room.interface';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { Booking } from '../models/booking.interface';
@@ -55,6 +55,21 @@ export class CustomerFacade {
     this.customerService
       .getBookings()
       .pipe(
+        switchMap((bookings) => {
+          let allRooms = bookings.map((booking) => this.customerService.getRoom(booking.roomId));
+
+          return forkJoin(allRooms).pipe(
+            map((room) => {
+              return bookings.map(
+                (x, index) =>
+                  ({
+                    ...x,
+                    room: room[index],
+                  } as Booking)
+              );
+            })
+          );
+        }),
         tap((bookings) => this.customerBookings.next(bookings)),
         catchError(() => of(this.toastService.error('Unable to retrieve reservations, please contact system Administrator.')))
       )

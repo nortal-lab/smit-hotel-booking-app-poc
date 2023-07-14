@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { AvailableRoomsDTO } from '../models/room.interface';
+import { AvailableRoomsDTO, RoomDTO } from '../models/room.interface';
 import { Booking } from '../models/booking.interface';
 
 @Injectable({
@@ -23,6 +23,10 @@ export class CustomerService {
 
   getBookings() {
     return this.http.get<Booking[]>(`${this.apiPath}/bookings`);
+  }
+
+  getRoom(roomId: string) {
+    return this.http.get<RoomDTO>(`${this.apiPath}/rooms/${roomId}`);
   }
 
   bookRoom(roomId: string, startDate: string, endDate: string, firstName: string, familyName: string) {

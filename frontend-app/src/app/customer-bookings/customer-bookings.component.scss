@@ -7,3 +7,24 @@
   display: block;
   padding-bottom: var(--cvi-spacing-haapsalu);
 }
+
+.booking-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--cvi-spacing-haapsalu);
+
+  .room-feature,
+  .room-details {
+    font-size: var(--cvi-font-size-80);
+  }
+
+  .room-details {
+    fa-icon {
+      margin-right: 3px;
+    }
+  }
+
+  .booking-dates {
+    font-weight: var(--cvi-font-weight-delta);
+  }
+}
