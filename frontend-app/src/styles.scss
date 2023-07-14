@@ -4,6 +4,10 @@
   background-color: var(--cvi-color-white);
 }
 
+.cvi-datepicker__calendar {
+  z-index: 1;
+}
+
 html,
 body {
   height: 100%;
