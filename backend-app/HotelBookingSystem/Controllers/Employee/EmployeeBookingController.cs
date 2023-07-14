@@ -23,12 +23,14 @@ namespace HotelBookingSystem.API.Controllers.Employee
         }
 
         [HttpGet("active")]
+        [ProducesResponseType(typeof(Booking), StatusCodes.Status200OK)]
         public IActionResult FindAllActiveBookings()
         {
             return Ok(_bookingService.FindAllActiveBookings());
         }
 
         [HttpDelete("{bookingId}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         public IActionResult CancelBooking([FromRoute] Guid bookingId)
         {
             Booking? booking = _bookingService.GetBookingById(bookingId);

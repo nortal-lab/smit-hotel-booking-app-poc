@@ -23,16 +23,16 @@ namespace ApiTests.RepositoryTests
             Guid roomId = roomExpected.RoomId;
 
             // Act
-            Room roomActual = _sut.GetRoomById(roomId);
+            Room? roomActual = _sut.GetRoomById(roomId);
 
             // Assert
             Assert.Multiple(() =>
             {
-                Assert.That(roomActual.RoomId, Is.EqualTo(roomExpected.RoomId));
-                Assert.That(roomActual.RoomNumber, Is.EqualTo(roomExpected.RoomNumber));
-                Assert.That(roomActual.RoomType, Is.EqualTo(roomExpected.RoomType));
-                Assert.That(roomActual.PricePerNightIncludingTaxes, Is.EqualTo(roomExpected.PricePerNightIncludingTaxes));
-                Assert.That(roomActual.Balcony, Is.EqualTo(roomExpected.Balcony));
+                Assert.That(roomActual?.RoomId, Is.EqualTo(roomExpected.RoomId));
+                Assert.That(roomActual?.RoomNumber, Is.EqualTo(roomExpected.RoomNumber));
+                Assert.That(roomActual?.RoomType, Is.EqualTo(roomExpected.RoomType));
+                Assert.That(roomActual?.PricePerNightIncludingTaxes, Is.EqualTo(roomExpected.PricePerNightIncludingTaxes));
+                Assert.That(roomActual?.Balcony, Is.EqualTo(roomExpected.Balcony));
             });
         }
 
