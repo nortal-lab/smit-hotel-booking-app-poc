@@ -1,9 +1,9 @@
 <app-page-wrapper>
   <cvi-ng-breadcrumbs class="breadcrumb" [breadcrumbLabels]="['Home', 'My Reservations']" (breadcrumbChange)="changeBreadcrumb($event)"></cvi-ng-breadcrumbs>
-  <app-title-container title="My reservations" class="my-reservations"></app-title-container>
+  <app-title-container title="My reservations"></app-title-container>
 
   <app-page-content-wrapper>
-    <div *ngIf="customerBookings$ | async as bookings" class="booking-list">
+    <cvi-ng-track *ngIf="customerBookings$ | async as bookings" flexDirection="vertical" [gap]="4" class="wrapper">
       <ng-container *ngIf="bookings.length > 0; else noResultsPlaceholder">
         <ng-container *ngFor="let booking of bookings">
           <app-booking-card
@@ -12,31 +12,37 @@
             [badgeLabel]="getBadgeLabel(booking.startDate)"
             [price]="String(booking.room?.pricePerNightIncludingTaxes)"
             currency="€">
-            <div app-booking-card="summary">
-              <div class="booking-dates">{{ booking.startDate | dateFormat : dateFormatString }} - {{ booking.endDate | dateFormat : dateFormatString }}</div>
+            <ng-container app-booking-card="summary">
+              <b>{{ booking.startDate | dateFormat : dateFormatString }}&ndash;{{ booking.endDate | dateFormat : dateFormatString }}</b>
               <div>1 night / {{ booking.room?.peopleCapacity }} adults</div>
-            </div>
-            <div>
-              <cvi-ng-track [gap]="4" class="room-details-wrapper">
-                <div class="room-details">
+            </ng-container>
+
+            <cvi-ng-track flexDirection="vertical" [gap]="2">
+              <div class="icons-track">
+                <cvi-ng-track [gap]="1">
                   <fa-icon [icon]="faUser"></fa-icon>{{ booking.room?.peopleCapacity }} {{ booking.room!.peopleCapacity > 1 ? 'people' : 'person' }}
-                </div>
-                <div class="room-details"><fa-icon [icon]="faBed"></fa-icon> {{ booking.room!.bedsType | bedType }}</div>
-                <div class="room-details"><fa-icon [icon]="faRulerCombined"></fa-icon>{{ booking.room?.roomSizeInSquareMeters }} m²</div>
-              </cvi-ng-track>
-              <div>
-                <span *ngIf="booking.room?.airConditioning" class="room-feature">air conditioning • </span>
-                <span *ngIf="booking.room?.balcony" class="room-feature">balcony • </span>
-                <span *ngIf="booking.room?.bathrobeAndSlippers" class="room-feature">bathrobe and slippers • </span>
-                <span *ngIf="booking.room?.freeBottledWater" class="room-feature">free bottle watter • </span>
-                <span *ngIf="booking.room?.freeWiFi" class="room-feature">free WI-FI • </span>
-                <span *ngIf="booking.room?.inRoomSafe" class="room-feature">in-room safe • </span>
-                <span *ngIf="booking.room?.ironAndIroningBoard" class="room-feature">iron and ironing board • </span>
-                <span *ngIf="booking.room?.professionalHairDryer" class="room-feature">professional hair dryer • </span>
-                <span *ngIf="booking.room?.rainShower" class="room-feature">rain shower • </span>
-                <span *ngIf="booking.room?.smartTV" class="room-feature">smart TV</span>
+                </cvi-ng-track>
+                <cvi-ng-track [gap]="1">
+                  <fa-icon [icon]="faBed"></fa-icon>{{ booking.room!.bedsType | bedType }}
+                </cvi-ng-track>
+                <cvi-ng-track [gap]="1">
+                  <fa-icon [icon]="faRulerCombined"></fa-icon>{{ booking.room?.roomSizeInSquareMeters }} m²
+                </cvi-ng-track>
               </div>
-            </div>
+              <div>
+                <ng-container *ngIf="booking.room?.airConditioning">air conditioning &bull; </ng-container>
+                <ng-container *ngIf="booking.room?.balcony">balcony &bull; </ng-container>
+                <ng-container *ngIf="booking.room?.bathrobeAndSlippers">bathrobe and slippers &bull; </ng-container>
+                <ng-container *ngIf="booking.room?.freeBottledWater">free bottle watter &bull; </ng-container>
+                <ng-container *ngIf="booking.room?.freeWiFi">free WI-FI &bull; </ng-container>
+                <ng-container *ngIf="booking.room?.inRoomSafe">in-room safe &bull; </ng-container>
+                <ng-container *ngIf="booking.room?.ironAndIroningBoard">iron and ironing board &bull; </ng-container>
+                <ng-container *ngIf="booking.room?.professionalHairDryer">professional hair dryer &bull; </ng-container>
+                <ng-container *ngIf="booking.room?.rainShower">rain shower &bull; </ng-container>
+                <ng-container *ngIf="booking.room?.smartTV">smart TV</ng-container>
+              </div>
+            </cvi-ng-track>
+
             <cvi-ng-button size="m" [disabled]="disableBookingCancelling" appearance="primary" [cviNgModal]="modal">Cancel</cvi-ng-button>
           </app-booking-card>
 
@@ -66,6 +72,6 @@
           <a routerLink="/">Back to the homepage.</a>
         </cvi-ng-notification>
       </ng-template>
-    </div>
+    </cvi-ng-track>
   </app-page-content-wrapper>
 </app-page-wrapper>
