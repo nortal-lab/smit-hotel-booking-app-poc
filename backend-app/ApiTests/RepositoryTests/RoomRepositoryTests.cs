@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ApiTests.TestFixtures;
 using HotelBookingSystem.API.Data;
-using HotelBookingSystem.API.Data.BookingRepository;
 using HotelBookingSystem.API.Data.RoomRepository;
 using HotelBookingSystem.API.Models.Room;
 

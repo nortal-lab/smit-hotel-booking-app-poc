@@ -1,0 +1,153 @@
+﻿using ApiTests.TestFixtures;
+using ApiTests.TestHelpers;
+using HotelBookingSystem.API.Data;
+using HotelBookingSystem.API.Data.BookingRepository;
+using HotelBookingSystem.API.Data.RoomRepository;
+using HotelBookingSystem.API.Exceptions;
+using HotelBookingSystem.API.Models;
+using HotelBookingSystem.API.Services.BookingService;
+using Moq;
+
+namespace ApiTests.ServiceTests
+{
+    public class BookingServiceTests
+    {
+        private IBookingRepository _bookingRepository;
+        private IBookingService _sut;
+
+        [SetUp]
+        public void Setup()
+        {
+            _bookingRepository = new BookingRepository(DatabaseTestFixture.SetupDatabase());
+            _sut = new BookingService(_bookingRepository);
+        }
+
+        [Test]
+        public void GetAllCustomerBookings_ReturnsNoBookings_IfWrongCustomer()
+        {
+            // Arrange
+            var roomId = MockData.RoomsHardcoded.ElementAt(0).RoomId;
+
+            Booking existingBooking =
+                BookingTestFixture.SetUpBooking(roomId, new DateTime(2023, 07, 15), new DateTime(2023, 07, 20));
+            _bookingRepository.CreateBooking(existingBooking);
+
+            // Act
+            List<Booking> bookingsActual = _sut.GetAllCustomerBookings(Guid.NewGuid());
+
+            // Assert
+            Assert.IsEmpty(bookingsActual);
+        }
+
+        [Test]
+        public void GetAllCustomerBookings_ReturnsAllBookings_IfCorrectCustomer()
+        {
+            // Arrange
+            var roomId = MockData.RoomsHardcoded.ElementAt(0).RoomId;
+
+            var bookingsExpected = new List<Booking>();
+            Booking existingBooking1 =
+                BookingTestFixture.SetUpBooking(roomId, new DateTime(2023, 07, 15), new DateTime(2023, 07, 20));
+            _bookingRepository.CreateBooking(existingBooking1);
+            bookingsExpected.Add(existingBooking1);
+
+            Booking existingBooking2 =
+                BookingTestFixture.SetUpBooking(roomId, new DateTime(2023, 08, 15), new DateTime(2023, 08, 20));
+            existingBooking2.CustomerId = existingBooking1.CustomerId;
+            _bookingRepository.CreateBooking(existingBooking2);
+            bookingsExpected.Add(existingBooking2);
+
+            // Act
+            List<Booking> bookingsActual = _sut.GetAllCustomerBookings(existingBooking1.CustomerId);
+
+            // Assert
+            CollectionAssert.AreEqual(bookingsExpected, bookingsActual);
+        }
+
+        [Test]
+        public void GetBookingById_ReturnsBooking_IfCorrectBookingId()
+        {
+            // Arrange
+            var roomId = MockData.RoomsHardcoded.ElementAt(0).RoomId;
+
+            Booking bookingExpected =
+                BookingTestFixture.SetUpBooking(roomId, new DateTime(2023, 07, 15), new DateTime(2023, 07, 20));
+            _bookingRepository.CreateBooking(bookingExpected);
+
+            // Act
+            Booking? bookingActual = _sut.GetBookingById(bookingExpected.BookingId);
+
+            // Assert
+            Assert.That(bookingActual, Is.EqualTo(bookingExpected));
+        }
+
+        [Test]
+        public void GetBookingById_ReturnsNothing_IfNotCorrectBookingId()
+        {
+            // Arrange
+            var roomId = MockData.RoomsHardcoded.ElementAt(0).RoomId;
+
+            Booking bookingExpected =
+                BookingTestFixture.SetUpBooking(roomId, new DateTime(2023, 07, 15), new DateTime(2023, 07, 20));
+            _bookingRepository.CreateBooking(bookingExpected);
+
+            // Act
+            Booking? bookingActual = _sut.GetBookingById(Guid.NewGuid());
+
+            // Assert
+            Assert.IsNull(bookingActual);
+        }
+
+        [Test]
+        public void GetBookingById_ThrowsException_IfNotCorrectCustomerId()
+        {
+            // Arrange
+            var roomId = MockData.RoomsHardcoded.ElementAt(0).RoomId;
+
+            Booking bookingExpected =
+                BookingTestFixture.SetUpBooking(roomId, new DateTime(2023, 07, 15), new DateTime(2023, 07, 20));
+            _bookingRepository.CreateBooking(bookingExpected);
+
+            // Act and Assert
+            void Act() => _sut.GetBookingById(bookingExpected.BookingId, Guid.NewGuid());
+
+            // Assert
+            Assert.Throws<BookingAccessException>(Act);
+        }
+
+        [Test]
+        public void GetBookingById_ReturnsBooking_IfCorrectCustomerIdAndCorrectBookingId()
+        {
+            // Arrange
+            var roomId = MockData.RoomsHardcoded.ElementAt(0).RoomId;
+
+            Booking bookingExpected =
+                BookingTestFixture.SetUpBooking(roomId, new DateTime(2023, 07, 15), new DateTime(2023, 07, 20));
+            _bookingRepository.CreateBooking(bookingExpected);
+
+            // Act
+            Booking? bookingActual = _sut.GetBookingById(bookingExpected.BookingId, bookingExpected.CustomerId);
+
+            // Assert
+            Assert.That(bookingActual, Is.EqualTo(bookingExpected));
+        }
+
+        [Test]
+        public void RemoveBookingById_RemovesCorrectly_IfCorrectId()
+        {
+            // Arrange
+            var roomId = MockData.RoomsHardcoded.ElementAt(0).RoomId;
+
+            Booking bookingExpected =
+                BookingTestFixture.SetUpBooking(roomId, new DateTime(2023, 07, 15), new DateTime(2023, 07, 20));
+            _bookingRepository.CreateBooking(bookingExpected);
+
+            // Act
+            void Act() => _sut.RemoveBookingById(bookingExpected.BookingId);
+
+            // Assert
+            Assert.DoesNotThrow(Act);
+            Assert.IsNull(_sut.GetBookingById(bookingExpected.BookingId));
+        }
+    }
+}
