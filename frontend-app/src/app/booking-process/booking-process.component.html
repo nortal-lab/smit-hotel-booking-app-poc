@@ -68,7 +68,9 @@
                   <app-order-summary-block [room]="selectedRoom"></app-order-summary-block>
                   <app-personal-information-block class="personal-information-block" [userCredentials]="userCredentials"></app-personal-information-block>
                   <app-payment-method-block></app-payment-method-block>
-                  <app-price-summary-block class="price-summary-block" [room]="selectedRoom"></app-price-summary-block>
+                  <app-data-section title="Price Summary">
+                    <app-price-summary-block class="price-summary-block" [room]="selectedRoom"></app-price-summary-block>
+                  </app-data-section>
                 </ng-container>
                 <cvi-ng-track horizontalAlignment="right" [gap]="2">
                   <cvi-ng-button size="m" [disabled]="false" appearance="secondary" (click)="cancelBookingProcess(stepper)">Cancel</cvi-ng-button>
