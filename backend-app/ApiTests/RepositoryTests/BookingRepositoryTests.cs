@@ -2,7 +2,6 @@ using HotelBookingSystem.API.Data;
 using HotelBookingSystem.API.Data.BookingRepository;
 using HotelBookingSystem.API.Models;
 using Microsoft.EntityFrameworkCore;
-using Moq;
 
 namespace ApiTests.RepositoryTests
 {
@@ -13,10 +12,7 @@ namespace ApiTests.RepositoryTests
         [SetUp]
         public void Setup()
         {
-            var options = new DbContextOptionsBuilder<HotelBookingSystemDbContext>()
-                .UseInMemoryDatabase(databaseName: "InMemoryDatabase")
-                .Options;
-            _sut = new BookingRepository(new HotelBookingSystemDbContext(options));
+            _sut = new BookingRepository(DatabaseTestFixture.SetupDatabase());
         }
 
         [Test]

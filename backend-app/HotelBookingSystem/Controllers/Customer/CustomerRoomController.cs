@@ -52,5 +52,17 @@ namespace HotelBookingSystem.API.Controllers.Customer
 
             return Ok(availableRoomsWrapper);
         }
+
+        [HttpGet("{roomId}")]
+        public IActionResult GetRoomDetails([FromRoute] Guid roomId)
+        {
+            Room? room = _roomService.GetRoomById(roomId);
+            if (room == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(room);
+        }
     }
 }

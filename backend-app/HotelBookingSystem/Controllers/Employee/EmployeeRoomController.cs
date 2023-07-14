@@ -33,5 +33,19 @@ namespace HotelBookingSystem.API.Controllers.Employee
 
             return Ok(availableRooms);
         }
+
+        // Currently this method has the same implementation as for the customer
+        // In the future it might have a different implementation, for example more details, etc.
+        [HttpGet("{roomId}")]
+        public IActionResult GetRoomDetails([FromRoute] Guid roomId)
+        {
+            Room? room = _roomService.GetRoomById(roomId);
+            if (room == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(room);
+        }
     }
 }
