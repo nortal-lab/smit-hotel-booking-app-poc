@@ -3,7 +3,7 @@
   padding: var(--cvi-spacing-haapsalu);
   border-bottom: 1px solid var(--cvi-color-black-coral-2);
   
-  &:last-child {
+  &:last-child, &:last-of-type {
     border-bottom: none;
   }
 }
