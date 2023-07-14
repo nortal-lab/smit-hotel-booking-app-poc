@@ -53,7 +53,7 @@
                       <a (click)="login()" class="booking-process-link">Sign In</a> to continue with booking.
                     </cvi-ng-notification>
                   </ng-template>
-                  <cvi-ng-track horizontalAlignment="right" [gap]="2">
+                  <cvi-ng-track horizontalAlignment="right" [gap]="2" style="padding-top: var(--cvi-spacing-paldiski);">
                     <cvi-ng-button size="m" appearance="secondary" (click)="cancelBookingProcess(stepper)">Cancel</cvi-ng-button>
                     <cvi-ng-button size="m" [disabled]="!userCredentials.personalIdentificationNumber" appearance="primary" (click)="nextStep(stepper)"
                       >Next</cvi-ng-button
@@ -72,7 +72,7 @@
                     <app-price-summary-block class="price-summary-block" [room]="selectedRoom"></app-price-summary-block>
                   </app-data-section>
                 </ng-container>
-                <cvi-ng-track horizontalAlignment="right" [gap]="2">
+                <cvi-ng-track horizontalAlignment="right" [gap]="2" style="padding-top: var(--cvi-spacing-paldiski);">
                   <cvi-ng-button size="m" [disabled]="false" appearance="secondary" (click)="cancelBookingProcess(stepper)">Cancel</cvi-ng-button>
                   <cvi-ng-button
                     size="m"
