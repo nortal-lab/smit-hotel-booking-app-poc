@@ -1,7 +1,7 @@
 ﻿using HotelBookingSystem.API.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace ApiTests
+namespace ApiTests.TestFixtures
 {
     public class DatabaseTestFixture
     {
