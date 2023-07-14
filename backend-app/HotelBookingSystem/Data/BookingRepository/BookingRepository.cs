@@ -27,7 +27,6 @@ namespace HotelBookingSystem.API.Data.BookingRepository
         public bool RemoveBookingById(Guid bookingId)
         {
             var bookingToRemove = _dbContext.Bookings.SingleOrDefault(booking => booking.BookingId == bookingId);
-
             if (bookingToRemove == null)
             {
                 return false;

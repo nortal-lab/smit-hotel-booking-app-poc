@@ -1,5 +1,6 @@
-<ng-container *ngIf="{ isLoggedIn: isLoggedIn$ | async } as context">
-  <app-header>
+<ng-container *ngIf="{ isLoggedIn: isLoggedIn$ | async, user: user$ | async } as context">
+
+  <app-header [extraLink]="context.isLoggedIn && context.user?.role !== userRoles.EMPLOYEE ? { href: '/my-reservations', label: 'My reservations' } : null">
     <app-search-form *ngIf="router.isActive('booking', false) || router.isActive('my-reservations', false)"></app-search-form>
 
     <cvi-ng-button *ngIf="!context.isLoggedIn" size="m" appearance="primary" (click)="login()">Sign in</cvi-ng-button>

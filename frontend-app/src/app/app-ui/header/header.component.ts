@@ -9,5 +9,5 @@ import { UiLink } from '../../models/ui/link.type';
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent {
-  @Input() extraLink!: UiLink; 
+  @Input() extraLink!: UiLink | null; 
 }

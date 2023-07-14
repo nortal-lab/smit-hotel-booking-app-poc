@@ -2,7 +2,6 @@ using ApiTests.TestFixtures;
 using ApiTests.TestHelpers;
 using HotelBookingSystem.API.Data;
 using HotelBookingSystem.API.Data.BookingRepository;
-using HotelBookingSystem.API.Helpers;
 using HotelBookingSystem.API.Models;
 
 namespace ApiTests.RepositoryTests

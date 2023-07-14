@@ -13,21 +13,24 @@ namespace HotelBookingSystem.API.Controllers.Customer
     {
         private readonly IRoomService _roomService;
         private readonly IBookingValidator _bookingValidator;
+        private readonly ILogger<CustomerRoomController> _logger;
 
-        public CustomerRoomController(IRoomService roomService, IBookingValidator bookingValidator)
+        public CustomerRoomController(IRoomService roomService, IBookingValidator bookingValidator, ILogger<CustomerRoomController> logger)
         {
             _roomService = roomService;
             _bookingValidator = bookingValidator;
+            _logger = logger;
         }
 
         /// <summary>
-        /// Search for available rooms
+        /// Search for available rooms based on given criteria
         /// </summary>
         /// <param name="startDate">Start date</param>
         /// <param name="endDate">End date</param>
         /// <param name="peopleCapacity">Minimal Capacity</param>
         /// <returns>Available rooms matching search criteria</returns>
         [HttpGet("available")]
+        [ProducesResponseType(typeof(AvailableRoomsWrapper), StatusCodes.Status200OK)]
         public IActionResult FindAvailableRoomsByCriteria([FromQuery] DateTime startDate, DateTime endDate,
             int? peopleCapacity)
         {
@@ -37,32 +40,37 @@ namespace HotelBookingSystem.API.Controllers.Customer
             }
             catch (InvalidDateRangeException ex)
             {
+                _logger.LogError(ex, "Invalid date range exception occurred: {ErrorMessage}", ex.Message);
                 return BadRequest(ex.Message);
             }
 
-            IEnumerable<Room> availableRooms =
+            var availableRooms =
                 _roomService.FindAvailableRoomsByCriteria(startDate, endDate, peopleCapacity);
 
-            AvailableRoomsWrapper availableRoomsWrapper = new()
-            {
-                AvailableRooms = availableRooms.ToList(),
-                StartDate = DateHelper.SetStartTimeTo1500(startDate),
-                EndDate = DateHelper.SetEndTimeTo1200(endDate)
-            };
+            var availableRoomsWrapper = new AvailableRoomsWrapper
+            (
+                availableRooms.ToList(),
+                DateHelper.SetStartTimeTo1500(startDate),
+                DateHelper.SetEndTimeTo1200(endDate)
+            );
 
             return Ok(availableRoomsWrapper);
         }
 
+        /// <summary>
+        /// Get details of a particular room
+        /// </summary>
+        /// <param name="roomId"></param>
+        /// <returns></returns>
         [HttpGet("{roomId}")]
+        [ProducesResponseType(typeof(Room), StatusCodes.Status200OK)]
         public IActionResult GetRoomDetails([FromRoute] Guid roomId)
         {
-            Room? room = _roomService.GetRoomById(roomId);
-            if (room == null)
-            {
-                return NotFound();
-            }
+            var room = _roomService.GetRoomById(roomId);
 
-            return Ok(room);
+            return room == null
+                ? NotFound()
+                : Ok(room);
         }
     }
 }
