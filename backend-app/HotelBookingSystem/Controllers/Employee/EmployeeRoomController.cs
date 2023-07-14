@@ -18,25 +18,38 @@ namespace HotelBookingSystem.API.Controllers.Employee
             _roomService = roomService;
         }
 
+        /// <summary>
+        /// Get a list of all rooms
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("")]
         public IActionResult GetAllRooms()
         {
             return Ok(_roomService.GetAllRooms());
         }
 
+        /// <summary>
+        /// Search for available rooms based on given criteria
+        /// </summary>
+        /// <param name="startDate"></param>
+        /// <param name="endDate"></param>
+        /// <param name="peopleCapacity"></param>
+        /// <returns></returns>
         [HttpGet("available")]
         [ProducesResponseType(typeof(Room), StatusCodes.Status200OK)]
         public IActionResult FindAvailableRoomsByCriteria([FromQuery] DateTime startDate, DateTime endDate,
             int? peopleCapacity)
         {
-            IEnumerable<Room> availableRooms =
-                _roomService.FindAvailableRoomsByCriteria(startDate, endDate, peopleCapacity);
-
-            return Ok(availableRooms);
+            return Ok(_roomService.FindAvailableRoomsByCriteria(startDate, endDate, peopleCapacity));
         }
 
         // Currently this method has the same implementation as for the customer
         // In the future it might have a different implementation, for example more details, etc.
+        /// <summary>
+        /// Get details of a particular room
+        /// </summary>
+        /// <param name="roomId"></param>
+        /// <returns></returns>
         [HttpGet("{roomId}")]
         [ProducesResponseType(typeof(Room), StatusCodes.Status200OK)]
         public IActionResult GetRoomDetails([FromRoute] Guid roomId)
@@ -46,7 +59,6 @@ namespace HotelBookingSystem.API.Controllers.Employee
             {
                 return NotFound();
             }
-
             return Ok(room);
         }
     }
