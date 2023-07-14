@@ -1,10 +1,11 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { SearchProperties } from '../models/search-properties.interface';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastService } from '@egov/cvi-ng';
 import { TimeService } from '../services/time.service';
 import { FormControl, FormGroup } from '@angular/forms';
 import { DatePickerItem, GuestFormItem } from '../models/ui/search-container';
+import { combineLatest, map, take } from 'rxjs';
 
 @Component({
   selector: 'app-search-form',
@@ -15,10 +16,11 @@ import { DatePickerItem, GuestFormItem } from '../models/ui/search-container';
 export class SearchFormComponent {
   todayDate = this.convertDateFormat(new Date().toString());
   tomorrowDate = this.getTomorrowDate();
+  guestCount = '2';
   searchForm = new FormGroup({
     dateFrom: new FormControl(this.todayDate),
     dateTo: new FormControl(this.tomorrowDate),
-    guests: new FormControl('2 guests'),
+    guests: new FormControl(this.guestCount),
   });
   guestItem: GuestFormItem = {
     label: 'Guests',
@@ -44,7 +46,37 @@ export class SearchFormComponent {
     },
   ];
 
-  constructor(private readonly router: Router, private readonly toastService: ToastService, private readonly timeService: TimeService) {}
+  dateFrom$ = this.activatedRoute.queryParamMap.pipe(map((paramMap) => paramMap.get('dateFrom')));
+  dateTo$ = this.activatedRoute.queryParamMap.pipe(map((paramMap) => paramMap.get('dateTo')));
+  guestCount$ = this.activatedRoute.queryParamMap.pipe(map((paramMap) => paramMap.get('peopleCapacity')));
+
+  constructor(
+    private readonly router: Router,
+    private readonly toastService: ToastService,
+    private readonly timeService: TimeService,
+    private readonly activatedRoute: ActivatedRoute
+  ) {
+    combineLatest([this.dateFrom$, this.dateTo$, this.guestCount$])
+      .pipe(take(1))
+      .subscribe(([dateFrom, dateTo, guestCount]) => {
+        if (dateFrom) {
+          this.todayDate = dateFrom;
+        }
+        if (dateTo) {
+          this.tomorrowDate = dateTo;
+        }
+
+        if (guestCount) {
+          this.guestCount = guestCount;
+        }
+
+        this.searchForm = new FormGroup({
+          dateFrom: new FormControl(this.todayDate),
+          dateTo: new FormControl(this.tomorrowDate),
+          guests: new FormControl(this.guestCount + ' guests'),
+        });
+      });
+  }
 
   search(data: SearchProperties) {
     this.router

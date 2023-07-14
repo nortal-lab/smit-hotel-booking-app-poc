@@ -25,7 +25,6 @@ export class EmployeeFacade {
 
         return forkJoin(allRooms).pipe(
           map((room) => {
-            console.log(room);
             return bookings.map(
               (x, index) =>
                 ({
