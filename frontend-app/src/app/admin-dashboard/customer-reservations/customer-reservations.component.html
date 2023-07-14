@@ -7,9 +7,7 @@
     </ng-template>
     <ng-template #rows let-row>
       <td cvi-ng-body-cell>{{ row.bookingIdentifierNumber }}</td>
-      <td cvi-ng-body-cell>
-        {{ '256 (Deluxe)' }}
-      </td>
+      <td cvi-ng-body-cell>{{ row.roomNumber }} ({{ row.roomType | roomType }})</td>
       <td cvi-ng-body-cell>{{ row.customerFirstName }} {{ row.customerLastName }}</td>
       <td cvi-ng-body-cell>{{ row.startDate | dateFormat : dateFormatString }}-{{ row.endDate | dateFormat : dateFormatString }}</td>
       <td cvi-ng-body-cell>

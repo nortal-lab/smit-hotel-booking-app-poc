@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { EmployeeService } from '../services/employee.service';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
-import { catchError, of, shareReplay, tap } from 'rxjs';
+import { catchError, forkJoin, map, of, shareReplay, switchMap, tap } from 'rxjs';
 import { Booking } from '../models/booking.interface';
 import { ToastService } from '@egov/cvi-ng';
 
@@ -20,6 +20,23 @@ export class EmployeeFacade {
 
   getActiveBookings() {
     return this.employeeService.getActiveBookings().pipe(
+      switchMap((bookings) => {
+        let allRooms = bookings.map((booking) => this.employeeService.getRoom(booking.roomId));
+
+        return forkJoin(allRooms).pipe(
+          map((room) => {
+            console.log(room);
+            return bookings.map(
+              (x, index) =>
+                ({
+                  ...x,
+                  roomNumber: room[index].roomNumber,
+                  roomType: room[index].roomType,
+                } as Booking)
+            );
+          })
+        );
+      }),
       tap((bookings) => this.activeBookings.next(bookings)),
       shareReplay({ refCount: true, bufferSize: 1 })
     );
