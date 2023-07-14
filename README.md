@@ -15,21 +15,21 @@ Application has two predefined roles:
 - Employees (`employee`)
 
 Application hase these predefined users:
-- Customers:
-  - Julie Delphy, 6873911223, julie.deplhy@yahoo.com (role `customer`)
+- Customers (role `customer`):
+  - Julie Delphy, 6873911223, julie.deplhy@yahoo.com
     - Login: `customer1`
     - Passwd: `customer1`
-  - Arthur Li, 4652212312, arthurLi12@gmail.com (role `customer`)
+  - Arthur Li, 4652212312, arthurLi12@gmail.com
     - Login: `customer2`
     - Passwd: `customer2`
-  - Bill Karey, 6839214231, bill.karey@gmail.com (role `customer`)
+  - Bill Karey, 6839214231, bill.karey@gmail.com
     - Login: `customer3`
     - Passwd: `customer3`
-- Employees:
-  - Martin Einnberg, martin.einnberg@hotel.com (role `employee`)
+- Employees (role `employee`):
+  - Martin Einnberg, martin.einnberg@hotel.com
     - Login: `employee1`
     - Passwd: `employee1`
-  - Susie Lamb, susie.lamb@hotel.com (role `employee`)
+  - Susie Lamb, susie.lamb@hotel.com
     - Login: `employee2`
     - Passwd: `employee2`
 
