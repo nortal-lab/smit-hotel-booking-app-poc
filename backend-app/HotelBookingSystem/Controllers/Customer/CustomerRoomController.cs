@@ -58,13 +58,18 @@ namespace HotelBookingSystem.API.Controllers.Customer
             var availableRooms =
                 _roomService.FindAvailableRoomsByCriteria(startDate, endDate, peopleCapacity);
 
-            var availableRoomsWrapper = new AvailableRoomsWrapper
-            (
-                availableRooms.Select(room => new RoomReadyForBookingWrapper
-                        (room, _pricingService.CalculateTotalPriceForStayDuration(startDate, endDate, room.PricePerNightIncludingTaxes))).ToList(),
+            var availableRoomsWrapper = new AvailableRoomsWrapper(
+                availableRooms.Select(room =>
+                {
+                    var totalPrice = _pricingService.CalculateTotalPriceForStayDuration(startDate, endDate, room.PricePerNightIncludingTaxes);
+                    var estimatedTaxes = _pricingService.CalculateEstimatedTaxesForStayDuration(totalPrice);
+
+                    return new RoomReadyForBookingWrapper(room, totalPrice, estimatedTaxes, totalPrice - estimatedTaxes);
+                }).ToList(),
                 DateHelper.SetStartTimeTo1500(startDate),
                 DateHelper.SetEndTimeTo1200(endDate)
             );
+
 
             return Ok(availableRoomsWrapper);
         }

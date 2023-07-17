@@ -3,5 +3,6 @@
     public interface IPricingService
     {
         public decimal CalculateTotalPriceForStayDuration(DateTime startDate, DateTime endDate, decimal pricePerNight);
+        public decimal CalculateEstimatedTaxesForStayDuration(decimal totalPriceForStayDuration);
     }
 }
