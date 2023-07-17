@@ -1,11 +1,15 @@
 ﻿using HotelBookingSystem.API.Controllers.Customer;
 using HotelBookingSystem.API.Exceptions;
 using HotelBookingSystem.API.Models.Room;
+using HotelBookingSystem.API.Services.PricingService;
 using HotelBookingSystem.API.Services.RoomService;
 using HotelBookingSystem.API.Validators.BookingValidator;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
+using NUnit.Framework;
+using System;
+using System.Collections.Generic;
 
 namespace ApiTests.ControllerTests
 {
@@ -15,6 +19,7 @@ namespace ApiTests.ControllerTests
         private Mock<IRoomService> _roomServiceMock;
         private Mock<IBookingValidator> _bookingValidatorMock;
         private Mock<ILogger<CustomerRoomController>> _loggerMock;
+        private Mock<IPricingService> _pricingServiceMock;
         private CustomerRoomController _sut;
 
         [SetUp]
@@ -23,7 +28,8 @@ namespace ApiTests.ControllerTests
             _roomServiceMock = new Mock<IRoomService>();
             _bookingValidatorMock = new Mock<IBookingValidator>();
             _loggerMock = new Mock<ILogger<CustomerRoomController>>();
-            _sut = new CustomerRoomController(_roomServiceMock.Object, _bookingValidatorMock.Object, _loggerMock.Object);
+            _pricingServiceMock = new Mock<IPricingService>();
+            _sut = new CustomerRoomController(_roomServiceMock.Object, _bookingValidatorMock.Object, _loggerMock.Object, _pricingServiceMock.Object);
         }
 
         [Test]
@@ -33,8 +39,10 @@ namespace ApiTests.ControllerTests
             var startDate = DateTime.Now;
             var endDate = startDate.AddDays(2);
             var peopleCapacity = 2;
-            var expectedAvailableRooms = new List<Room>();
+            var expectedRoom = new Room();
+            var expectedAvailableRooms = new List<Room> { expectedRoom };
             _roomServiceMock.Setup(x => x.FindAvailableRoomsByCriteria(startDate, endDate, peopleCapacity)).Returns(expectedAvailableRooms);
+            _pricingServiceMock.Setup(x => x.CalculateTotalPriceForStayDuration(It.IsAny<DateTime>(), It.IsAny<DateTime>(), It.IsAny<decimal>())).Returns(100m);
 
             // Act
             var result = _sut.FindAvailableRoomsByCriteria(startDate, endDate, peopleCapacity);
@@ -42,6 +50,8 @@ namespace ApiTests.ControllerTests
             // Assert
             var okResult = result as OkObjectResult;
             Assert.IsNotNull(okResult);
+            var actualAvailableRooms = okResult.Value as AvailableRoomsWrapper;
+            Assert.That(actualAvailableRooms.AvailableRooms.Count, Is.EqualTo(expectedAvailableRooms.Count));
         }
 
         [Test]

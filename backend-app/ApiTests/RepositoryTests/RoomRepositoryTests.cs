@@ -94,17 +94,17 @@ namespace ApiTests.RepositoryTests
             Assert.Multiple(() =>
             {
                 Assert.That(actualRooms, Is.Not.Null);
-                Assert.That(actualRooms.Count, Is.EqualTo(expectedRooms.Count));
 
-                var firstExpectedRoom = expectedRooms[0];
-                var firstActualRoom = actualRooms[0];
-
-                Assert.That(firstActualRoom.RoomId, Is.EqualTo(firstExpectedRoom.RoomId));
-                Assert.That(firstActualRoom.RoomType, Is.EqualTo(firstExpectedRoom.RoomType));
-                Assert.That(firstActualRoom.PeopleCapacity, Is.EqualTo(firstExpectedRoom.PeopleCapacity));
-                Assert.That(firstActualRoom.FreeWiFi, Is.EqualTo(firstExpectedRoom.FreeWiFi));
+                for (int i = 0; i < expectedRooms.Count; i++)
+                {
+                    Assert.That(actualRooms[i].RoomId, Is.EqualTo(expectedRooms[i].RoomId));
+                    Assert.That(actualRooms[i].RoomType, Is.EqualTo(expectedRooms[i].RoomType));
+                    Assert.That(actualRooms[i].PeopleCapacity, Is.EqualTo(expectedRooms[i].PeopleCapacity));
+                    Assert.That(actualRooms[i].FreeWiFi, Is.EqualTo(expectedRooms[i].FreeWiFi));
+                }
             });
         }
+
 
         [Test]
         public void FindAvailableRoomsByCriteria_ReturnsEmptyList_WhenNoRoomsAvailable()
