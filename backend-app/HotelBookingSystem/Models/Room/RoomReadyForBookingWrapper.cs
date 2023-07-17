@@ -2,6 +2,8 @@
 {
     public record RoomReadyForBookingWrapper(
         Room Room,
-        decimal TotalPriceForStayDuration
+        decimal TotalPriceForStayDuration, 
+        decimal EstimatedTaxesForFullStayDuration,
+        decimal PriceBeforeTaxesForFullStayDuration
     );
 }

@@ -7,5 +7,10 @@
             int stayDurationInDays = (endDate.Date - startDate.Date).Days;
             return stayDurationInDays * pricePerNight;
         }
+
+        public decimal CalculateEstimatedTaxesForStayDuration(decimal totalPriceForStayDuration)
+        {
+            return totalPriceForStayDuration * 0.21m;
+        }
     }
 }
