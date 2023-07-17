@@ -108,5 +108,21 @@ namespace ApiTests.RepositoryTests
             });
         }
 
+        [Test]
+        public void FindAvailableRoomsByCriteria_ReturnsEmptyList_WhenNoRoomsAvailable()
+        {
+            // Arrange
+            DateTime startDate = new DateTime(2023, 7, 17);
+            DateTime endDate = new DateTime(2023, 7, 27);
+            int? peopleCapacity = 10; 
+
+            // Act
+            var actualRooms = _sut.FindAvailableRoomsByCriteria(startDate, endDate, peopleCapacity);
+
+            // Assert
+            Assert.That(actualRooms, Is.Not.Null);
+            Assert.That(actualRooms, Is.Empty);
+        }
+
     }
 }
