@@ -123,6 +123,5 @@ namespace ApiTests.RepositoryTests
             Assert.That(actualRooms, Is.Not.Null);
             Assert.That(actualRooms, Is.Empty);
         }
-
     }
 }
