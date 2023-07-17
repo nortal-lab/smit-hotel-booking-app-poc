@@ -15,6 +15,7 @@ import { BookingProgressService } from '../booking-process/booking-progress.serv
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SearchFormComponent {
+  dateFormatString = 'dd.MM.yyyy';
   todayDate = this.convertDateFormat(new Date().toString());
   tomorrowDate = this.getTomorrowDate();
   guestCount = '2';
@@ -84,8 +85,8 @@ export class SearchFormComponent {
     this.router
       .navigate(['booking'], {
         queryParams: {
-          dateFrom: this.convertDateServerFormat(data.dateFrom),
-          dateTo: this.convertDateServerFormat(data.dateTo),
+          dateFrom: data.dateFrom,
+          dateTo: data.dateTo,
           peopleCapacity: data.guests.charAt(0),
         },
       })
