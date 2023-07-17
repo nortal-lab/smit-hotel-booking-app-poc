@@ -22,18 +22,14 @@
                 <cvi-ng-track [gap]="1">
                   <fa-icon [icon]="faUser"></fa-icon>{{ booking.room?.peopleCapacity }} {{ booking.room!.peopleCapacity > 1 ? 'people' : 'person' }}
                 </cvi-ng-track>
-                <cvi-ng-track [gap]="1">
-                  <fa-icon [icon]="faBed"></fa-icon>{{ booking.room!.bedsType | bedType }}
-                </cvi-ng-track>
-                <cvi-ng-track [gap]="1">
-                  <fa-icon [icon]="faRulerCombined"></fa-icon>{{ booking.room?.roomSizeInSquareMeters }} m²
-                </cvi-ng-track>
+                <cvi-ng-track [gap]="1"> <fa-icon [icon]="faBed"></fa-icon>{{ booking.room!.bedsType | bedType }} </cvi-ng-track>
+                <cvi-ng-track [gap]="1"> <fa-icon [icon]="faRulerCombined"></fa-icon>{{ booking.room?.roomSizeInSquareMeters }} m² </cvi-ng-track>
               </div>
               <div>
                 <ng-container *ngIf="booking.room?.airConditioning">air conditioning &bull; </ng-container>
                 <ng-container *ngIf="booking.room?.balcony">balcony &bull; </ng-container>
                 <ng-container *ngIf="booking.room?.bathrobeAndSlippers">bathrobe and slippers &bull; </ng-container>
-                <ng-container *ngIf="booking.room?.freeBottledWater">free bottle watter &bull; </ng-container>
+                <ng-container *ngIf="booking.room?.freeBottledWater">free bottle water &bull; </ng-container>
                 <ng-container *ngIf="booking.room?.freeWiFi">free WI-FI &bull; </ng-container>
                 <ng-container *ngIf="booking.room?.inRoomSafe">in-room safe &bull; </ng-container>
                 <ng-container *ngIf="booking.room?.ironAndIroningBoard">iron and ironing board &bull; </ng-container>
@@ -67,8 +63,8 @@
           [showCloseButton]="false"
           [showIcon]="false"
           title="No current reservations">
-          You do not have any reservations yet. If you made a reservation and it does not appear on this page, please contact our customer support for additional
-          information +372 612 62.
+          You do not have any reservations yet. If you made a reservation and it does not appear on this page, please contact our customer support for
+          additional information +372 612 62.
           <a routerLink="/">Back to the homepage.</a>
         </cvi-ng-notification>
       </ng-template>

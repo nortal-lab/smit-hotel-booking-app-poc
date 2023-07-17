@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { combineLatest, EMPTY, map, Observable, Subject, switchMap, take, takeUntil, tap } from 'rxjs';
+import { catchError, combineLatest, EMPTY, map, Observable, of, Subject, switchMap, take, takeUntil, tap } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AvailableRooms, Room } from '../models/room.interface';
 import { CustomerFacade } from '../facades/customer.facade';
@@ -89,7 +89,11 @@ export class BookingProcessComponent implements OnInit, OnDestroy {
                 map((data) => ({
                   ...data,
                   availableRooms: this.sortRoomsByPrice(data.availableRooms, sortOrder),
-                }))
+                })),
+                catchError((error) => {
+                  console.error('Failed to get available rooms:', error);
+                  return of(null);
+                })
               )
             : EMPTY;
         }),
