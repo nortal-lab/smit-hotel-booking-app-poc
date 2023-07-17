@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { EmployeeService } from '../services/employee.service';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
-import { catchError, forkJoin, map, of, shareReplay, switchMap, tap } from 'rxjs';
+import { forkJoin, map, shareReplay, switchMap, tap } from 'rxjs';
 import { Booking } from '../models/booking.interface';
-import { ToastService } from '@egov/cvi-ng';
 
 @Injectable({
   providedIn: 'root',
