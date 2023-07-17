@@ -10,9 +10,6 @@ describe('AppStepPanelComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [AppStepPanelComponent],
     }).compileComponents();
-  });
-
-  beforeEach(() => {
     fixture = TestBed.createComponent(AppStepPanelComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
