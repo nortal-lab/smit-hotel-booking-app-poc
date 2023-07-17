@@ -75,6 +75,9 @@ export class BookingProcessComponent implements OnInit, OnDestroy {
         tap(() => {
           if (this.stepperComponent) {
             this.cancelBookingProcess(this.stepperComponent);
+          } else {
+            this.onStepChange(0);
+            this.showConfirmationNotification = false;
           }
         })
       )
