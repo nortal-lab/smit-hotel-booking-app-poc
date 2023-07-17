@@ -1,8 +1,8 @@
-# Hotel Booking System POC
+# SMIT Hotel Booking App POC
 
 ## Application
 
-:warning: This application is intended to be used as a POC and run locally only. It is __NOT__ Production ready!
+:warning: This application is intended to be used as a Proof of Concept and run locally only. It is __NOT__ Production ready!
 
 Application consists of these components:
 - Frontend Angular application
@@ -14,7 +14,7 @@ Application has two predefined roles:
 - Customers (`customer`)
 - Employees (`employee`)
 
-Application hase these predefined users:
+Application has these predefined users:
 - Customers (role `customer`):
   - Julie Delphy, 6873911223, julie.deplhy@yahoo.com
     - Login: `customer1`
