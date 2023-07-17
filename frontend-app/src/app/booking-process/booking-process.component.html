@@ -36,7 +36,7 @@
               <cvi-ng-track [gap]="6">
                 <app-booking-sidebar [img]="roomImage">
                   <app-room-reservation-details
-                    [room]="selectedRoom"
+                    [roomData]="selectedRoom"
                     [checkInDate]="availableRoomsData.startDate"
                     [checkOutDate]="availableRoomsData.endDate"></app-room-reservation-details>
                 </app-booking-sidebar>
@@ -79,7 +79,7 @@
                   <app-personal-information-block [userCredentials]="userCredentials"></app-personal-information-block>
                   <app-payment-method-block class="payment-method-block"></app-payment-method-block>
                   <app-data-section title="Price Summary">
-                    <app-price-summary-block [room]="selectedRoom"></app-price-summary-block>
+                    <app-price-summary-block [roomData]="selectedRoom"></app-price-summary-block>
                   </app-data-section>
                 </ng-container>
                 <cvi-ng-track horizontalAlignment="right" [gap]="2" class="buttons">
@@ -88,7 +88,7 @@
                     size="m"
                     [disabled]="disableConfirmationButton"
                     appearance="primary"
-                    (click)="confirmBooking(selectedRoom.roomId, availableRoomsData.startDate, availableRoomsData.endDate)"
+                    (click)="confirmBooking(selectedRoom.room.roomId, availableRoomsData.startDate, availableRoomsData.endDate)"
                     >Confirm Booking</cvi-ng-button
                   >
                 </cvi-ng-track>

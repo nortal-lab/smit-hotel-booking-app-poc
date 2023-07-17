@@ -1,9 +1,9 @@
-<ng-container *ngIf="room">
-  <app-data-section [title]="room.roomType | roomType"></app-data-section>
+<ng-container *ngIf="roomData">
+  <app-data-section [title]="roomData.room.roomType | roomType"></app-data-section>
   <app-data-section title="My booking">
     <cvi-ng-track flexDirection="vertical" [gap]="2" [ngStyle]="{ '--app-definition-item--label--font-size': 'var(--cvi-font-size-70)' }">
       <app-definition-item label="Occupancy">
-        <div class="definition">{{ room.peopleCapacity }} adults</div>
+        <div class="definition">{{ roomData.room.peopleCapacity }} adults</div>
       </app-definition-item>
       <app-definition-item label="Check-in" *ngIf="checkInDate">
         <div class="definition">{{ checkInDate | dateFormat : dateFormatString }}</div>
@@ -16,14 +16,14 @@
   <app-data-section title="Price summary">
     <cvi-ng-track flexDirection="vertical" [gap]="4">
       <app-definition-table>
-        <app-definition-item label="Room cost">{{ room.priceBeforeTaxes }}€</app-definition-item>
-        <app-definition-item label="Estimated Taxes">{{ room.estimatedTaxes }}€</app-definition-item>
+        <app-definition-item label="Room cost">{{ roomData.priceBeforeTaxesForFullStayDuration }}€</app-definition-item>
+        <app-definition-item label="Estimated Taxes">{{ roomData.estimatedTaxesForFullStayDuration }}€</app-definition-item>
       </app-definition-table>
     </cvi-ng-track>
   </app-data-section>
   <app-data-section>
     <app-definition-table>
-      <app-definition-item label="Total price" [isHighlighted]="true"> {{ room.pricePerNightIncludingTaxes }}€ </app-definition-item>
+      <app-definition-item label="Total price" [isHighlighted]="true"> {{ roomData.totalPriceForStayDuration }}€ </app-definition-item>
     </app-definition-table>
   </app-data-section>
 </ng-container>

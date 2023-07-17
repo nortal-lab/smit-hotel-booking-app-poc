@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { EmployeeFacade } from '../facades/employee.facade';
 import { Booking } from '../models/booking.interface';
+import { RoomData } from '../models/room.interface';
 
 @Component({
   selector: 'app-customer-dashboard',
@@ -10,7 +11,7 @@ import { Booking } from '../models/booking.interface';
 })
 export class AdminDashboardComponent implements OnInit {
   bookings$?: Observable<Booking[]>;
-  rooms$?: Observable<any>;
+  rooms$?: Observable<RoomData[]>;
 
   constructor(private readonly employeeFacade: EmployeeFacade) {}
 

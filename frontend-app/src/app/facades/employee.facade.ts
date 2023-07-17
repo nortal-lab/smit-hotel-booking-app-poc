@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { EmployeeService } from '../services/employee.service';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
-import { forkJoin, map, shareReplay, switchMap, tap } from 'rxjs';
+import { forkJoin, map, Observable, shareReplay, switchMap, tap } from 'rxjs';
 import { Booking } from '../models/booking.interface';
+import { RoomData } from '../models/room.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -13,8 +14,23 @@ export class EmployeeFacade {
 
   constructor(private readonly employeeService: EmployeeService) {}
 
-  getRooms() {
-    return this.employeeService.getRooms();
+  getRooms(): Observable<RoomData[]> {
+    return this.employeeService.getRooms().pipe(
+      map((data) =>
+        data.map(
+          (room) =>
+            ({
+              totalPriceForStayDuration: String(room.pricePerNightIncludingTaxes),
+              priceBeforeTaxesForFullStayDuration: 0,
+              estimatedTaxesForFullStayDuration: 0,
+              room: {
+                ...room,
+                pricePerNightIncludingTaxes: undefined,
+              },
+            } as RoomData)
+        )
+      )
+    );
   }
 
   getActiveBookings() {

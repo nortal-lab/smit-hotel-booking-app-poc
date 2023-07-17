@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
-import { Room } from '../../../models/room.interface';
+import { Room, RoomData } from '../../../models/room.interface';
 import { UiImage } from '../../../models/ui/Image.type';
 import { faBed, faRulerCombined, faUser } from '@fortawesome/free-solid-svg-icons';
 
@@ -10,11 +10,11 @@ import { faBed, faRulerCombined, faUser } from '@fortawesome/free-solid-svg-icon
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AvailableRoomsComponent {
-  @Input() rooms?: Room[];
+  @Input() rooms?: RoomData[];
   @Input() buttonTitle = 'Book';
   @Input() showButton = true;
 
-  @Output() onClick = new EventEmitter<Room>();
+  @Output() onClick = new EventEmitter<RoomData>();
 
   protected readonly faUser = faUser;
   protected readonly faBed = faBed;
@@ -25,7 +25,7 @@ export class AvailableRoomsComponent {
     alt: 'Room Image',
   };
 
-  click(room: Room) {
+  click(room: RoomData) {
     this.onClick.emit(room);
   }
 }

@@ -15,4 +15,5 @@ export interface Booking {
   startDate: string;
   status: BookingStatus;
   room?: RoomDTO;
+  totalPriceForStayDuration: number;
 }

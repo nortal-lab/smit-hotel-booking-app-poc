@@ -16,7 +16,7 @@ export class EmployeeService {
   }
 
   getRooms() {
-    return this.http.get(`${this.apiPath}/employee/rooms`);
+    return this.http.get<RoomDTO[]>(`${this.apiPath}/employee/rooms`);
   }
 
   getRoom(roomId: string) {
