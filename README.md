@@ -37,6 +37,8 @@ Application has these predefined users:
 
 It is recommended to run the application using Docker Compose. When run, Docker Compose will build both Frontend and Backend applications and start all required services.
 
+_There is a know issue with Docker Desktop on Apple macOS (x86). So it is recommended to use Windows machine when running the application or use older Docker Desktop version 4.18.0._
+
 To start the application with Docker Compose run following command _(in the project root directory)_:
 ```shell
 docker compose up -d --build
