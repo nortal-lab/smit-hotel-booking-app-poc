@@ -6,6 +6,7 @@ import { TimeService } from '../services/time.service';
 import { FormControl, FormGroup } from '@angular/forms';
 import { DatePickerItem, GuestFormItem } from '../models/ui/search-container';
 import { combineLatest, map, take } from 'rxjs';
+import { BookingProgressService } from '../booking-process/booking-progress.service';
 
 @Component({
   selector: 'app-search-form',
@@ -54,7 +55,8 @@ export class SearchFormComponent {
     private readonly router: Router,
     private readonly toastService: ToastService,
     private readonly timeService: TimeService,
-    private readonly activatedRoute: ActivatedRoute
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly bookingProgressService: BookingProgressService
   ) {
     combineLatest([this.dateFrom$, this.dateTo$, this.guestCount$])
       .pipe(take(1))
@@ -87,6 +89,7 @@ export class SearchFormComponent {
           peopleCapacity: data.guests.charAt(0),
         },
       })
+      .then(() => this.bookingProgressService.cancelBookingProgress())
       .catch(() => this.toastService.error('An error has happened. Please, try again in a while or contact administrator.'));
   }
 

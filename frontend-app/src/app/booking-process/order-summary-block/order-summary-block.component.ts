@@ -9,4 +9,8 @@ import { Room } from '../../models/room.interface';
 })
 export class OrderSummaryBlockComponent {
   @Input() room?: Room;
+  @Input() startDate!: string;
+  @Input() endDate!: string;
+
+  dateFormatString = 'eee, dd.MM.yyyy - HH:mm';
 }
