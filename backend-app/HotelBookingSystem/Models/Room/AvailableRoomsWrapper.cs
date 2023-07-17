@@ -1,7 +1,7 @@
 ﻿namespace HotelBookingSystem.API.Models.Room
 {
     public record AvailableRoomsWrapper(
-        List<Room> AvailableRooms,
+        List<RoomReadyForBookingWrapper> AvailableRooms,
         DateTime StartDate,
         DateTime EndDate
     );

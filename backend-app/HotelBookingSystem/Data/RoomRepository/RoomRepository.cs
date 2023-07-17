@@ -28,7 +28,7 @@ namespace HotelBookingSystem.API.Data.RoomRepository
                 join booking in _dbContext.Bookings
                     on room.RoomId equals booking.RoomId
                     into roomBookings
-                where (peopleCapacity == null || room.PeopleCapacity == peopleCapacity)
+                where (peopleCapacity == null || room.PeopleCapacity >= peopleCapacity)
                       && roomBookings.All(booking => (startDate > booking.EndDate || endDate < booking.StartDate))
                 select room;
 

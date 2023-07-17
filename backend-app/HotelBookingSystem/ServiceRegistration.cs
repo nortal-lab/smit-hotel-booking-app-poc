@@ -6,6 +6,7 @@ using HotelBookingSystem.API.Data;
 using HotelBookingSystem.API.Data.BookingRepository;
 using HotelBookingSystem.API.Data.RoomRepository;
 using HotelBookingSystem.API.Services.BookingService;
+using HotelBookingSystem.API.Services.PricingService;
 using HotelBookingSystem.API.Services.RoomService;
 using HotelBookingSystem.API.Validators.BookingValidator;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -48,6 +49,7 @@ public static class ServiceRegistration
         services.AddScoped<IRoomService, RoomService>();
         services.AddScoped<IBookingService, BookingService>();
         services.AddScoped<IBookingValidator, BookingValidator>();
+        services.AddScoped<IPricingService, PricingService>();
     }
 
     /// <summary>

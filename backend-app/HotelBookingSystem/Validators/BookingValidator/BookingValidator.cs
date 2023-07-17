@@ -34,10 +34,17 @@ namespace HotelBookingSystem.API.Validators.BookingValidator
 
         public void BookingDateRangeValidation(DateTime startDate, DateTime endDate)
         {
+            if (startDate.Date == endDate.Date)
+            {
+                throw new SameNightBookingNotAvailableException(
+                    "Invalid date range. Same night booking is not available.");
+            }
+
             if (startDate == default || endDate == default || startDate > endDate)
             {
                 throw new InvalidDateRangeException("Invalid date range. Please provide valid start and end dates.");
             }
+
         }
 
         // Business rule: cannot be cancelled if fewer than 3 days left before start
