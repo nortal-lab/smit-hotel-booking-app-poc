@@ -1,6 +1,5 @@
 ﻿using ApiTests.TestFixtures;
 using HotelBookingSystem.API.Data;
-using HotelBookingSystem.API.Data.BookingRepository;
 using HotelBookingSystem.API.Data.RoomRepository;
 using HotelBookingSystem.API.Models.Room;
 using HotelBookingSystem.API.Services.RoomService;

@@ -7,7 +7,6 @@ using HotelBookingSystem.API.Models;
 using HotelBookingSystem.API.Models.Room;
 using HotelBookingSystem.API.Services.PricingService;
 using HotelBookingSystem.API.Services.RoomService;
-using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 
 namespace HotelBookingSystem.API.Services.BookingService
 {
