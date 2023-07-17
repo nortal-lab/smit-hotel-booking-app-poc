@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { addDays, format, formatDistance, isAfter, isSameDay } from 'date-fns';
+import { addDays, format, formatDistance, isAfter, isSameDay, differenceInHours } from 'date-fns';
 
 @Injectable({
   providedIn: 'root',
@@ -38,5 +38,9 @@ export class TimeService {
     return formatDistance(utc1, utc2, {
       includeSeconds: false,
     });
+  }
+
+  differenceInHours(firstDate: string, secondDate: string) {
+    return differenceInHours(new Date(firstDate), new Date(secondDate));
   }
 }

@@ -52,4 +52,22 @@ describe('TimeService', () => {
     const dateMock = addDays(new Date(), 11).toDateString();
     expect(service.daysUntilDate(dateMock)).toEqual('11 days');
   });
+
+  it('should return the difference in hours between two dates', () => {
+    const firstDate = '2023-07-17T12:00:00.000Z';
+    const secondDate = '2023-07-17T15:00:00.000Z';
+
+    const difference = service.differenceInHours(secondDate, firstDate);
+
+    expect(difference).toBe(3);
+  });
+
+  it('should return a negative number if the first date is after the second date', () => {
+    const firstDate = '2023-07-18T12:00:00.000Z';
+    const secondDate = '2023-07-17T15:00:00.000Z';
+
+    const difference = service.differenceInHours(secondDate, firstDate);
+
+    expect(difference).toBe(-21);
+  });
 });

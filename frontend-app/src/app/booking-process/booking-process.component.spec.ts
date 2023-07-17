@@ -9,6 +9,16 @@ import { UserRoles } from '../models/user-roles.enum';
 import { LocalStorageService } from '../services/local-storage.service';
 import { BookingProgressService } from './booking-progress.service';
 
+jest.mock('@egov/cvi-ng', () => {
+  return {
+    ToastService: jest.fn().mockImplementation(() => {
+      return {
+        // mock methods if needed
+      };
+    }),
+  };
+});
+
 describe('BookingProcessComponent', () => {
   let component: BookingProcessComponent;
 

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { catchError, combineLatest, EMPTY, map, Observable, of, Subject, switchMap, take, takeUntil, tap } from 'rxjs';
+import { catchError, combineLatest, debounceTime, EMPTY, map, Observable, of, Subject, switchMap, take, takeUntil, tap } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AvailableRooms, Room } from '../models/room.interface';
 import { CustomerFacade } from '../facades/customer.facade';
@@ -83,19 +83,21 @@ export class BookingProcessComponent implements OnInit, OnDestroy {
     combineLatest([this.dateFrom$, this.dateTo$, this.guestCount$, this.sortOrder$])
       .pipe(
         takeUntil(this.isDestroyed$),
+        debounceTime(100),
         switchMap(([dateFrom, dateTo, guestCount, sortOrder]) => {
-          return dateFrom && dateTo && guestCount
-            ? this.customerFacade.getAvailableRooms(dateFrom, dateTo, guestCount).pipe(
-                map((data) => ({
-                  ...data,
-                  availableRooms: this.sortRoomsByPrice(data.availableRooms, sortOrder),
-                })),
-                catchError((error) => {
-                  console.error('Failed to get available rooms:', error);
-                  return of(null);
-                })
-              )
-            : EMPTY;
+          if (dateFrom && dateTo && guestCount) {
+            return this.customerFacade.getAvailableRooms(dateFrom, dateTo, guestCount).pipe(
+              map((data) => ({
+                ...data,
+                availableRooms: this.sortRoomsByPrice(data.availableRooms, sortOrder),
+              })),
+              catchError((error) => {
+                console.error('Failed to get available rooms:', error);
+                return of(null);
+              })
+            );
+          }
+          return EMPTY;
         }),
         tap((rooms) => this.availableRooms$.next(rooms))
       )
