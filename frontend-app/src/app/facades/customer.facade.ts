@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { CustomerService } from '../services/customer.service';
-import { forkJoin, map, switchMap, tap } from 'rxjs';
+import { forkJoin, map, of, switchMap, tap } from 'rxjs';
 import { Room } from '../models/room.interface';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { Booking } from '../models/booking.interface';
 import { AuthService } from '../services/auth.service';
 import { TimeService } from '../services/time.service';
+import { ToastService } from '@egov/cvi-ng';
 
 @Injectable({
   providedIn: 'root',
@@ -14,11 +15,26 @@ export class CustomerFacade {
   customerBookings = new BehaviorSubject<Booking[] | null>(null);
   customerBookings$ = this.customerBookings.asObservable();
 
-  constructor(private readonly customerService: CustomerService, private readonly authService: AuthService, private readonly timeService: TimeService) {}
+  constructor(
+    private readonly customerService: CustomerService,
+    private readonly authService: AuthService,
+    private readonly timeService: TimeService,
+    private readonly toastService: ToastService
+  ) {}
 
   getAvailableRooms(dateFrom: string, dateTo: string, guestCount: string) {
     const updatedDateFrom = this.timeService.convertDateServerFormat(dateFrom);
     const updatedDateTo = this.timeService.convertDateServerFormat(dateTo);
+    const differenceInHours = this.timeService.differenceInHours(updatedDateTo, updatedDateFrom);
+    if (differenceInHours < 24) {
+      this.toastService.error('Only full day stay is possible');
+      return of({
+        startDate: updatedDateFrom,
+        endDate: updatedDateTo,
+        availableRooms: [],
+      });
+    }
+
     return this.customerService.getAvailableRooms(updatedDateFrom, updatedDateTo, guestCount).pipe(
       map((data) => {
         return {

@@ -5,18 +5,32 @@ import { BedType, Room, RoomType } from '../models/room.interface';
 import { of } from 'rxjs';
 import { Booking } from '../models/booking.interface';
 import { BookingStatus } from '../models/booking-status.enum';
+import { MockService } from 'ng-mocks';
+import { TimeService } from '../services/time.service';
+import { ToastService } from '@egov/cvi-ng';
+
+jest.mock('@egov/cvi-ng', () => {
+  return {
+    ToastService: jest.fn().mockImplementation(() => {
+      return {
+        // mock methods if needed
+      };
+    }),
+  };
+});
 
 describe('CustomerFacade', () => {
   let facade: CustomerFacade;
   let customerService: CustomerService;
   let authService: AuthService;
+  let timeService = new TimeService();
 
   beforeEach(() => {
     // @ts-ignore
     customerService = new CustomerService(null);
     // @ts-ignore
     authService = new AuthService(null, null);
-    facade = new CustomerFacade(customerService, authService);
+    facade = new CustomerFacade(customerService, authService, timeService, MockService(ToastService));
   });
 
   describe('getAvailableRooms', () => {
