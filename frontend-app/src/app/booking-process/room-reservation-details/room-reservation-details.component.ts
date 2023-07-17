@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { Room } from '../../models/room.interface';
+import { Room, RoomData } from '../../models/room.interface';
 
 @Component({
   selector: 'app-room-reservation-details',
@@ -7,7 +7,7 @@ import { Room } from '../../models/room.interface';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RoomReservationDetailsComponent {
-  @Input() room?: Room;
+  @Input() roomData?: RoomData;
   @Input() checkInDate?: string;
   @Input() checkOutDate?: string;
 

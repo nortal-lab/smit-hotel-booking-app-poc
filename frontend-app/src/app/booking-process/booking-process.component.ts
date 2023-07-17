@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { catchError, combineLatest, debounceTime, EMPTY, map, Observable, of, Subject, switchMap, take, takeUntil, tap } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AvailableRooms, Room } from '../models/room.interface';
+import { AvailableRooms, RoomData } from '../models/room.interface';
 import { CustomerFacade } from '../facades/customer.facade';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { AuthService } from '../services/auth.service';
@@ -109,12 +109,12 @@ export class BookingProcessComponent implements OnInit, OnDestroy {
     this.userCredentials$ = this.authService.user$;
   }
 
-  private sortRoomsByPrice(rooms: Room[], sortOrder: SortOrder) {
-    const roomsCopy = structuredClone<Room[]>(rooms);
+  private sortRoomsByPrice(rooms: RoomData[], sortOrder: SortOrder): RoomData[] {
+    const roomsCopy = structuredClone<RoomData[]>(rooms);
     return roomsCopy.sort((a, b) =>
       sortOrder === SortOrder.ASC
-        ? Number(a.pricePerNightIncludingTaxes) - Number(b.pricePerNightIncludingTaxes)
-        : Number(b.pricePerNightIncludingTaxes) - Number(a.pricePerNightIncludingTaxes)
+        ? Number(a.room.pricePerNightIncludingTaxes) - Number(b.room.pricePerNightIncludingTaxes)
+        : Number(b.room.pricePerNightIncludingTaxes) - Number(a.room.pricePerNightIncludingTaxes)
     );
   }
 
@@ -129,7 +129,7 @@ export class BookingProcessComponent implements OnInit, OnDestroy {
     }
   }
 
-  nextStep(stepper: AppStepsComponent, room?: Room) {
+  nextStep(stepper: AppStepsComponent, room?: RoomData) {
     stepper.anyStepSelected = true;
     stepper.currentStepIndex = stepper.currentStepIndex! + 1;
     stepper.hideStepsContent();
@@ -142,7 +142,7 @@ export class BookingProcessComponent implements OnInit, OnDestroy {
     }
   }
 
-  private setSelectedRoomToLocalStorage(room: Room) {
+  private setSelectedRoomToLocalStorage(room: RoomData) {
     const currentLocalStorageData = JSON.parse(this.localStorage.getData() ?? 'null') ?? {};
     this.localStorage.saveData(
       JSON.stringify({

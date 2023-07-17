@@ -1,13 +1,27 @@
 export interface AvailableRoomsDTO {
   startDate: string;
   endDate: string;
-  availableRooms: RoomDTO[];
+  availableRooms: RoomDataDTO[];
+}
+
+export interface RoomDataDTO {
+  totalPriceForStayDuration: number;
+  estimatedTaxesForFullStayDuration: number;
+  priceBeforeTaxesForFullStayDuration: number;
+  room: RoomDTO;
+}
+
+export interface RoomData {
+  totalPriceForStayDuration: string;
+  estimatedTaxesForFullStayDuration: number;
+  priceBeforeTaxesForFullStayDuration: number;
+  room: Room;
 }
 
 export interface AvailableRooms {
   startDate: string;
   endDate: string;
-  availableRooms: Room[];
+  availableRooms: RoomData[];
 }
 
 export interface RoomDTO {
@@ -53,7 +67,7 @@ export interface Room {
   smartTV: boolean;
   estimatedTaxes: number;
   priceBeforeTaxes: number;
-  pricePerNightIncludingTaxes: string;
+  pricePerNightIncludingTaxes?: string;
 }
 
 export enum RoomType {

@@ -68,8 +68,8 @@ describe('CustomerFacade', () => {
 
       facade.getAvailableRooms(startDate, endDate, guestCount).subscribe((result) => {
         expect(result).toEqual({ startDate, endDate, availableRooms: rooms });
-        done();
       });
+      done();
     });
   });
 

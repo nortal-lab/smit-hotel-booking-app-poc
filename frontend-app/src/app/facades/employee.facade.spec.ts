@@ -2,7 +2,7 @@ import { of } from 'rxjs';
 import { EmployeeFacade } from './employee.facade';
 import { EmployeeService } from '../services/employee.service';
 import { Booking } from '../models/booking.interface';
-import { RoomType } from '../models/room.interface';
+import { BedType, RoomDTO, RoomType } from '../models/room.interface';
 import { BookingStatus } from '../models/booking-status.enum';
 
 describe('EmployeeFacade', () => {
@@ -17,7 +17,50 @@ describe('EmployeeFacade', () => {
 
   describe('getRooms', () => {
     it('should return the result from EmployeeService.getRooms', () => {
-      const rooms = ['room1', 'room2'];
+      const rooms = [
+        {
+          airConditioning: true,
+          balcony: true,
+          bathrobeAndSlippers: true,
+          bedsType: BedType.ONE_DOUBLE,
+          freeBottledWater: true,
+          freeWiFi: true,
+          inRoomSafe: true,
+          ironAndIroningBoard: true,
+          peopleCapacity: 1,
+          professionalHairDryer: true,
+          rainShower: true,
+          roomId: 'roomId',
+          roomNumber: 100,
+          roomSizeInSquareMeters: 20,
+          roomType: RoomType.STANDARD_TWIN,
+          smartTV: true,
+          estimatedTaxes: 5,
+          priceBeforeTaxes: 25,
+          pricePerNightIncludingTaxes: 30,
+        },
+        {
+          airConditioning: true,
+          balcony: true,
+          bathrobeAndSlippers: true,
+          bedsType: BedType.ONE_DOUBLE,
+          freeBottledWater: true,
+          freeWiFi: true,
+          inRoomSafe: true,
+          ironAndIroningBoard: true,
+          peopleCapacity: 1,
+          professionalHairDryer: true,
+          rainShower: true,
+          roomId: 'roomId',
+          roomNumber: 100,
+          roomSizeInSquareMeters: 20,
+          roomType: RoomType.STANDARD_TWIN,
+          smartTV: true,
+          estimatedTaxes: 5,
+          priceBeforeTaxes: 25,
+          pricePerNightIncludingTaxes: 30,
+        },
+      ] as RoomDTO[];
       jest.spyOn(employeeService, 'getRooms').mockReturnValue(of(rooms));
 
       facade.getRooms().subscribe((result) => {
@@ -42,6 +85,7 @@ describe('EmployeeFacade', () => {
           roomNumber: 1,
           startDate: '2023-07-20',
           status: BookingStatus.CONFIRMED,
+          totalPriceForStayDuration: 10,
         },
       ];
 
@@ -84,6 +128,7 @@ describe('EmployeeFacade', () => {
           roomNumber: 1,
           startDate: '2023-07-20',
           status: BookingStatus.CONFIRMED,
+          totalPriceForStayDuration: 10,
         },
       ];
 

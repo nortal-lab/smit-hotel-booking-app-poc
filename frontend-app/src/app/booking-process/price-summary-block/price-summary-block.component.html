@@ -1,9 +1,9 @@
-<ng-container *ngIf="room">
+<ng-container *ngIf="roomData">
   <app-definition-table [hasZebraStripes]="true">
-    <app-definition-item label="Room cost">{{ room.priceBeforeTaxes }}€</app-definition-item>
+    <app-definition-item label="Room cost">{{ roomData.priceBeforeTaxesForFullStayDuration }}€</app-definition-item>
     <app-definition-item label="Additional services">0.00€</app-definition-item>
-    <app-definition-item label="Subtotal" [isHighlighted]="true">{{ room.priceBeforeTaxes }}€</app-definition-item>
-    <app-definition-item label="Estimated taxes">{{ room.estimatedTaxes }}€</app-definition-item>
-    <app-definition-item label="Total Price" [isHighlighted]="true">{{ room.pricePerNightIncludingTaxes }}€</app-definition-item>
+    <app-definition-item label="Subtotal" [isHighlighted]="true">{{ roomData.priceBeforeTaxesForFullStayDuration }}€</app-definition-item>
+    <app-definition-item label="Estimated taxes">{{ roomData.estimatedTaxesForFullStayDuration }}€</app-definition-item>
+    <app-definition-item label="Total Price" [isHighlighted]="true">{{ roomData.totalPriceForStayDuration }}€</app-definition-item>
   </app-definition-table>
 </ng-container>

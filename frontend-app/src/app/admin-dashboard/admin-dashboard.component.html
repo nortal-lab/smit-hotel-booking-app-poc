@@ -1,11 +1,11 @@
 <app-page-wrapper>
-<app-title-container title="Management" class="management"></app-title-container>
-<cvi-ng-tab-group>
-  <cvi-ng-tab title="Manage Reservations">
-    <app-customer-reservations [bookings]="bookings$ | async"></app-customer-reservations>
-  </cvi-ng-tab>
-  <cvi-ng-tab title="Rooms">
-    <app-available-rooms [rooms]="rooms$ | async" buttonTitle="Cancel" [showButton]="false"></app-available-rooms>
-  </cvi-ng-tab>
-</cvi-ng-tab-group>
+  <app-title-container title="Management" class="management"></app-title-container>
+  <cvi-ng-tab-group>
+    <cvi-ng-tab title="Manage Reservations">
+      <app-customer-reservations [bookings]="bookings$ | async"></app-customer-reservations>
+    </cvi-ng-tab>
+    <cvi-ng-tab title="Rooms">
+      <app-available-rooms [rooms]="(rooms$ | async) ?? []" buttonTitle="Cancel" [showButton]="false"></app-available-rooms>
+    </cvi-ng-tab>
+  </cvi-ng-tab-group>
 </app-page-wrapper>

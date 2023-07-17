@@ -1,27 +1,38 @@
 <cvi-ng-track flexDirection="vertical" [gap]="4">
-  <app-booking-card [img]="roomImage" [title]="room.roomType | roomType" [price]="room.pricePerNightIncludingTaxes" currency="€" *ngFor="let room of rooms">
-    <div app-booking-card="summary">1 night / {{ room.peopleCapacity }} adults</div>
+  <app-booking-card
+    [img]="roomImage"
+    [title]="roomData.room.roomType | roomType"
+    [price]="roomData.totalPriceForStayDuration"
+    currency="€"
+    *ngFor="let roomData of rooms">
+    <div app-booking-card="summary">
+      {{
+        roomData.room.pricePerNightIncludingTaxes
+          ? roomData.room.pricePerNightIncludingTaxes + '€ / night for ' + roomData.room.peopleCapacity + ' adults'
+          : '1 night / ' + roomData.room.peopleCapacity + ' adults'
+      }}
+    </div>
     <cvi-ng-track flexDirection="vertical" [gap]="2">
       <div class="icons-track">
         <cvi-ng-track [gap]="1">
-          <fa-icon [icon]="faUser"></fa-icon>{{ room.peopleCapacity }} {{ room.peopleCapacity > 1 ? 'people' : 'person' }}
+          <fa-icon [icon]="faUser"></fa-icon>{{ roomData.room.peopleCapacity }} {{ roomData.room.peopleCapacity > 1 ? 'people' : 'person' }}
         </cvi-ng-track>
-        <cvi-ng-track [gap]="1"> <fa-icon [icon]="faBed"></fa-icon>{{ room.bedsType | bedType }} </cvi-ng-track>
-        <cvi-ng-track [gap]="1"> <fa-icon [icon]="faRulerCombined"></fa-icon>{{ room.roomSizeInSquareMeters }} m² </cvi-ng-track>
+        <cvi-ng-track [gap]="1"> <fa-icon [icon]="faBed"></fa-icon>{{ roomData.room.bedsType | bedType }} </cvi-ng-track>
+        <cvi-ng-track [gap]="1"> <fa-icon [icon]="faRulerCombined"></fa-icon>{{ roomData.room.roomSizeInSquareMeters }} m² </cvi-ng-track>
       </div>
       <div>
-        <ng-container *ngIf="room.airConditioning">air conditioning &bull; </ng-container>
-        <ng-container *ngIf="room.balcony">balcony &bull; </ng-container>
-        <ng-container *ngIf="room.bathrobeAndSlippers">bathrobe and slippers &bull; </ng-container>
-        <ng-container *ngIf="room.freeBottledWater">free bottle water &bull; </ng-container>
-        <ng-container *ngIf="room.freeWiFi">free WI-FI &bull; </ng-container>
-        <ng-container *ngIf="room.inRoomSafe">in-room safe &bull; </ng-container>
-        <ng-container *ngIf="room.ironAndIroningBoard">iron and ironing board &bull; </ng-container>
-        <ng-container *ngIf="room.professionalHairDryer">professional hair dryer &bull; </ng-container>
-        <ng-container *ngIf="room.rainShower">rain shower &bull; </ng-container>
-        <ng-container *ngIf="room.smartTV">smart TV</ng-container>
+        <ng-container *ngIf="roomData.room.airConditioning">air conditioning &bull; </ng-container>
+        <ng-container *ngIf="roomData.room.balcony">balcony &bull; </ng-container>
+        <ng-container *ngIf="roomData.room.bathrobeAndSlippers">bathrobe and slippers &bull; </ng-container>
+        <ng-container *ngIf="roomData.room.freeBottledWater">free bottle water &bull; </ng-container>
+        <ng-container *ngIf="roomData.room.freeWiFi">free WI-FI &bull; </ng-container>
+        <ng-container *ngIf="roomData.room.inRoomSafe">in-room safe &bull; </ng-container>
+        <ng-container *ngIf="roomData.room.ironAndIroningBoard">iron and ironing board &bull; </ng-container>
+        <ng-container *ngIf="roomData.room.professionalHairDryer">professional hair dryer &bull; </ng-container>
+        <ng-container *ngIf="roomData.room.rainShower">rain shower &bull; </ng-container>
+        <ng-container *ngIf="roomData.room.smartTV">smart TV</ng-container>
       </div>
     </cvi-ng-track>
-    <cvi-ng-button *ngIf="showButton" (clickEvent)="click(room)" cvi-ng-button="">{{ buttonTitle }}</cvi-ng-button>
+    <cvi-ng-button *ngIf="showButton" (clickEvent)="click(roomData)" cvi-ng-button="">{{ buttonTitle }}</cvi-ng-button>
   </app-booking-card>
 </cvi-ng-track>

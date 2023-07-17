@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CustomerService } from '../services/customer.service';
-import { forkJoin, map, of, switchMap, tap } from 'rxjs';
-import { Room } from '../models/room.interface';
+import { forkJoin, map, Observable, of, switchMap, tap } from 'rxjs';
+import { AvailableRooms, Room, RoomData } from '../models/room.interface';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { Booking } from '../models/booking.interface';
 import { AuthService } from '../services/auth.service';
@@ -22,7 +22,7 @@ export class CustomerFacade {
     private readonly toastService: ToastService
   ) {}
 
-  getAvailableRooms(dateFrom: string, dateTo: string, guestCount: string) {
+  getAvailableRooms(dateFrom: string, dateTo: string, guestCount: string): Observable<AvailableRooms> {
     const updatedDateFrom = this.timeService.convertDateServerFormat(dateFrom);
     const updatedDateTo = this.timeService.convertDateServerFormat(dateTo);
     const differenceInHours = this.timeService.differenceInHours(updatedDateTo, updatedDateFrom);
@@ -32,37 +32,42 @@ export class CustomerFacade {
         startDate: updatedDateFrom,
         endDate: updatedDateTo,
         availableRooms: [],
-      });
+      } as AvailableRooms);
     }
 
     return this.customerService.getAvailableRooms(updatedDateFrom, updatedDateTo, guestCount).pipe(
       map((data) => {
         return {
           ...data,
-          availableRooms: data.availableRooms.map((room) => {
+          availableRooms: data.availableRooms.map((roomData) => {
             const mappedRoom: Room = {
-              airConditioning: room.airConditioning,
-              balcony: room.balcony,
-              bathrobeAndSlippers: room.bathrobeAndSlippers,
-              freeBottledWater: room.freeBottledWater,
-              freeWiFi: room.freeWiFi,
-              inRoomSafe: room.inRoomSafe,
-              ironAndIroningBoard: room.ironAndIroningBoard,
-              professionalHairDryer: room.professionalHairDryer,
-              smartTV: room.smartTV,
-              rainShower: room.rainShower,
-              roomId: room.roomId,
-              peopleCapacity: room.peopleCapacity,
-              priceBeforeTaxes: room.priceBeforeTaxes,
-              pricePerNightIncludingTaxes: String(room.pricePerNightIncludingTaxes),
-              estimatedTaxes: room.estimatedTaxes,
-              roomNumber: room.roomNumber,
-              roomSizeInSquareMeters: room.roomSizeInSquareMeters,
-              roomType: room.roomType,
-              bedsType: room.bedsType,
+              airConditioning: roomData.room.airConditioning,
+              balcony: roomData.room.balcony,
+              bathrobeAndSlippers: roomData.room.bathrobeAndSlippers,
+              freeBottledWater: roomData.room.freeBottledWater,
+              freeWiFi: roomData.room.freeWiFi,
+              inRoomSafe: roomData.room.inRoomSafe,
+              ironAndIroningBoard: roomData.room.ironAndIroningBoard,
+              professionalHairDryer: roomData.room.professionalHairDryer,
+              smartTV: roomData.room.smartTV,
+              rainShower: roomData.room.rainShower,
+              roomId: roomData.room.roomId,
+              peopleCapacity: roomData.room.peopleCapacity,
+              priceBeforeTaxes: roomData.room.priceBeforeTaxes,
+              pricePerNightIncludingTaxes: String(roomData.room.pricePerNightIncludingTaxes),
+              estimatedTaxes: roomData.room.estimatedTaxes,
+              roomNumber: roomData.room.roomNumber,
+              roomSizeInSquareMeters: roomData.room.roomSizeInSquareMeters,
+              roomType: roomData.room.roomType,
+              bedsType: roomData.room.bedsType,
             };
 
-            return mappedRoom;
+            return {
+              room: mappedRoom,
+              totalPriceForStayDuration: String(roomData.totalPriceForStayDuration),
+              estimatedTaxesForFullStayDuration: roomData.estimatedTaxesForFullStayDuration,
+              priceBeforeTaxesForFullStayDuration: roomData.priceBeforeTaxesForFullStayDuration,
+            } as RoomData;
           }),
         };
       })

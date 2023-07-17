@@ -10,11 +10,11 @@
             [title]="booking.room!.roomType | roomType"
             [img]="roomImage"
             [badgeLabel]="getBadgeLabel(booking.startDate)"
-            [price]="String(booking.room?.pricePerNightIncludingTaxes)"
+            [price]="String(booking.totalPriceForStayDuration)"
             currency="€">
             <ng-container app-booking-card="summary">
               <b>{{ booking.startDate | dateFormat : dateFormatString }}&ndash;{{ booking.endDate | dateFormat : dateFormatString }}</b>
-              <div>1 night / {{ booking.room?.peopleCapacity }} adults</div>
+              <div>{{ booking.room?.pricePerNightIncludingTaxes }}€ / night for {{ booking.room?.peopleCapacity }} adults</div>
             </ng-container>
 
             <cvi-ng-track flexDirection="vertical" [gap]="2">
