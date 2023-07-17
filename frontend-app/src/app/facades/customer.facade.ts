@@ -5,6 +5,7 @@ import { Room } from '../models/room.interface';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { Booking } from '../models/booking.interface';
 import { AuthService } from '../services/auth.service';
+import { TimeService } from '../services/time.service';
 
 @Injectable({
   providedIn: 'root',
@@ -13,10 +14,12 @@ export class CustomerFacade {
   customerBookings = new BehaviorSubject<Booking[] | null>(null);
   customerBookings$ = this.customerBookings.asObservable();
 
-  constructor(private readonly customerService: CustomerService, private readonly authService: AuthService) {}
+  constructor(private readonly customerService: CustomerService, private readonly authService: AuthService, private readonly timeService: TimeService) {}
 
   getAvailableRooms(dateFrom: string, dateTo: string, guestCount: string) {
-    return this.customerService.getAvailableRooms(dateFrom, dateTo, guestCount).pipe(
+    const updatedDateFrom = this.timeService.convertDateServerFormat(dateFrom);
+    const updatedDateTo = this.timeService.convertDateServerFormat(dateTo);
+    return this.customerService.getAvailableRooms(updatedDateFrom, updatedDateTo, guestCount).pipe(
       map((data) => {
         return {
           ...data,
@@ -69,7 +72,7 @@ export class CustomerFacade {
             })
           );
         }),
-        tap((bookings) => this.customerBookings.next(bookings)),
+        tap((bookings) => this.customerBookings.next(bookings))
       )
       .subscribe();
   }
