@@ -57,11 +57,11 @@ namespace ApiTests.ServiceTests
 
             // Assert
             Assert.IsNotNull(result);
-            Assert.AreEqual("Test User Id", result.Id);
-            Assert.AreEqual("test.user@email.com", result.Email);
-            Assert.AreEqual("Test", result.FirstName);
-            Assert.AreEqual("User", result.LastName);
-            Assert.AreEqual("Test User", result.FullName);
+            Assert.That(result.Id, Is.EqualTo("Test User Id"));
+            Assert.That(result.Email, Is.EqualTo("test.user@email.com"));
+            Assert.That(result.FirstName, Is.EqualTo("Test"));
+            Assert.That(result.LastName, Is.EqualTo("User"));
+            Assert.That(result.FullName, Is.EqualTo("Test User"));
         }
 
     }

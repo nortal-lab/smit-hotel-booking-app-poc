@@ -15,7 +15,7 @@ namespace HotelBookingSystem.API.Tests
             DateTime result = DateHelper.SetStartTimeTo1500(inputDate);
 
             // Assert
-            Assert.AreEqual(new DateTime(2023, 7, 17, 15, 0, 0), result);
+            Assert.That(result, Is.EqualTo(new DateTime(2023, 7, 17, 15, 0, 0)));
         }
 
         [Test]
@@ -28,7 +28,7 @@ namespace HotelBookingSystem.API.Tests
             DateTime result = DateHelper.SetEndTimeTo1200(inputDate);
 
             // Assert
-            Assert.AreEqual(new DateTime(2023, 7, 17, 12, 0, 0), result);
+            Assert.That(result, Is.EqualTo(new DateTime(2023, 7, 17, 12, 0, 0)));
         }
     }
 }

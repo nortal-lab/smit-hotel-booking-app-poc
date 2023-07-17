@@ -75,7 +75,7 @@ namespace ApiTests.ControllerTests
             var okResult = result as OkObjectResult;
             Assert.IsNotNull(okResult);
             var actualRoom = okResult.Value as Room;
-            Assert.AreEqual(expectedRoom, actualRoom);
+            Assert.That(actualRoom, Is.EqualTo(expectedRoom));
         }
 
         [Test]

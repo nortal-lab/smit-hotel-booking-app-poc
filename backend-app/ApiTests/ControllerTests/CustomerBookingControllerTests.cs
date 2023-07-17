@@ -45,7 +45,7 @@ namespace ApiTests.ControllerTests
 
             // Assert
             Assert.IsInstanceOf<CreatedAtActionResult>(result);
-            Assert.AreEqual(booking, (result as CreatedAtActionResult)?.Value);
+            Assert.That((result as CreatedAtActionResult)?.Value, Is.EqualTo(booking));
         }
 
         [Test]
@@ -171,7 +171,7 @@ namespace ApiTests.ControllerTests
             // Assert
             Assert.IsInstanceOf<ObjectResult>(result);
             var objectResult = result as ObjectResult;
-            Assert.AreEqual(500, objectResult.StatusCode);
+            Assert.That(objectResult.StatusCode, Is.EqualTo(500));
         }
 
         [Test]
@@ -194,7 +194,7 @@ namespace ApiTests.ControllerTests
             var okResult = result as OkObjectResult;
             Assert.IsNotNull(okResult);
             var actualBookings = okResult.Value as List<Booking>;
-            Assert.AreEqual(expectedBookings, actualBookings);
+            Assert.That(actualBookings, Is.EqualTo(expectedBookings));
         }
 
 
@@ -214,7 +214,7 @@ namespace ApiTests.ControllerTests
             var okResult = result as OkObjectResult;
             Assert.IsNotNull(okResult);
             var actualBooking = okResult.Value as Booking;
-            Assert.AreEqual(expectedBooking, actualBooking);
+            Assert.That(actualBooking, Is.EqualTo(expectedBooking));
         }
 
         [Test]
