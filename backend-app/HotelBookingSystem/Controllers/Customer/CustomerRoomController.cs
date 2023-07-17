@@ -1,6 +1,7 @@
 ﻿using HotelBookingSystem.API.Exceptions;
 using HotelBookingSystem.API.Helpers;
 using HotelBookingSystem.API.Models.Room;
+using HotelBookingSystem.API.Services.PricingService;
 using HotelBookingSystem.API.Services.RoomService;
 using HotelBookingSystem.API.Validators.BookingValidator;
 using Microsoft.AspNetCore.Mvc;
@@ -13,13 +14,18 @@ namespace HotelBookingSystem.API.Controllers.Customer
     {
         private readonly IRoomService _roomService;
         private readonly IBookingValidator _bookingValidator;
+        private readonly IPricingService _pricingService;
         private readonly ILogger<CustomerRoomController> _logger;
 
-        public CustomerRoomController(IRoomService roomService, IBookingValidator bookingValidator, ILogger<CustomerRoomController> logger)
+        public CustomerRoomController(IRoomService roomService,
+            IBookingValidator bookingValidator,
+            ILogger<CustomerRoomController> logger,
+            IPricingService pricingService)
         {
             _roomService = roomService;
             _bookingValidator = bookingValidator;
             _logger = logger;
+            _pricingService = pricingService;
         }
 
         /// <summary>
@@ -43,13 +49,19 @@ namespace HotelBookingSystem.API.Controllers.Customer
                 _logger.LogError(ex, "Invalid date range exception occurred: {ErrorMessage}", ex.Message);
                 return BadRequest(ex.Message);
             }
+            catch (SameNightBookingNotAvailableException ex)
+            {
+                _logger.LogError(ex, "Same night booking is not available exception occurred: {ErrorMessage}", ex.Message);
+                return BadRequest(ex.Message);
+            }
 
             var availableRooms =
                 _roomService.FindAvailableRoomsByCriteria(startDate, endDate, peopleCapacity);
 
             var availableRoomsWrapper = new AvailableRoomsWrapper
             (
-                availableRooms.ToList(),
+                availableRooms.Select(room => new RoomReadyForBookingWrapper
+                        (room, _pricingService.CalculateTotalPriceForStayDuration(startDate, endDate, room.PricePerNightIncludingTaxes))).ToList(),
                 DateHelper.SetStartTimeTo1500(startDate),
                 DateHelper.SetEndTimeTo1200(endDate)
             );

@@ -92,6 +92,11 @@ namespace HotelBookingSystem.API.Controllers.Customer
                 _logger.LogError(ex, "Invalid date range exception occurred: {ErrorMessage}", ex.Message);
                 return BadRequest(ex.Message);
             }
+            catch (SameNightBookingNotAvailableException ex)
+            {
+                _logger.LogError(ex, "Same night booking is not available exception occurred: {ErrorMessage}", ex.Message);
+                return BadRequest(ex.Message);
+            }
             catch (BookingDateOverlapException ex)
             {
                 _logger.LogError(ex, "Booking date overlap exception occurred: {ErrorMessage}", ex.Message);

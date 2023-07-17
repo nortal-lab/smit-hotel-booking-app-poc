@@ -40,6 +40,9 @@ namespace HotelBookingSystem.API.Models
                 _endDate = DateHelper.SetEndTimeTo1200(value);
             }
         }
+
+        public decimal TotalPriceForStayDuration { get; set; }
+
         public Status Status { get; set; }
     }
 }

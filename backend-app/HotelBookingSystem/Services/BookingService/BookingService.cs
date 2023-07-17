@@ -2,19 +2,28 @@
 using HotelBookingSystem.API.Common;
 using HotelBookingSystem.API.Data.BookingRepository;
 using HotelBookingSystem.API.Exceptions;
+using HotelBookingSystem.API.Helpers;
 using HotelBookingSystem.API.Models;
+using HotelBookingSystem.API.Models.Room;
+using HotelBookingSystem.API.Services.PricingService;
+using HotelBookingSystem.API.Services.RoomService;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 
 namespace HotelBookingSystem.API.Services.BookingService
 {
     public class BookingService : IBookingService
     {
         private readonly IBookingRepository _bookingRepository;
+        private readonly IRoomService _roomService;
+        private readonly IPricingService _pricingService;
         private readonly ILogger<BookingService> _logger;
 
-        public BookingService(IBookingRepository bookingRepository, ILogger<BookingService> logger)
+        public BookingService(IBookingRepository bookingRepository, ILogger<BookingService> logger, IRoomService roomService, IPricingService pricingService)
         {
             _bookingRepository = bookingRepository;
             _logger = logger;
+            _roomService = roomService;
+            _pricingService = pricingService;
         }
 
         public List<Booking> GetAllCustomerBookings(Guid customerId)
@@ -71,8 +80,10 @@ namespace HotelBookingSystem.API.Services.BookingService
 
         private Booking PrepareBooking(Booking booking, ICurrentUser customer)
         {
-            DateTime startDate = booking.StartDate;
-            DateTime endDate = booking.EndDate;
+            DateTime startDate = DateHelper.SetStartTimeTo1500(booking.StartDate);
+            DateTime endDate = DateHelper.SetEndTimeTo1200(booking.EndDate);
+
+            Room? room = _roomService.GetRoomById(booking.RoomId);
 
             Booking preparedBooking = new()
             {
@@ -85,10 +96,13 @@ namespace HotelBookingSystem.API.Services.BookingService
                 CreationDate = DateTime.Now,
                 StartDate = startDate,
                 EndDate = endDate,
+                TotalPriceForStayDuration = _pricingService.CalculateTotalPriceForStayDuration(startDate, endDate, room.PricePerNightIncludingTaxes),
                 Status = Status.Confirmed
             };
 
             return preparedBooking;
         }
+
+        
     }
 }
