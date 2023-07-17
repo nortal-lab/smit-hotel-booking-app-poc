@@ -7,6 +7,7 @@ import { ActivatedRoute, convertToParamMap, ParamMap, Router } from '@angular/ro
 import { AuthService } from '../services/auth.service';
 import { UserRoles } from '../models/user-roles.enum';
 import { LocalStorageService } from '../services/local-storage.service';
+import { BookingProgressService } from './booking-progress.service';
 
 describe('BookingProcessComponent', () => {
   let component: BookingProcessComponent;
@@ -93,7 +94,16 @@ describe('BookingProcessComponent', () => {
 
   const routerMock = MockService(Router);
 
-  component = new BookingProcessComponent(customerFacadeMock, activatedRouteMock, authServiceMock, MockService(LocalStorageService), routerMock);
+  component = new BookingProcessComponent(
+    customerFacadeMock,
+    activatedRouteMock,
+    authServiceMock,
+    MockService(LocalStorageService),
+    routerMock,
+    MockService(BookingProgressService, {
+      onCancelBookingProgress$: of(),
+    })
+  );
 
   describe('ngOnInit', () => {
     it('should get available rooms', (done) => {

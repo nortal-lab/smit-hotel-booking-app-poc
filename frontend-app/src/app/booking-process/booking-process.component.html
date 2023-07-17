@@ -72,7 +72,10 @@
             <cvi-app-step>
               <cvi-app-step-panel [title]="labels[2]" [titleHidden]="true" [disabled]="context.currentStep < 2">
                 <ng-container *ngIf="userCredentials$ | async as userCredentials">
-                  <app-order-summary-block [room]="selectedRoom"></app-order-summary-block>
+                  <app-order-summary-block
+                    [room]="selectedRoom"
+                    [startDate]="availableRoomsData.startDate"
+                    [endDate]="availableRoomsData.endDate"></app-order-summary-block>
                   <app-personal-information-block [userCredentials]="userCredentials"></app-personal-information-block>
                   <app-payment-method-block class="payment-method-block"></app-payment-method-block>
                   <app-data-section title="Price Summary">

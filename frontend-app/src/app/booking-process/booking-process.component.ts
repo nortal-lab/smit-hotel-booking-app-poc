@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { combineLatest, EMPTY, map, Observable, Subject, switchMap, take, takeUntil, tap } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AvailableRooms, Room } from '../models/room.interface';
@@ -12,6 +12,7 @@ import { AppStepsComponent } from '../app-ui/steps/steps/steps.component';
 import { SortOrder } from '../models/sort-order.enum';
 import { UiImage } from '../models/ui/Image.type';
 import { User } from '../models/user.interface';
+import { BookingProgressService } from './booking-progress.service';
 
 @Component({
   selector: 'app-booking-process',
@@ -20,6 +21,7 @@ import { User } from '../models/user.interface';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BookingProcessComponent implements OnInit, OnDestroy {
+  @ViewChild(AppStepsComponent) stepperComponent?: AppStepsComponent;
   private availableRooms$ = new BehaviorSubject<AvailableRooms | null>(null);
   private readonly isDestroyed$ = new Subject<void>();
 
@@ -52,7 +54,8 @@ export class BookingProcessComponent implements OnInit, OnDestroy {
     private readonly activatedRoute: ActivatedRoute,
     private readonly authService: AuthService,
     private readonly localStorage: LocalStorageService,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly bookingProgressService: BookingProgressService
   ) {}
 
   private getInitialCurrentStep() {
@@ -66,6 +69,17 @@ export class BookingProcessComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.bookingProgressService.onCancelBookingProgress$
+      .pipe(
+        takeUntil(this.isDestroyed$),
+        tap(() => {
+          if (this.stepperComponent) {
+            this.cancelBookingProcess(this.stepperComponent);
+          }
+        })
+      )
+      .subscribe();
+
     combineLatest([this.dateFrom$, this.dateTo$, this.guestCount$, this.sortOrder$])
       .pipe(
         takeUntil(this.isDestroyed$),

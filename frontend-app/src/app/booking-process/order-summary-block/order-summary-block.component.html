@@ -3,8 +3,8 @@
     <cvi-ng-track [gap]="3" layout="grid" verticalAlignment="bottom" [gridRows]="3">
       <app-definition-item label="Room Type">{{ room.roomType | roomType }}</app-definition-item>
       <app-definition-item label="Occupancy">{{ room.peopleCapacity }} adults</app-definition-item>
-      <app-definition-item label="Check-in"> 020-02-01</app-definition-item>
-      <app-definition-item label="Check-out">2020-02-02 </app-definition-item>
+      <app-definition-item label="Check-in">{{ startDate | dateFormat : dateFormatString }}</app-definition-item>
+      <app-definition-item label="Check-out">{{ endDate | dateFormat : dateFormatString }}</app-definition-item>
     </cvi-ng-track>
   </ng-container>
 </app-data-section>
